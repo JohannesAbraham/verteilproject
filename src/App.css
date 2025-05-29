@@ -1,0 +1,167 @@
+/* Reset and base styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #fdf7ef;
+  box-sizing: border-box;
+}
+
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px; /* spacing around edges */
+  box-sizing: border-box;
+}
+
+/* Left panel */
+.left-panel {
+  flex-grow: 1;
+  min-width: 300px;
+  max-width: 600px;
+  background-color: #81a83e; /* Green shade */
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+  margin: 10px;
+  border-radius: 12px;
+}
+
+.left-panel h1 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.left-panel p {
+  font-size: 16px;
+  max-width: 300px;
+}
+
+/* Right panel */
+.right-panel {
+  flex-grow: 1;
+  min-width: 300px;
+  max-width: 600px;
+  background-color: #fdf7ef; /* Light background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 40px;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+/* Login card */
+.login-card {
+  background-color: #81a83e; /* Green shade */
+  border-radius: 30px;
+  padding: 50px 40px;       /* increased padding */
+  width: 60%;               /* wider, scales with container */
+  max-width: 450px;         /* max width limit */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.login-card h2 {
+  color: #ffffff; /* White text */
+  margin-bottom: 20px;
+}
+
+.login-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-card label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #ffffff; /* White labels */
+}
+
+.login-card input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  background-color: #ffffff; /* white input fields */
+}
+
+.login-card input:focus {
+  outline: 2px solid #ffffff;
+  background-color: #f9f9f9;
+}
+
+.login-card button {
+  padding: 10px;
+  background-color: #ffffff; /* White button */
+  color: #000000; /* Black text */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.login-card button:hover {
+  background-color: #f0f0f0; /* Light gray hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .login-page {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .left-panel,
+  .right-panel {
+    max-width: 100%;
+    margin: 10px 0;
+    min-width: auto;
+  }
+
+  .left-panel h1 {
+    font-size: 36px;
+  }
+
+  .left-panel p {
+    font-size: 14px;
+    padding: 0 20px;
+  }
+
+  .login-card {
+    width: 90%;
+    max-width: none;
+    padding: 30px 20px;
+    border-radius: 20px;
+  }
+}
+
+/* Title image scaling (if you have an image in left panel) */
+.title-image {
+  width: 80vw;
+  max-width: 600px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .title-image {
+    width: 90vw;
+    max-width: 300px;
+  }
+}
