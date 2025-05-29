@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Home.css';
-import verteilLogo from './verteilimg.svg';
-import profileLogo from './profile.jpg';
+import verteilLogo from '/verteilimg.svg';
+import profileLogo from '/profile.jpg';
 
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
