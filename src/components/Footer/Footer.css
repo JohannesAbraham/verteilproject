@@ -1,0 +1,30 @@
+.div-block-2 {
+  background-color: #000000;
+  padding: 20px 0;
+}
+
+.container.w-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.div-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.copy-right {
+  font-size: 14px;
+  color: #ffffff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 0;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .copy-right {
+    font-size: 12px;
+  }
+}

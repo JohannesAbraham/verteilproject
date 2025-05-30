@@ -310,20 +310,6 @@ body {
   padding: 1.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-/* Footer styles */
-.footer {
-  background-color: #000000;
-  color: white;
-  text-align: center;
-  padding: 0.5rem 0;      /* reduce vertical padding */
-  font-size: 0.75rem;     /* smaller font size */
-
-  bottom: 0;
-  width: 100%;
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  line-height: 0.05;       /* tighter line height */
-}
 
 /* Responsive stacking for smaller screens */
 @media (max-width: 900px) {

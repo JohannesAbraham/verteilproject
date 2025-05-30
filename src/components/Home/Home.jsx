@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './Home.css';
 import verteilLogo from '/verteilimg.svg';
 import profileLogo from '/profile.jpg';
+import Footer from "/src/components/Footer/Footer"
 
-function Home() {
+ function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const newsItems = [
@@ -152,9 +153,7 @@ function Home() {
 
         </div>
       </main>
-      <footer className="footer">
-        <p>© {new Date().getFullYear()} Verteil Technologies. All rights reserved.</p>
-      </footer>
+     <Footer /> 
     </div>
     
   );
