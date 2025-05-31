@@ -1,162 +1,212 @@
-import React, { useState, useEffect } from 'react';
-import './Home.css';
-import verteilLogo from '/verteilimg.svg';
-import profileLogo from '/profile.jpg';
-import Footer from "/src/components/Footer/Footer"
+import React, { useState, useEffect } from "react";
+import Header from "../Header/Header.jsx";
+import Footer from "../Footer/Footer.jsx";
+import "./Home.css";
 
- function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
+const newsList = [
+  { id: 1, title: "Quarterly results announced", date: "2025-05-25", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
+  { id: 2, title: "New project launch next week", date: "2025-05-28", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
+  { id: 3, title: "Office closed on June 5th", date: "2025-06-01", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
+  { id: 4, title: "Annual Team Building Event", date: "2025-06-10", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
+  { id: 5, title: "New Employee Benefits Policy", date: "2025-06-15", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
+];
 
-  const newsItems = [
-    {
-      id: 1,
-      image: 'https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg',
-      heading: '🌟 New Product Launch Coming Soon!',
-      date: 'May 28, 2025'
-    },
-    {
-      id: 2,
-      image: 'https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg',
-      heading: '📈 Quarterly Earnings Report Released',
-      date: 'May 27, 2025'
-    },
-    {
-      id: 3,
-      image: 'https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg',
-      heading: '💼 Verteil at Tech Conference 2025',
-      date: 'May 26, 2025'
-    }
-  ];
+const photos = [
+  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=60",
+  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=60",
+  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=60",
+];
 
-  const airlineNewsItems = [
-    {
-      id: 1,
-      image: 'https://media.istockphoto.com/id/155380716/photo/commercial-jet-flying-over-clouds.jpg?s=612x612&w=0&k=20&c=idhnJ7ZdrLA1Dv5GO2R28A8WCx1SXCFVLu5_2cfdvXw=',
-      heading: '✈️ New Commercial Jet Over the Clouds!',
-      date: 'May 30, 2025'
-    },
-    {
-      id: 2,
-      image: 'https://media.istockphoto.com/id/155380716/photo/commercial-jet-flying-over-clouds.jpg?s=612x612&w=0&k=20&c=idhnJ7ZdrLA1Dv5GO2R28A8WCx1SXCFVLu5_2cfdvXw=',
-      heading: '🛫 Airline Industry Sees Recovery',
-      date: 'May 29, 2025'
-    },
-    {
-      id: 3,
-      image: 'https://media.istockphoto.com/id/155380716/photo/commercial-jet-flying-over-clouds.jpg?s=612x612&w=0&k=20&c=idhnJ7ZdrLA1Dv5GO2R28A8WCx1SXCFVLu5_2cfdvXw=.',
-      heading: '📰 Airline Tech Innovations',
-      date: 'May 28, 2025'
-    }
-  ];
+const holidays = [
+  { date: "2025-06-01", name: "Company Foundation Day" },
+  { date: "2025-06-15", name: "Summer Break" },
+  { date: "2025-06-26", name: "Public Holiday" },
+];
 
-  const [newsOrder, setNewsOrder] = useState(newsItems);
-  const [airlineNewsOrder, setAirlineNewsOrder] = useState(airlineNewsItems);
+function generateCalendarDays(year, month) {
+  const date = new Date(year, month, 1);
+  const days = [];
+  while (date.getMonth() === month) {
+    days.push(new Date(date));
+    date.setDate(date.getDate() + 1);
+  }
+  return days;
+}
+
+const CalendarBox = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+
+  const days = generateCalendarDays(year, month);
+
+  const isWeekend = (date) => date.getDay() === 0 || date.getDay() === 6;
+  const isHoliday = (date) => holidays.some(h => new Date(h.date).toDateString() === date.toDateString());
+
+  return (
+    <div className="calendar-box">
+      <h2>📅 Calendar & Holidays</h2>
+      <div className="calendar-grid">
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
+          <div key={day} className="calendar-day header">{day}</div>
+        ))}
+        {Array(days[0].getDay()).fill(null).map((_, i) => (
+          <div key={"empty-" + i} className="calendar-day empty"></div>
+        ))}
+        {days.map((date) => {
+          const dayNum = date.getDate();
+          const weekend = isWeekend(date);
+          const holiday = isHoliday(date);
+          return (
+            <div
+              key={date.toISOString()}
+              className={`calendar-day ${weekend ? "weekend" : ""} ${holiday ? "holiday" : ""}`}
+              title={holiday ? holidays.find(h => new Date(h.date).toDateString() === date.toDateString()).name : ""}
+            >
+              {dayNum}
+              {holiday && <span className="holiday-dot"></span>}
+            </div>
+          );
+        })}
+      </div>
+      <div className="holiday-list">
+        <h3>Upcoming Holidays & Off Days</h3>
+        <ul>
+          {holidays.map((h) => (
+            <li key={h.date}>
+              <strong>{new Date(h.date).toLocaleDateString(undefined, { day: "numeric", month: "short" })}</strong>: {h.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+const Home = () => {
+  const [enlargedNewsIndex, setEnlargedNewsIndex] = useState(0);
+  const [photoIndex, setPhotoIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setNewsOrder(prev => {
-        const newOrder = [...prev];
-        newOrder.push(newOrder.shift());
-        return newOrder;
-      });
-      setAirlineNewsOrder(prev => {
-        const newOrder = [...prev];
-        newOrder.push(newOrder.shift());
-        return newOrder;
-      });
+      setEnlargedNewsIndex((prev) => (prev + 1) % newsList.length);
     }, 7000);
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const photoInterval = setInterval(() => {
+      setPhotoIndex((prev) => (prev + 1) % photos.length);
+    }, 5000);
+    return () => clearInterval(photoInterval);
+  }, []);
+
   return (
-    <div>
-      <header className="header">
-        <div className="company-section">
-          <img src={verteilLogo} alt="Verteil Logo" className="company-icon" />
-        </div>
+    <>
+      <Header />
+      <div className="dashboard-container">
+        <div className="left-space"></div>
 
-         
-        <div className="profile-menu">
-          <img src={profileLogo} alt="Profile Icon" className="profile-logo" />
-        </div>
-      </header>
+        <div className="main-column">
+          <div className="welcome-box">
+            <h1>Welcome Back</h1>
+            <h3>Here's what's happening at your company today.</h3>
+            <div className="stats">
+              <div className="stat-item">🕒 Total Working Hours: 160</div>
+              <div className="stat-item">📁 Active Projects: 5</div>
+              <div className="stat-item">✅ Completed Tasks: 20</div>
+              <div className="stat-item">📅 Leave Days Left: 8</div>
+            </div>
+          </div>
 
-      <main className="main-content">
-        
-        <div className="news-sections">
-          <section className="company-news-box">
-            <h3>Company News</h3>
-            <div className="news-layout">
-              <div className="news-item large">
-                <img src={newsOrder[0].image} alt="News" />
-                <div className="news-text">
-                  <h4>{newsOrder[0].heading}</h4>
-                  <p className="news-date">{newsOrder[0].date}</p>
-                </div>
-              </div>
-              <div className="news-right">
-                <div className="news-item medium">
-                  <img src={newsOrder[1].image} alt="News" />
-                  <div className="news-text">
-                    <h4>{newsOrder[1].heading}</h4>
-                    <p className="news-date">{newsOrder[1].date}</p>
+          <div className="quick-access-message-container">
+            <div className="message-box">
+              <h2>📢 Message from the Boss</h2>
+              <p>
+                Team, keep up the great work! Remember to submit your weekly reports by Friday. Let's aim for a productive month ahead.
+              </p>
+            </div>
+          </div>
+
+          <div className="photo-box">
+            <img
+              src={photos[photoIndex]}
+              alt="Company Work"
+              className="photo-slide"
+            />
+          </div>
+
+          <div className="new-joinee-box">
+            <h2>👥 New Joinees</h2>
+            <ul>
+              <li>Anna Mathew - Developer</li>
+              <li>Rahul Nair - QA Engineer</li>
+              <li>Fatima Khan - UX Designer</li>
+            </ul>
+          </div>
+
+          <div className="news-box">
+            <h2>📰 Company News</h2>
+            <div className="news-list">
+              {newsList.map((news, index) => (
+                <div
+                  key={news.id}
+                  className={`news-item ${enlargedNewsIndex === index ? "enlarged" : "minimized"}`}
+                >
+                  <img
+                    src={news.image}
+                    alt="News"
+                    className="news-image"
+                    loading="lazy"
+                  />
+                  <div className="news-content">
+                    <h3>{news.title}</h3>
+                    <p className="news-date">
+                      {new Date(news.date).toLocaleDateString(undefined, {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </p>
                   </div>
                 </div>
-                <div className="news-item small">
-                  <img src={newsOrder[2].image} alt="News" />
-                  <div className="news-text">
-                    <h4>{newsOrder[2].heading}</h4>
-                    <p className="news-date">{newsOrder[2].date}</p>
-                  </div>
-                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="events-column">
+          <div className="quick-access-box">
+              <h2>Quick Access</h2>
+              <div className="quick-items">
+                <div className="quick-item">🛑 Leave</div>
+                <div className="quick-item">👥 New Joinees</div>
+                <div className="quick-item">📆 Working Days Left</div>
+                <div className="quick-item">⏳ Pending Works</div>
               </div>
             </div>
-          </section>
+          <div className="birthday-box">
+            <h2>🎂 Birthdays This Week</h2>
+            <ul>
+              <li>John Doe - May 30</li>
+              <li>Jane Smith - June 2</li>
+            </ul>
+          </div>
 
-         <section className="airline-news-box">
-  <h3>Airline News</h3>
-  <div className="news-layout">
-    <div className="news-item large">
-      <img
-        src="https://media.istockphoto.com/id/155380716/photo/commercial-jet-flying-over-clouds.jpg?s=612x612&w=0&k=20&c=idhnJ7ZdrLA1Dv5GO2R28A8WCx1SXCFVLu5_2cfdvXw="
-        alt="Airline News"
-      />
-      <div className="news-text">
-        <h4>✈️ New International Routes Announced</h4>
-        <p className="news-date">May 29, 2025</p>
-      </div>
-    </div>
-    <div className="news-right">
-      <div className="news-item medium">
-        <img
-          src="https://media.istockphoto.com/id/155380716/photo/commercial-jet-flying-over-clouds.jpg?s=612x612&w=0&k=20&c=idhnJ7ZdrLA1Dv5GO2R28A8WCx1SXCFVLu5_2cfdvXw="
-          alt="Airline News"
-        />
-        <div className="news-text">
-          <h4>🛫 Safety Protocol Updates for Summer</h4>
-          <p className="news-date">May 28, 2025</p>
-        </div>
-      </div>
-      <div className="news-item small">
-        <img
-          src="https://media.istockphoto.com/id/155380716/photo/commercial-jet-flying-over-clouds.jpg?s=612x612&w=0&k=20&c=idhnJ7ZdrLA1Dv5GO2R28A8WCx1SXCFVLu5_2cfdvXw="
-          alt="Airline News"
-        />
-        <div className="news-text">
-          <h4>💺 New In-Flight Entertainment Systems</h4>
-          <p className="news-date">May 27, 2025</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+          <div className="anniversary-box">
+            <h2>🎉 Work Anniversaries</h2>
+            <ul>
+              <li>Alice Johnson - 5 Years</li>
+              <li>Bob Brown - 3 Years</li>
+            </ul>
+          </div>
 
+          <CalendarBox />
         </div>
-      </main>
-     <Footer /> 
-    </div>
-    
+      </div>
+      <Footer />
+    </>
   );
-}
+};
 
 export default Home;

@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #80a73d;
+  color: white;
+  position: relative;
+}
+
+.left-section,
+.right-section {
+  width: 120px; /* Match logo width for symmetry */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.center-section {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.company-icon {
+  width: 120px;
+}
+
+.profile-logo {
+  width: 40px;
+  border-radius: 50%;
+}
