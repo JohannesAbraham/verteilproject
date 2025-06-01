@@ -2,6 +2,18 @@ import React, { useState, useEffect } from "react";
 import Header from "../Header/Header.jsx";
 import Footer from "../Footer/Footer.jsx";
 import "./Home.css";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+import PeopleIcon from '@mui/icons-material/People';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import GroupIcon from '@mui/icons-material/Group';
+import ArticleIcon from '@mui/icons-material/Article';
+
+
 
 const newsList = [
   { id: 1, title: "Quarterly results announced", date: "2025-05-25", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
@@ -45,7 +57,7 @@ const CalendarBox = () => {
 
   return (
     <div className="calendar-box">
-      <h2>📅 Calendar & Holidays</h2>
+      <h2> Calendar & Holidays</h2>
       <div className="calendar-grid">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
           <div key={day} className="calendar-day header">{day}</div>
@@ -112,16 +124,19 @@ const Home = () => {
             <h1>Welcome Back</h1>
             <h3>Here's what's happening at your company today.</h3>
             <div className="stats">
-              <div className="stat-item">🕒 Total Working Hours: 160</div>
-              <div className="stat-item">📁 Active Projects: 5</div>
-              <div className="stat-item">✅ Completed Tasks: 20</div>
-              <div className="stat-item">📅 Leave Days Left: 8</div>
+              <div className="stat-item"> <AccessTimeIcon className="icon"/> <p className="para">Total Working Hours: 160</p></div>
+              <div className="stat-item"> <FolderCopyIcon className="icon"/> <p className="para">Active Projects: 5</p></div>
+              <div className="stat-item"><TaskAltIcon className="icon"/><p className="para">Completed Tasks: 20</p></div>
+              <div className="stat-item"><CalendarMonthIcon className="icon"/><p className="para">Leave Days Left: 8</p></div>
             </div>
           </div>
 
           <div className="quick-access-message-container">
             <div className="message-box">
-              <h2>📢 Message from the Boss</h2>
+              <h2>
+                 <CampaignIcon style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+  Message from the Boss
+             </h2>
               <p>
                 Team, keep up the great work! Remember to submit your weekly reports by Friday. Let's aim for a productive month ahead.
               </p>
@@ -137,7 +152,13 @@ const Home = () => {
           </div>
 
           <div className="new-joinee-box">
-            <h2>👥 New Joinees</h2>
+            
+
+<h2>
+  <GroupIcon style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+  New Joinees
+</h2>
+
             <ul>
               <li>Anna Mathew - Developer</li>
               <li>Rahul Nair - QA Engineer</li>
@@ -146,7 +167,10 @@ const Home = () => {
           </div>
 
           <div className="news-box">
-            <h2>📰 Company News</h2>
+            <h2>
+  <ArticleIcon style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+  Company News
+</h2>
             <div className="news-list">
               {newsList.map((news, index) => (
                 <div
@@ -179,10 +203,10 @@ const Home = () => {
           <div className="quick-access-box">
               <h2>Quick Access</h2>
               <div className="quick-items">
-                <div className="quick-item">🛑 Leave</div>
-                <div className="quick-item">👥 New Joinees</div>
-                <div className="quick-item">📆 Working Days Left</div>
-                <div className="quick-item">⏳ Pending Works</div>
+                <div className="quick-item"><FlightTakeoffIcon className="icon"/><p className="para"> Leave</p></div>
+                <div className="quick-item"><PeopleIcon className="icon"/><p className="para"> New Joinees</p></div>
+                <div className="quick-item"><CalendarMonthIcon className="icon"/><p className="para"> Working Days Left</p></div>
+                <div className="quick-item"><HourglassTopIcon className="icon"/><p className="para"> Pending Works</p></div>
               </div>
             </div>
           <div className="birthday-box">
