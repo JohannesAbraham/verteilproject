@@ -12,6 +12,8 @@ import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import GroupIcon from '@mui/icons-material/Group';
 import ArticleIcon from '@mui/icons-material/Article';
+import CakeIcon from '@mui/icons-material/Cake';
+import CelebrationIcon from '@mui/icons-material/Celebration';
 
 
 
@@ -210,7 +212,10 @@ const Home = () => {
               </div>
             </div>
           <div className="birthday-box">
-            <h2>🎂 Birthdays This Week</h2>
+            <h2>
+  <CakeIcon style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+  Birthdays This Week
+</h2>
             <ul>
               <li>John Doe - May 30</li>
               <li>Jane Smith - June 2</li>
@@ -218,7 +223,10 @@ const Home = () => {
           </div>
 
           <div className="anniversary-box">
-            <h2>🎉 Work Anniversaries</h2>
+            <h2>
+  <CelebrationIcon style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+  Work Anniversaries
+</h2>
             <ul>
               <li>Alice Johnson - 5 Years</li>
               <li>Bob Brown - 3 Years</li>
