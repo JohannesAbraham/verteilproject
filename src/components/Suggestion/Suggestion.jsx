@@ -34,7 +34,7 @@ const Suggestion = () => {
       <div className="thank-you-message">
         <h2>Thank You!</h2>
         <p>Your suggestion has been received. We appreciate your feedback!</p>
-        <button onClick={() => setSubmitted(false)}>Submit another suggestion</button>
+        <button className='resubmit-button' onClick={() => setSubmitted(false)}>Submit another suggestion</button>
       </div>
     );
   }
@@ -46,7 +46,7 @@ const Suggestion = () => {
       
       <form onSubmit={handleSubmit} className="suggestion-form">
         <div className="form-group">
-          <label htmlFor="suggestion">Your Suggestion:</label>
+          <label  htmlFor="suggestion">Your Suggestion:</label>
           <textarea
             id="suggestion"
             value={suggestion}

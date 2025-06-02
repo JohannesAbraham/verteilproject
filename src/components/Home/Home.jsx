@@ -2,20 +2,16 @@ import React, { useState, useEffect } from "react";
 import Header from "../Header/Header.jsx";
 import Footer from "../Footer/Footer.jsx";
 import "./Home.css";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import FolderCopyIcon from '@mui/icons-material/FolderCopy';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import { format } from "date-fns";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import PeopleIcon from '@mui/icons-material/People';
-import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import GroupIcon from '@mui/icons-material/Group';
 import ArticleIcon from '@mui/icons-material/Article';
 import CakeIcon from '@mui/icons-material/Cake';
 import CelebrationIcon from '@mui/icons-material/Celebration';
 
-// Placeholder image used in news and photos
 const placeholderImage = "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg";
 
 const newsList = [
@@ -26,11 +22,7 @@ const newsList = [
   { id: 5, title: "New Employee Benefits Policy", date: "2025-06-15", image: placeholderImage },
 ];
 
-const photos = [
-  placeholderImage,
-  placeholderImage,
-  placeholderImage,
-];
+const photos = [placeholderImage, placeholderImage, placeholderImage];
 
 const holidays = [
   { date: "2025-06-01", name: "Company Foundation Day" },
@@ -38,7 +30,6 @@ const holidays = [
   { date: "2025-06-26", name: "Public Holiday" },
 ];
 
-// Helper function to generate all days for given month/year
 function generateCalendarDays(year, month) {
   const date = new Date(year, month, 1);
   const days = [];
@@ -120,33 +111,26 @@ const Home = () => {
     return () => clearInterval(photoInterval);
   }, []);
 
+  const today = new Date();
+  const formattedDate = format(today, "EEEE, MMMM d, yyyy");
+
   return (
     <>
+    
       <div className="dashboard-container">
         <div className="left-space"></div>
-
         <div className="main-column">
           <div className="welcome-box">
             <h1>Welcome Back</h1>
-            <h3>Here's what's happening at your company today.</h3>
-            <div className="stats">
-              <div className="stat-item">
-                <AccessTimeIcon className="icon" />
-                <p className="para">Total Working Hours: 160</p>
-              </div>
-              <div className="stat-item">
-                <FolderCopyIcon className="icon" />
-                <p className="para">Active Projects: 5</p>
-              </div>
-              <div className="stat-item">
-                <TaskAltIcon className="icon" />
-                <p className="para">Completed Tasks: 20</p>
-              </div>
-              <div className="stat-item">
-                <CalendarMonthIcon className="icon" />
-                <p className="para">Leave Days Left: 8</p>
-              </div>
-            </div>
+            <h3>{formattedDate}</h3>
+            <p className="update-intro">Here’s what’s happening in our company today:</p>
+            <ul className="company-updates">
+              <li>Town hall meeting at 2 PM in Conference Room A</li>
+              <li>Deadline for submitting Q2 reports</li>
+              <li>New interns joining the development team</li>
+              <li>Client demo scheduled with XYZ Corp</li>
+              <li>Celebrating 3 employee birthdays </li>
+            </ul>
           </div>
 
           <div className="quick-access-message-container">
@@ -221,7 +205,6 @@ const Home = () => {
               <div className="quick-item"><FlightTakeoffIcon className="icon" /><p className="para"> Leave</p></div>
               <div className="quick-item"><PeopleIcon className="icon" /><p className="para"> New Joinees</p></div>
               <div className="quick-item"><CalendarMonthIcon className="icon" /><p className="para"> Working Days Left</p></div>
-              <div className="quick-item"><HourglassTopIcon className="icon" /><p className="para"> Pending Works</p></div>
             </div>
           </div>
 
@@ -250,6 +233,7 @@ const Home = () => {
           <CalendarBox />
         </div>
       </div>
+    
     </>
   );
 };
