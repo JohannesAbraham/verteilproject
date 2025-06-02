@@ -15,20 +15,21 @@ import ArticleIcon from '@mui/icons-material/Article';
 import CakeIcon from '@mui/icons-material/Cake';
 import CelebrationIcon from '@mui/icons-material/Celebration';
 
-
+// Placeholder image used in news and photos
+const placeholderImage = "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg";
 
 const newsList = [
-  { id: 1, title: "Quarterly results announced", date: "2025-05-25", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
-  { id: 2, title: "New project launch next week", date: "2025-05-28", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
-  { id: 3, title: "Office closed on June 5th", date: "2025-06-01", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
-  { id: 4, title: "Annual Team Building Event", date: "2025-06-10", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
-  { id: 5, title: "New Employee Benefits Policy", date: "2025-06-15", image: "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg" },
+  { id: 1, title: "Quarterly results announced", date: "2025-05-25", image: placeholderImage },
+  { id: 2, title: "New project launch next week", date: "2025-05-28", image: placeholderImage },
+  { id: 3, title: "Office closed on June 5th", date: "2025-06-01", image: placeholderImage },
+  { id: 4, title: "Annual Team Building Event", date: "2025-06-10", image: placeholderImage },
+  { id: 5, title: "New Employee Benefits Policy", date: "2025-06-15", image: placeholderImage },
 ];
 
 const photos = [
-  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=60",
-  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=60",
-  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=60",
+  placeholderImage,
+  placeholderImage,
+  placeholderImage,
 ];
 
 const holidays = [
@@ -37,6 +38,7 @@ const holidays = [
   { date: "2025-06-26", name: "Public Holiday" },
 ];
 
+// Helper function to generate all days for given month/year
 function generateCalendarDays(year, month) {
   const date = new Date(year, month, 1);
   const days = [];
@@ -51,15 +53,15 @@ const CalendarBox = () => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth();
-
   const days = generateCalendarDays(year, month);
 
   const isWeekend = (date) => date.getDay() === 0 || date.getDay() === 6;
   const isHoliday = (date) => holidays.some(h => new Date(h.date).toDateString() === date.toDateString());
+  const isToday = (date) => date.toDateString() === today.toDateString();
 
   return (
     <div className="calendar-box">
-      <h2> Calendar & Holidays</h2>
+      <h2>Calendar & Holidays</h2>
       <div className="calendar-grid">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
           <div key={day} className="calendar-day header">{day}</div>
@@ -74,7 +76,10 @@ const CalendarBox = () => {
           return (
             <div
               key={date.toISOString()}
-              className={`calendar-day ${weekend ? "weekend" : ""} ${holiday ? "holiday" : ""}`}
+              className={`calendar-day 
+                ${weekend ? "weekend" : ""} 
+                ${holiday ? "holiday" : ""} 
+                ${isToday(date) ? "today" : ""}`}
               title={holiday ? holidays.find(h => new Date(h.date).toDateString() === date.toDateString()).name : ""}
             >
               {dayNum}
@@ -126,19 +131,31 @@ const Home = () => {
             <h1>Welcome Back</h1>
             <h3>Here's what's happening at your company today.</h3>
             <div className="stats">
-              <div className="stat-item"> <AccessTimeIcon className="icon"/> <p className="para">Total Working Hours: 160</p></div>
-              <div className="stat-item"> <FolderCopyIcon className="icon"/> <p className="para">Active Projects: 5</p></div>
-              <div className="stat-item"><TaskAltIcon className="icon"/><p className="para">Completed Tasks: 20</p></div>
-              <div className="stat-item"><CalendarMonthIcon className="icon"/><p className="para">Leave Days Left: 8</p></div>
+              <div className="stat-item">
+                <AccessTimeIcon className="icon" />
+                <p className="para">Total Working Hours: 160</p>
+              </div>
+              <div className="stat-item">
+                <FolderCopyIcon className="icon" />
+                <p className="para">Active Projects: 5</p>
+              </div>
+              <div className="stat-item">
+                <TaskAltIcon className="icon" />
+                <p className="para">Completed Tasks: 20</p>
+              </div>
+              <div className="stat-item">
+                <CalendarMonthIcon className="icon" />
+                <p className="para">Leave Days Left: 8</p>
+              </div>
             </div>
           </div>
 
           <div className="quick-access-message-container">
             <div className="message-box">
               <h2>
-                 <CampaignIcon style={{ verticalAlign: 'middle', marginRight: '8px' }} />
-  Message from the Boss
-             </h2>
+                <CampaignIcon className="icon-title" />
+                Message from the Boss
+              </h2>
               <p>
                 Team, keep up the great work! Remember to submit your weekly reports by Friday. Let's aim for a productive month ahead.
               </p>
@@ -154,13 +171,10 @@ const Home = () => {
           </div>
 
           <div className="new-joinee-box">
-            
-
-<h2>
-  <GroupIcon style={{ verticalAlign: 'middle', marginRight: '8px' }} />
-  New Joinees
-</h2>
-
+            <h2>
+              <GroupIcon className="icon-title" />
+              New Joinees
+            </h2>
             <ul>
               <li>Anna Mathew - Developer</li>
               <li>Rahul Nair - QA Engineer</li>
@@ -170,9 +184,9 @@ const Home = () => {
 
           <div className="news-box">
             <h2>
-  <ArticleIcon style={{ verticalAlign: 'middle', marginRight: '8px' }} />
-  Company News
-</h2>
+              <ArticleIcon className="icon-title" />
+              Company News
+            </h2>
             <div className="news-list">
               {newsList.map((news, index) => (
                 <div
@@ -203,19 +217,20 @@ const Home = () => {
 
         <div className="events-column">
           <div className="quick-access-box">
-              <h2>Quick Access</h2>
-              <div className="quick-items">
-                <div className="quick-item"><FlightTakeoffIcon className="icon"/><p className="para"> Leave</p></div>
-                <div className="quick-item"><PeopleIcon className="icon"/><p className="para"> New Joinees</p></div>
-                <div className="quick-item"><CalendarMonthIcon className="icon"/><p className="para"> Working Days Left</p></div>
-                <div className="quick-item"><HourglassTopIcon className="icon"/><p className="para"> Pending Works</p></div>
-              </div>
+            <h2>Quick Access</h2>
+            <div className="quick-items">
+              <div className="quick-item"><FlightTakeoffIcon className="icon" /><p className="para"> Leave</p></div>
+              <div className="quick-item"><PeopleIcon className="icon" /><p className="para"> New Joinees</p></div>
+              <div className="quick-item"><CalendarMonthIcon className="icon" /><p className="para"> Working Days Left</p></div>
+              <div className="quick-item"><HourglassTopIcon className="icon" /><p className="para"> Pending Works</p></div>
             </div>
+          </div>
+
           <div className="birthday-box">
             <h2>
-  <CakeIcon style={{ verticalAlign: 'middle', marginRight: '8px' }} />
-  Birthdays This Week
-</h2>
+              <CakeIcon className="icon-title" />
+              Birthdays This Week
+            </h2>
             <ul>
               <li>John Doe - May 30</li>
               <li>Jane Smith - June 2</li>
@@ -224,9 +239,9 @@ const Home = () => {
 
           <div className="anniversary-box">
             <h2>
-  <CelebrationIcon style={{ verticalAlign: 'middle', marginRight: '8px' }} />
-  Work Anniversaries
-</h2>
+              <CelebrationIcon className="icon-title" />
+              Work Anniversaries
+            </h2>
             <ul>
               <li>Alice Johnson - 5 Years</li>
               <li>Bob Brown - 3 Years</li>
