@@ -10,7 +10,6 @@
 
 .left-space {
   width: 150px; /* Reserve space on left for future use */
-  background-color: #e3f0b7;
   border-radius: 10px;
 }
 
@@ -271,11 +270,12 @@
   border-bottom: none;
 }
 
+
 /* Calendar box */
 .calendar-box {
   background-color: white;
   border-radius: 12px;
-  padding: 20px;
+  padding: 10px;
   margin-top: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;

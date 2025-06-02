@@ -122,7 +122,6 @@ const Home = () => {
 
   return (
     <>
-      <Header />
       <div className="dashboard-container">
         <div className="left-space"></div>
 
@@ -251,7 +250,6 @@ const Home = () => {
           <CalendarBox />
         </div>
       </div>
-      <Footer />
     </>
   );
 };

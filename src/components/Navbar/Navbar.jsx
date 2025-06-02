@@ -1,0 +1,68 @@
+import { useState } from 'react';
+import './Navbar.css';
+import HomeIcon from '@mui/icons-material/Home';
+import FeedIcon from '@mui/icons-material/Feed';
+import WorkIcon from '@mui/icons-material/Work';
+import SettingsIcon from '@mui/icons-material/Settings';
+import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
+import MessageIcon from '@mui/icons-material/Message';
+
+const Navbar = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <nav 
+      className={`sidenav ${isExpanded ? 'expanded' : ''}`}
+      onMouseEnter={() => setIsExpanded(true)}
+      onMouseLeave={() => setIsExpanded(false)}
+    >
+      <div className="sidenav-inner">
+
+        <ul className="nav-items">
+          <li className="nav-item">
+            <a href="/">
+              <HomeIcon fontSize="large" />
+              {isExpanded && <span>Home</span>}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a href="/news">
+              <FeedIcon fontSize="large" />
+              {isExpanded && <span>News Feed</span>}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a href="/projects">
+              <WorkIcon fontSize="large" />
+             
+              {isExpanded && <span>Projects</span>}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a href="/settings">
+             <SettingsIcon fontSize="large" />
+              {isExpanded && <span>Settings</span>}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a href="/games">
+             <VideogameAssetIcon fontSize='large'/>
+              {isExpanded && <span>Games</span>}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a href="/suggestion">
+             <MessageIcon fontSize='large'/>
+              {isExpanded && <span>Suggestions</span>}
+            </a>
+          </li>
+        </ul>
+
+        
+        
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
