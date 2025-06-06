@@ -11,8 +11,12 @@ import GroupIcon from '@mui/icons-material/Group';
 import ArticleIcon from '@mui/icons-material/Article';
 import CakeIcon from '@mui/icons-material/Cake';
 import CelebrationIcon from '@mui/icons-material/Celebration';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import TheatersIcon from '@mui/icons-material/Theaters';
 
 const placeholderImage = "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg";
+const profilePlaceholder = "https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png";
 
 const newsList = [
   { id: 1, title: "Quarterly results announced", date: "2025-05-25", image: placeholderImage },
@@ -22,13 +26,30 @@ const newsList = [
   { id: 5, title: "New Employee Benefits Policy", date: "2025-06-15", image: placeholderImage },
 ];
 
-const photos = [placeholderImage, placeholderImage, placeholderImage];
+const mediaContent = [
+  { type: "cartoon", title: "Funny Office Cartoon", url: placeholderImage },
+  { type: "video", title: "Motivational Video", url: placeholderImage },
+  { type: "image", title: "Team Photo", url: placeholderImage }
+];
 
 const holidays = [
   { date: "2025-06-01", name: "Company Foundation Day" },
   { date: "2025-06-15", name: "Summer Break" },
   { date: "2025-06-26", name: "Public Holiday" },
 ];
+
+const birthdays = [
+  { name: "John Doe", date: "May 30", department: "Engineering", image: profilePlaceholder },
+  { name: "Jane Smith", date: "June 2", department: "Marketing", image: profilePlaceholder }
+];
+
+const anniversaries = [
+  { name: "Alice Johnson", years: "5", department: "HR", image: profilePlaceholder },
+  { name: "Bob Brown", years: "3", department: "Finance", image: profilePlaceholder }
+];
+
+const thoughtOfTheDay = "Success is not final, failure is not fatal: It is the courage to continue that counts.";
+const wordOfTheDay = { word: "Synergy", meaning: "The interaction of elements that when combined produce a total effect greater than the sum of the individual elements" };
 
 function generateCalendarDays(year, month) {
   const date = new Date(year, month, 1);
@@ -95,7 +116,7 @@ const CalendarBox = () => {
 
 const Home = () => {
   const [enlargedNewsIndex, setEnlargedNewsIndex] = useState(0);
-  const [photoIndex, setPhotoIndex] = useState(0);
+  const [mediaIndex, setMediaIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -105,10 +126,10 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const photoInterval = setInterval(() => {
-      setPhotoIndex((prev) => (prev + 1) % photos.length);
-    }, 5000);
-    return () => clearInterval(photoInterval);
+    const mediaInterval = setInterval(() => {
+      setMediaIndex((prev) => (prev + 1) % mediaContent.length);
+    }, 8000);
+    return () => clearInterval(mediaInterval);
   }, []);
 
   const today = new Date();
@@ -116,21 +137,33 @@ const Home = () => {
 
   return (
     <>
-    
       <div className="dashboard-container">
         <div className="left-space"></div>
         <div className="main-column">
           <div className="welcome-box">
             <h1>Welcome Back</h1>
             <h3>{formattedDate}</h3>
-            <p className="update-intro">Here’s what’s happening in our company today:</p>
+            <p className="update-intro">Here's what's happening in our company today:</p>
             <ul className="company-updates">
               <li>Town hall meeting at 2 PM in Conference Room A</li>
               <li>Deadline for submitting Q2 reports</li>
-              <li>New interns joining the development team</li>
               <li>Client demo scheduled with XYZ Corp</li>
-              <li>Celebrating 3 employee birthdays </li>
+              <li>Celebrating {birthdays.length} employee birthdays</li>
             </ul>
+          </div>
+
+          <div className="thought-word-container">
+            <div className="thought-box">
+              <h2><LightbulbIcon className="icon-title" />Thought of the Day</h2>
+              <p className="thought-content">"{thoughtOfTheDay}"</p>
+              <p className="thought-author">- Winston Churchill</p>
+            </div>
+            
+            <div className="word-box">
+              <h2><MenuBookIcon className="icon-title" />Word of the Day</h2>
+              <h3 className="word">{wordOfTheDay.word}</h3>
+              <p className="meaning">{wordOfTheDay.meaning}</p>
+            </div>
           </div>
 
           <div className="quick-access-message-container">
@@ -145,24 +178,14 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="photo-box">
+          <div className="media-box">
+            <h2><TheatersIcon className="icon-title" />Media Corner</h2>
             <img
-              src={photos[photoIndex]}
-              alt="Company Work"
-              className="photo-slide"
+              src={mediaContent[mediaIndex].url}
+              alt={mediaContent[mediaIndex].title}
+              className="media-content"
             />
-          </div>
-
-          <div className="new-joinee-box">
-            <h2>
-              <GroupIcon className="icon-title" />
-              New Joinees
-            </h2>
-            <ul>
-              <li>Anna Mathew - Developer</li>
-              <li>Rahul Nair - QA Engineer</li>
-              <li>Fatima Khan - UX Designer</li>
-            </ul>
+            <p className="media-title">{mediaContent[mediaIndex].title}</p>
           </div>
 
           <div className="news-box">
@@ -203,8 +226,8 @@ const Home = () => {
             <h2>Quick Access</h2>
             <div className="quick-items">
               <div className="quick-item"><FlightTakeoffIcon className="icon" /><p className="para"> Leave</p></div>
-              <div className="quick-item"><PeopleIcon className="icon" /><p className="para"> New Joinees</p></div>
-              <div className="quick-item"><CalendarMonthIcon className="icon" /><p className="para"> Working Days Left</p></div>
+              <div className="quick-item"><PeopleIcon className="icon" /><p className="para"> V-Depot</p></div>
+              <div className="quick-item"><CalendarMonthIcon className="icon" /><p className="para"> Calendar</p></div>
             </div>
           </div>
 
@@ -213,10 +236,17 @@ const Home = () => {
               <CakeIcon className="icon-title" />
               Birthdays This Week
             </h2>
-            <ul>
-              <li>John Doe - May 30</li>
-              <li>Jane Smith - June 2</li>
-            </ul>
+            <div className="celebration-list">
+              {birthdays.map((person, index) => (
+                <div key={index} className="celebration-item">
+                  <img src={person.image} alt={person.name} className="profile-pic" />
+                  <div className="celebration-details">
+                    <h3>{person.name}</h3>
+                    <p>{person.date} • {person.department}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="anniversary-box">
@@ -224,16 +254,22 @@ const Home = () => {
               <CelebrationIcon className="icon-title" />
               Work Anniversaries
             </h2>
-            <ul>
-              <li>Alice Johnson - 5 Years</li>
-              <li>Bob Brown - 3 Years</li>
-            </ul>
+            <div className="celebration-list">
+              {anniversaries.map((person, index) => (
+                <div key={index} className="celebration-item">
+                  <img src={person.image} alt={person.name} className="profile-pic" />
+                  <div className="celebration-details">
+                    <h3>{person.name}</h3>
+                    <p>{person.years} Years • {person.department}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <CalendarBox />
         </div>
       </div>
-    
     </>
   );
 };

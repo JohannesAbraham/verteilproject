@@ -1,6 +1,5 @@
 import React from 'react'
-import Header from './Header'
-import './styling/news.css'
+import './News.css'
 
 // News Card Component for Company News (unchanged)
 const NewsCard = ({ type, title, time, imageSrc }) => {
@@ -64,7 +63,6 @@ const NewsSection = ({ title, children, innerClassName }) => {
 const News = () => {
   return (
     <>
-      <Header />
       <div className='main-news'>
         {/* Company News Section - Modified layout */}
         <div className="company-news">

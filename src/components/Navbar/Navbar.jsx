@@ -6,6 +6,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import SettingsIcon from '@mui/icons-material/Settings';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import MessageIcon from '@mui/icons-material/Message';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 const Navbar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -54,6 +55,12 @@ const Navbar = () => {
             <a href="/suggestion">
              <MessageIcon fontSize='large'/>
               {isExpanded && <span>Suggestions</span>}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a href="/org-structure">
+             <AccountTreeIcon fontSize='large'/>
+              {isExpanded && <span>Organization</span>}
             </a>
           </li>
         </ul>

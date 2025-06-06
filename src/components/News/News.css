@@ -1,0 +1,220 @@
+:root {
+  /* Color Variables */
+  --primary: #FFF8F0;
+  --secondary: #80A23F;
+  --accent: #3F3F3F;
+  --darker-secondary: #689710;
+  --news-background: #E6E0E0;
+  
+  /* Spacing Variables */
+  --spacing-sm: 8px;
+  --spacing-md: 20px;
+  --spacing-lg: 30px;
+  --spacing-xl: 40px;
+  
+  /* Border Variables */
+  --border-radius-sm: 4px;
+  --border-radius-md: 7px;
+  --border-radius-lg: 8px;
+  
+  /* Transition Variables */
+  --transition-normal: 0.3s;
+}
+
+/* Reset and Base Styles */
+h1, h2, h3, h4, h5, p {
+  margin: 0;
+}
+
+/* Main Layout */
+.main-news {
+  display: flex;
+  margin: var(--spacing-lg) 0 0 10vw;
+  gap: var(--spacing-xl);
+}
+
+/* Company News Section */
+.company-news {
+  width: 55%;
+  max-width: 800px;
+}
+
+.company-news-inner {
+  display: flex;
+  padding: var(--spacing-xl);
+  margin-top: var(--spacing-md);
+  background-color: var(--news-background);
+  border-radius: var(--border-radius-md);
+  height: 400px;
+  padding-right: 20px;
+}
+
+.company-news-container{
+    display: flex;
+    justify-content: space-around;
+}
+.company-news-primary {
+  width: 150px;
+}
+
+.company-news-secondary-group {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin: 0px 30px;
+  justify-content: space-between;
+
+}
+
+/* News Items */
+.news {
+  cursor: pointer;
+}
+
+.company-news-1, .company-news-2 {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  
+
+}
+
+.company-news-1-image{
+  object-fit: cover;
+  object-position: 16%;
+}
+
+
+
+.company-news-secondary-group{
+  
+}
+
+ 
+.company-news-3 {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.news-image-container {
+  overflow: hidden;
+  border-radius: var(--border-radius-md);
+  flex-shrink: 0;
+}
+
+.news-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 16%;
+  transition: transform var(--transition-normal) ease;
+}
+
+.company-news-1-image {
+  height: 300px;
+}
+
+.company-news-2-image {
+  width: 250px;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.company-news-3-image {
+  width: 120px;
+  height: 80px;
+}
+
+.news-time {
+  margin-top: var(--spacing-sm);
+  color: gray;
+  font-size: 0.9em;
+}
+
+/* Airline News Section */
+.airlines {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.airline-news-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  background-color: var(--news-background);
+  border-radius: var(--border-radius-md);
+  overflow-y: auto;
+}
+
+.airline-news-post {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.airline-news-image {
+  width: 150px;
+  height: 100px;
+  border-radius: var(--border-radius-lg);
+  object-fit: cover;
+}
+
+/* Partners Section */
+/* Partners Section */
+.airline-partners-inner {
+  padding: var(--spacing-md);
+  background-color: var(--news-background);
+  border-radius: var(--border-radius-md);
+}
+
+.partners-flex {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.partner-logo {
+  width: 80px; /* Adjust size as needed */
+  height: auto;
+  border-radius: var(--border-radius-sm);
+  transition: transform var(--transition-normal) ease;
+}
+
+.partner-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Interactive Elements */
+
+.more-news {
+  text-align: center;
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+/* Add this to your existing CSS */
+.company-news-1-image:hover,
+.company-news-2-image:hover,
+.company-news-3-image:hover,
+.airline-news-image:hover,
+.partner-logo:hover {
+  transform: scale(1.05);
+  transition: transform var(--transition-normal) ease;
+}
+
+/* Ensure all images have the same transition by default */
+.company-news-1-image,
+.company-news-2-image,
+.company-news-3-image,
+.airline-news-image,
+.partner-logo {
+  transition: transform var(--transition-normal) ease;
+  border-radius: 8px;
+}

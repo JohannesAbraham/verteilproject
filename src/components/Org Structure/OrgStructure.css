@@ -1,0 +1,75 @@
+/* Org Chart Styles */
+.org-chart-container {
+  padding: var(--spacing-xl) 10vw;
+  background-color: var(--primary);
+  min-height: 100vh;
+}
+
+.org-chart-title {
+  font-size: 2rem;
+  color: var(--accent);
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+}
+
+.org-chart-wrapper {
+  background: white;
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-xl) 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+}
+
+.org-node {
+  background: white;
+  border: 2px solid var(--secondary);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+  width: 100px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-normal);
+  margin: 0 auto;
+}
+
+.org-node:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.org-node h3 {
+  font-size: 1rem;
+  color: var(--accent);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.org-node p {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+}
+
+.root-node {
+  background-color: var(--secondary);
+  color: white;
+  font-weight: bold;
+}
+
+.root-node span {
+  font-weight: normal;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .org-chart-container {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+  
+  .org-node {
+    width: 140px;
+    padding: var(--spacing-sm);
+    font-size: 0.9rem;
+  }
+}
