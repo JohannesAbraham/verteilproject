@@ -225,9 +225,9 @@ const Home = () => {
           <div className="quick-access-box">
             <h2>Quick Access</h2>
             <div className="quick-items">
-              <div className="quick-item"><FlightTakeoffIcon className="icon" /><p className="para"> Leave</p></div>
-              <div className="quick-item"><PeopleIcon className="icon" /><p className="para"> V-Depot</p></div>
-              <div className="quick-item"><CalendarMonthIcon className="icon" /><p className="para"> Calendar</p></div>
+              <div className="quick-item"><a href="https://www.greythr.com/login/"><FlightTakeoffIcon className="icon" /><p className="para"> GreytHR</p></a></div>
+              <div className="quick-item"><a href="https://www.greythr.com/login/"><PeopleIcon className="icon" /><p className="para"> V-Depot</p></a></div>
+              <div className="quick-item"><a href="https://www.greythr.com/login/"><PeopleIcon className="icon" /><p className="para"> Hiring and Referrals</p></a></div>
             </div>
           </div>
 
