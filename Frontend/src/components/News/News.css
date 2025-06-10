@@ -1,39 +1,50 @@
 :root {
-  /* Color Variables */
   --primary: #FFF8F0;
   --secondary: #80A23F;
   --accent: #3F3F3F;
   --darker-secondary: #689710;
   --news-background: #E6E0E0;
-  
-  /* Spacing Variables */
+
   --spacing-sm: 8px;
   --spacing-md: 20px;
   --spacing-lg: 30px;
   --spacing-xl: 40px;
-  
-  /* Border Variables */
+
   --border-radius-sm: 4px;
   --border-radius-md: 7px;
   --border-radius-lg: 8px;
-  
-  /* Transition Variables */
+
   --transition-normal: 0.3s;
 }
 
-/* Reset and Base Styles */
+/* RESET AND BASE STYLES */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+}
+
 h1, h2, h3, h4, h5, p {
   margin: 0;
 }
 
-/* Main Layout */
+.news-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* MAIN NEWS LAYOUT */
 .main-news {
   display: flex;
   margin: var(--spacing-lg) 0 0 10vw;
   gap: var(--spacing-xl);
+  flex: 1;
 }
 
-/* Company News Section */
+/* COMPANY NEWS SECTION */
 .company-news {
   width: 55%;
   max-width: 800px;
@@ -49,10 +60,11 @@ h1, h2, h3, h4, h5, p {
   padding-right: 20px;
 }
 
-.company-news-container{
-    display: flex;
-    justify-content: space-around;
+.company-news-container {
+  display: flex;
+  justify-content: space-around;
 }
+
 .company-news-primary {
   width: 150px;
 }
@@ -64,62 +76,44 @@ h1, h2, h3, h4, h5, p {
   gap: var(--spacing-md);
   margin: 0px 30px;
   justify-content: space-between;
-
 }
 
-/* News Items */
+/* NEWS ITEMS */
 .news {
   cursor: pointer;
+  transition: transform var(--transition-normal);
 }
 
-.company-news-1, .company-news-2 {
+.company-news-1,
+.company-news-2 {
   display: flex;
   flex-direction: column;
   width: 250px;
-  
-
 }
 
-.company-news-1-image{
+.company-news-1-image,
+.company-news-2-image,
+.company-news-3-image,
+.airline-news-image {
   object-fit: cover;
-  object-position: 16%;
-}
-
-
-
-.company-news-secondary-group{
-  
-}
-
- 
-.company-news-3 {
-  display: flex;
-  gap: var(--spacing-md);
-}
-
-.news-image-container {
-  overflow: hidden;
-  border-radius: var(--border-radius-md);
-  flex-shrink: 0;
-}
-
-.news-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 16%;
-  transition: transform var(--transition-normal) ease;
+  transition: transform var(--transition-normal);
+  border-radius: var(--border-radius-lg);
 }
 
 .company-news-1-image {
   height: 300px;
+  object-position: 16%;
 }
 
 .company-news-2-image {
   width: 250px;
   height: 200px;
-  object-fit: cover;
   object-position: center;
+}
+
+.company-news-3 {
+  display: flex;
+  gap: var(--spacing-md);
 }
 
 .company-news-3-image {
@@ -127,13 +121,23 @@ h1, h2, h3, h4, h5, p {
   height: 80px;
 }
 
+/* HOVER EFFECTS */
+.company-news-1-image:hover,
+.company-news-2-image:hover,
+.company-news-3-image:hover,
+.airline-news-image:hover,
+.partner-logo:hover {
+  transform: scale(1.05);
+}
+
+/* TIMESTAMPS */
 .news-time {
   margin-top: var(--spacing-sm);
   color: gray;
   font-size: 0.9em;
 }
 
-/* Airline News Section */
+/* AIRLINE NEWS */
 .airlines {
   width: 40%;
   display: flex;
@@ -161,60 +165,148 @@ h1, h2, h3, h4, h5, p {
 .airline-news-image {
   width: 150px;
   height: 100px;
-  border-radius: var(--border-radius-lg);
-  object-fit: cover;
 }
 
-/* Partners Section */
-/* Partners Section */
+/* PARTNERS SECTION */
 .airline-partners-inner {
   padding: var(--spacing-md);
   background-color: var(--news-background);
   border-radius: var(--border-radius-md);
 }
 
-.partners-flex {
+.partners-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.partners-track {
   display: flex;
-  flex-direction: row;
-  gap: var(--spacing-md);
-  align-items: center;
+  transition: transform 0.5s ease;
 }
 
-.partner-logo {
-  width: 80px; /* Adjust size as needed */
-  height: auto;
-  border-radius: var(--border-radius-sm);
-  transition: transform var(--transition-normal) ease;
-}
-
-.partner-logo:hover {
-  transform: scale(1.05);
-}
-
-/* Interactive Elements */
-
-.more-news {
+.partner-card {
+  min-width: 100%;
   text-align: center;
-  padding: var(--spacing-md);
-  margin-top: var(--spacing-xl);
+  padding: 0 var(--spacing-md);
+  box-sizing: border-box;
 }
 
-/* Add this to your existing CSS */
-.company-news-1-image:hover,
-.company-news-2-image:hover,
-.company-news-3-image:hover,
-.airline-news-image:hover,
-.partner-logo:hover {
-  transform: scale(1.05);
-  transition: transform var(--transition-normal) ease;
-}
-
-/* Ensure all images have the same transition by default */
-.company-news-1-image,
-.company-news-2-image,
-.company-news-3-image,
-.airline-news-image,
 .partner-logo {
-  transition: transform var(--transition-normal) ease;
-  border-radius: 8px;
+  width: 150px;
+  height: 100px;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+  border-radius: var(--border-radius-md);
+}
+
+.partner-name {
+  margin-top: var(--spacing-sm);
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.partners-dots {
+  text-align: center;
+  margin-top: var(--spacing-md);
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: var(--secondary);
+}
+
+/* MODAL STYLES */
+.news-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.news-modal-content {
+  position: relative;
+  background-color: var(--primary);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.3s ease-in-out;
+  text-align: left;
+}
+
+.news-modal-content img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.news-modal-content h2 {
+  color: var(--accent);
+  font-size: 24px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.news-modal-content p {
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.close-btn {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  background-color: var(--darker-secondary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color var(--transition-normal), transform var(--transition-normal);
+}
+
+.close-btn:hover {
+  background-color: var(--secondary);
+  transform: scale(1.1);
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* FOOTER POSITIONING */
+footer {
+  margin-top: auto;
 }
