@@ -33,13 +33,6 @@ const Navbar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a href="/projects">
-              <WorkIcon fontSize="large" />
-             
-              {isExpanded && <span>Projects</span>}
-            </a>
-          </li>
-          <li className="nav-item">
             <a href="/settings">
              <SettingsIcon fontSize="large" />
               {isExpanded && <span>Settings</span>}
@@ -61,6 +54,12 @@ const Navbar = () => {
             <a href="/org-structure">
              <AccountTreeIcon fontSize='large'/>
               {isExpanded && <span>Organization</span>}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a href="/career-framework">
+             <WorkIcon fontSize='large'/>
+              {isExpanded && <span>Career Framework</span>}
             </a>
           </li>
         </ul>

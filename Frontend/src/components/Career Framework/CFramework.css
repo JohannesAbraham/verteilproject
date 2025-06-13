@@ -1,0 +1,22 @@
+/* Org Chart Styles */
+ :root {
+  --primary: #f5f5f5;
+  --secondary: #80A23F;
+  --accent: #2c3e50;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --border-radius-md: 8px;
+  --transition-normal: 0.3s;
+}
+
+.image{
+  width: 100%;
+}
+
+.image:hover{
+  cursor: grabbing;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}

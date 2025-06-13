@@ -7,7 +7,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import PeopleIcon from '@mui/icons-material/People';
 import CampaignIcon from '@mui/icons-material/Campaign';
-import GroupIcon from '@mui/icons-material/Group';
+import BookIcon from '@mui/icons-material/Book';
 import ArticleIcon from '@mui/icons-material/Article';
 import CakeIcon from '@mui/icons-material/Cake';
 import CelebrationIcon from '@mui/icons-material/Celebration';
@@ -225,9 +225,11 @@ const Home = () => {
           <div className="quick-access-box">
             <h2>Quick Access</h2>
             <div className="quick-items">
+              <div className="quick-item"><a href="Handbook.pdf" download><BookIcon className="icon" /><p className="para"> Handbook</p></a></div>
               <div className="quick-item"><a href="https://www.greythr.com/login/"><FlightTakeoffIcon className="icon" /><p className="para"> GreytHR</p></a></div>
               <div className="quick-item"><a href="https://www.greythr.com/login/"><PeopleIcon className="icon" /><p className="para"> V-Depot</p></a></div>
-              <div className="quick-item"><a href="https://www.greythr.com/login/"><PeopleIcon className="icon" /><p className="para"> Hiring and Referrals</p></a></div>
+              <div className="quick-item"><a href="https://www.zappyhire.com/"><PeopleIcon className="icon" /><p className="para"> Hiring and Referrals</p></a></div>
+              
             </div>
           </div>
 

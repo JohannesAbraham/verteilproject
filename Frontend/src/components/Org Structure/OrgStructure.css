@@ -78,7 +78,7 @@
   opacity: 0.9;
 }
 
-Responsive adjustments 
+/* Responsive adjustments  */
 @media (max-width: 1200px) {
   .org-chart-inner {
     transform: scale(0.9);

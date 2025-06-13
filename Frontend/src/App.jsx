@@ -8,6 +8,7 @@ import Footer from './components/Footer/Footer';
 import Settings from './components/Settings/Settings'
 import News from './components/News/News'
 import OrgStructure from './components/Org Structure/OrgStructure'
+import CareerFramework from "./components/Career Framework/CFramework";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/settings" element={<Settings />}></Route>
         <Route path="/news" element={<News />}></Route>
         <Route path="/org-structure" element={<OrgStructure />}></Route>
+        <Route path="/career-framework" element={<CareerFramework />}></Route>
       </Routes>
     </Router>
     <Footer />

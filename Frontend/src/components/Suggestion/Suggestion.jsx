@@ -5,6 +5,7 @@ import  { useState } from 'react';
 const Suggestion = () => {
 
     const [suggestion, setSuggestion] = useState('');
+    const [subject, setSubject] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState('');
 
@@ -46,6 +47,14 @@ const Suggestion = () => {
       
       <form onSubmit={handleSubmit} className="suggestion-form">
         <div className="form-group">
+          <label  htmlFor="subject">Subject:</label>
+          <textarea
+            id="subject"
+            value={subject}
+            onChange={handleChange}
+            placeholder="Type your suggestion here..."
+            rows="6"
+          />
           <label  htmlFor="suggestion">Your Suggestion:</label>
           <textarea
             id="suggestion"
