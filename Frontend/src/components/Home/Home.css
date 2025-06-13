@@ -1,4 +1,4 @@
-:root{
+:root {
   --primary-color: #81a73d;
   --secondary-color: #4a6532;
   --background-color: #f9fcef;
@@ -6,6 +6,7 @@
   --border-color: #81a73d;
 }
 
+/* General Styles */
 .dashboard-container {
   display: flex;
   padding: 20px;
@@ -34,12 +35,17 @@
   gap: 20px;
 }
 
+/* Common Box Styles */
 .welcome-box,
 .quick-access-box,
-.message-box,
+.capsule-box,
 .news-box,
 .birthday-box,
-.anniversary-box {
+.anniversary-box,
+.thought-box,
+.word-box,
+.media-box,
+.calendar-box {
   background-color: white;
   border-radius: 10px;
   padding: 20px;
@@ -48,6 +54,7 @@
   box-sizing: border-box;
 }
 
+/* Welcome Box */
 .welcome-box h1 {
   color: var(--secondary-color);
   margin-bottom: 6px;
@@ -59,88 +66,157 @@
   margin-bottom: 12px;
 }
 
-.para {
-  display: inline;
+.company-updates {
+  list-style-type: none;
+  padding-left: 0;
 }
 
-.stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  font-weight: 600;
-  color: var(--secondary-color);
-}
-
-.stat-item {
-  background-color: #d8e4a2;
-  padding: 1px 15px;
-  border-radius: 8px;
-  box-shadow: inset 0 1px 1px rgba(129, 167, 61, 0.15);
-  flex: 1 1 45%;
+.company-updates li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-width: 140px;
-  text-align: center;
+  gap: 8px;
 }
 
-.quick-access-message-container {
+.company-updates li:last-child {
+  border-bottom: none;
+}
+
+/* Thought & Word Boxes */
+.thought-word-container {
   display: flex;
   gap: 15px;
   margin-bottom: 10px;
 }
 
-.quick-access-box h2,
-.message-box h2,
-.news-box h2,
-.birthday-box h2,
-.anniversary-box h2,
-.calendar-box h2 {
+.thought-box,
+.word-box {
+  flex: 1;
+}
+
+.thought-box h2,
+.word-box h2 {
   color: var(--secondary-color);
   font-weight: 700;
   margin-bottom: 12px;
-}
-
-.quick-items {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
 
-.quick-item {
-  background-color: #d8e4a2;
-  padding: 10px 12px;
-  border-radius: 8px;
-  box-shadow: inset 0 1px 1px rgba(129, 167, 61, 0.15);
-  flex: 1 1 45%;
-  min-width: 110px;
+.thought-content {
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.thought-author {
+  text-align: right;
   font-weight: 600;
   color: var(--secondary-color);
-  text-align: center;
-  user-select: none;
 }
 
-.photo-box {
-  margin-top: 10px;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1.5px solid var(--border-color);
-  box-shadow: 0 2px 6px rgba(129, 167, 61, 0.25);
-  height: 220px;
+.word-box .word {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin: 0 0 8px 0;
 }
 
-.photo-box img.photo-slide {
+.word-box .meaning {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* Capsule of the Day */
+.capsule-box {
+  margin-bottom: 20px;
+}
+
+.capsule-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.capsule-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.capsule-list li {
+  padding: 10px 12px;
+  background-color: #f8fae8;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.capsule-list li:hover {
+  background-color: #f0f4d0;
+  transform: translateX(3px);
+}
+
+.capsule-list strong {
+  color: var(--secondary-color);
+  margin-right: 5px;
+}
+
+.capsule-icon {
+  font-size: 1.1rem;
+  margin-right: 5px;
+}
+
+/* Media Box */
+.media-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.media-content {
   width: 100%;
-  height: 100%;
+  height: 200px;
   object-fit: cover;
-  transition: transform 0.8s ease;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
+.media-title {
+  text-align: center;
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+/* News Box */
 .news-box {
   height: 400px;
   display: flex;
   flex-direction: column;
+}
+
+.news-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .news-list {
@@ -197,32 +273,114 @@
   color: #5a6b33;
 }
 
-.birthday-box ul,
-.anniversary-box ul {
-  list-style-type: none;
-  padding-left: 0;
-  margin: 0;
+/* Quick Access Box */
+.quick-access-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
-.birthday-box li,
-.anniversary-box li {
-  padding: 4px 0;
-  border-bottom: 1px solid #d3e2b9;
+.quick-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.quick-item {
+  background-color: #d8e4a2;
+  padding: 10px 12px;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 1px rgba(129, 167, 61, 0.15);
+  flex: 1 1 45%;
+  min-width: 110px;
   font-weight: 600;
+  color: var(--secondary-color);
+  text-align: center;
+  user-select: none;
+  transition: transform 0.2s ease;
 }
 
-.birthday-box li:last-child,
-.anniversary-box li:last-child {
+.quick-item:hover {
+  transform: translateY(-3px);
+}
+
+.quick-item a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.quick-item .icon {
+  font-size: 1.8rem;
+}
+
+/* Celebration Boxes (Birthdays/Anniversaries) */
+.birthday-box,
+.anniversary-box {
+  margin-bottom: 20px;
+}
+
+.birthday-box h2,
+.anniversary-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.celebration-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.celebration-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #d3e2b9;
+}
+
+.celebration-item:last-child {
   border-bottom: none;
 }
 
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-color);
+}
+
+.celebration-details h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--secondary-color);
+}
+
+.celebration-details p {
+  margin: 4px 0 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Calendar Box */
 .calendar-box {
-  background-color: white;
-  border-radius: 12px;
-  padding: 10px;
   margin-top: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  box-sizing: border-box;
+}
+
+.calendar-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
 .calendar-grid {
@@ -307,11 +465,45 @@
   font-weight: 500;
 }
 
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  width: 80%;
+  max-width: 800px;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 1.8rem;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* Responsive Styles */
 @media (max-width: 1080px) {
   .dashboard-container {
-    flex-direction: column;
-  }
-  .quick-access-message-container {
     flex-direction: column;
   }
   .events-column {
@@ -319,131 +511,38 @@
   }
 }
 
-/* New styles for updated components */
-.thought-word-container {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 10px;
-}
-
-.thought-box, .word-box {
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: var(--box-shadow);
-  border: 1.5px solid var(--border-color);
-  flex: 1;
-}
-
-.thought-box h2, .word-box h2 {
-  color: var(--secondary-color);
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.thought-content {
-  font-style: italic;
-  font-size: 1.1rem;
-  color: #333;
-  margin-bottom: 8px;
-}
-
-.thought-author {
-  text-align: right;
-  font-weight: 600;
-  color: var(--secondary-color);
-}
-
-.word-box .word {
-  color: var(--primary-color);
-  font-size: 1.5rem;
-  margin: 0 0 8px 0;
-}
-
-.word-box .meaning {
-  color: #555;
-  font-size: 0.95rem;
-}
-
-.media-box {
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: var(--box-shadow);
-  border: 1.5px solid var(--border-color);
-  margin-bottom: 20px;
-}
-
-.media-box h2 {
-  color: var(--secondary-color);
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.media-content {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.media-title {
-  text-align: center;
-  font-weight: 600;
-  color: var(--secondary-color);
-  margin: 0;
-}
-
-.celebration-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.celebration-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid #d3e2b9;
-}
-
-.celebration-item:last-child {
-  border-bottom: none;
-}
-
-.profile-pic {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--primary-color);
-}
-
-.celebration-details h3 {
-  margin: 0;
-  font-size: 1rem;
-  color: var(--secondary-color);
-}
-
-.celebration-details p {
-  margin: 4px 0 0 0;
-  font-size: 0.85rem;
-  color: #666;
-}
-
 @media (max-width: 768px) {
   .thought-word-container {
     flex-direction: column;
   }
-  
-  .celebration-item {
-    padding: 12px 0;
+  .quick-items {
+    flex-direction: column;
+  }
+  .quick-item {
+    width: 100%;
+  }
+  .news-list {
+    flex-direction: column;
+    height: auto;
+  }
+  .news-item {
+    width: 100%;
+    margin-bottom: 10px;
   }
 }
 
-a{
+/* Icons */
+.icon-title {
+  color: var(--primary-color);
+  font-size: 1.5rem !important;
+}
+
+/* Links */
+a {
   text-decoration: none;
   color: var(--secondary-color);
+}
+
+a:hover {
+  text-decoration: underline;
 }

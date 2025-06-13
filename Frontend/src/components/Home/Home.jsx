@@ -14,6 +14,8 @@ import CelebrationIcon from '@mui/icons-material/Celebration';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TheatersIcon from '@mui/icons-material/Theaters';
+import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 const placeholderImage = "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg";
 const profilePlaceholder = "https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png";
@@ -117,6 +119,7 @@ const CalendarBox = () => {
 const Home = () => {
   const [enlargedNewsIndex, setEnlargedNewsIndex] = useState(0);
   const [mediaIndex, setMediaIndex] = useState(0);
+  const [showHandbook, setShowHandbook] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -137,6 +140,21 @@ const Home = () => {
 
   return (
     <>
+      {showHandbook && (
+        <div className="modal-overlay" onClick={() => setShowHandbook(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setShowHandbook(false)}>×</button>
+            <iframe
+              src="Handbook.pdf"
+              title="Employee Handbook"
+              width="100%"
+              height="600px"
+              style={{ border: "none" }}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="dashboard-container">
         <div className="left-space"></div>
         <div className="main-column">
@@ -158,7 +176,6 @@ const Home = () => {
               <p className="thought-content">"{thoughtOfTheDay}"</p>
               <p className="thought-author">- Winston Churchill</p>
             </div>
-            
             <div className="word-box">
               <h2><MenuBookIcon className="icon-title" />Word of the Day</h2>
               <h3 className="word">{wordOfTheDay.word}</h3>
@@ -167,53 +184,33 @@ const Home = () => {
           </div>
 
           <div className="quick-access-message-container">
-            <div className="message-box">
-              <h2>
-                <CampaignIcon className="icon-title" />
-                Message from the Boss
-              </h2>
-              <p>
-                Team, keep up the great work! Remember to submit your weekly reports by Friday. Let's aim for a productive month ahead.
-              </p>
+            <div className="capsule-box">
+              <h2><MedicationLiquidIcon className="icon-title" />Capsule of the Day</h2>
+              <ul className="capsule-list">
+                <li><span className="capsule-icon">✅</span><strong>Yesterday:</strong> Completed internal team sync and finance audit successfully.</li>
+                <li><span className="capsule-icon">🌟</span><strong>Star Performer:</strong> Jane Smith (Marketing) for leading the ad campaign launch.</li>
+                <li><span className="capsule-icon">🔔</span><strong>Reminder:</strong> Submit Q2 budget plan by 3 PM today.</li>
+                <li><span className="capsule-icon">📅</span><strong>Upcoming:</strong> Leadership workshop on Friday at 10 AM.</li>
+                <li><span className="capsule-icon">💡</span><strong>Tip:</strong> Use keyboard shortcuts in your workflow to boost productivity.</li>
+              </ul>
             </div>
           </div>
 
           <div className="media-box">
             <h2><TheatersIcon className="icon-title" />Media Corner</h2>
-            <img
-              src={mediaContent[mediaIndex].url}
-              alt={mediaContent[mediaIndex].title}
-              className="media-content"
-            />
+            <img src={mediaContent[mediaIndex].url} alt={mediaContent[mediaIndex].title} className="media-content" />
             <p className="media-title">{mediaContent[mediaIndex].title}</p>
           </div>
 
           <div className="news-box">
-            <h2>
-              <ArticleIcon className="icon-title" />
-              Company News
-            </h2>
+            <h2><ArticleIcon className="icon-title" />Company News</h2>
             <div className="news-list">
               {newsList.map((news, index) => (
-                <div
-                  key={news.id}
-                  className={`news-item ${enlargedNewsIndex === index ? "enlarged" : "minimized"}`}
-                >
-                  <img
-                    src={news.image}
-                    alt="News"
-                    className="news-image"
-                    loading="lazy"
-                  />
+                <div key={news.id} className={`news-item ${enlargedNewsIndex === index ? "enlarged" : "minimized"}`}>
+                  <img src={news.image} alt="News" className="news-image" loading="lazy" />
                   <div className="news-content">
                     <h3>{news.title}</h3>
-                    <p className="news-date">
-                      {new Date(news.date).toLocaleDateString(undefined, {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </p>
+                    <p className="news-date">{new Date(news.date).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}</p>
                   </div>
                 </div>
               ))}
@@ -225,19 +222,39 @@ const Home = () => {
           <div className="quick-access-box">
             <h2>Quick Access</h2>
             <div className="quick-items">
-              <div className="quick-item"><a href="Handbook.pdf" download><BookIcon className="icon" /><p className="para"> Handbook</p></a></div>
-              <div className="quick-item"><a href="https://www.greythr.com/login/"><FlightTakeoffIcon className="icon" /><p className="para"> GreytHR</p></a></div>
-              <div className="quick-item"><a href="https://www.greythr.com/login/"><PeopleIcon className="icon" /><p className="para"> V-Depot</p></a></div>
-              <div className="quick-item"><a href="https://www.zappyhire.com/"><PeopleIcon className="icon" /><p className="para"> Hiring and Referrals</p></a></div>
-              
+              <div className="quick-item">
+                <a href="https://www.verteil.com/" target="_blank" rel="noopener noreferrer">
+                  <CampaignIcon className="icon" />
+                  <p className="para">Verteil</p>
+                </a>
+              </div>
+              <div className="quick-item" onClick={() => setShowHandbook(true)} style={{ cursor: "pointer" }}>
+                <BookIcon className="icon" />
+                <p className="para">Handbook</p>
+              </div>
+              <div className="quick-item">
+                <a href="https://www.greythr.com/login/" target="_blank" rel="noopener noreferrer">
+                  <GroupsIcon className="icon" />
+                  <p className="para">GreytHR</p>
+                </a>
+              </div>
+              <div className="quick-item">
+                <a href="https://www.greythr.com/login/" target="_blank" rel="noopener noreferrer">
+                  <PeopleIcon className="icon" />
+                  <p className="para">V-Depot</p>
+                </a>
+              </div>
+              <div className="quick-item">
+                <a href="https://www.zappyhire.com/" target="_blank" rel="noopener noreferrer">
+                  <PeopleIcon className="icon" />
+                  <p className="para">Hiring and Referrals</p>
+                </a>
+              </div>
             </div>
           </div>
 
           <div className="birthday-box">
-            <h2>
-              <CakeIcon className="icon-title" />
-              Birthdays This Week
-            </h2>
+            <h2><CakeIcon className="icon-title" />Birthdays This Week</h2>
             <div className="celebration-list">
               {birthdays.map((person, index) => (
                 <div key={index} className="celebration-item">
@@ -252,10 +269,7 @@ const Home = () => {
           </div>
 
           <div className="anniversary-box">
-            <h2>
-              <CelebrationIcon className="icon-title" />
-              Work Anniversaries
-            </h2>
+            <h2><CelebrationIcon className="icon-title" />Work Anniversaries</h2>
             <div className="celebration-list">
               {anniversaries.map((person, index) => (
                 <div key={index} className="celebration-item">
