@@ -9,6 +9,7 @@ import Settings from './components/Settings/Settings'
 import News from './components/News/News'
 import OrgStructure from './components/Org Structure/OrgStructure'
 import CareerFramework from "./components/Career Framework/CFramework";
+import NewsManagement from "./components/News Management/NewsManagement";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/news" element={<News />}></Route>
         <Route path="/org-structure" element={<OrgStructure />}></Route>
         <Route path="/career-framework" element={<CareerFramework />}></Route>
+        <Route path="/news-management" element={<NewsManagement />}></Route>
       </Routes>
     </Router>
     <Footer />
