@@ -48,7 +48,8 @@ const Suggestion = () => {
       <form onSubmit={handleSubmit} className="suggestion-form">
         <div className="form-group">
           <label  htmlFor="subject">Subject:</label>
-          <textarea
+          <input
+            className='subject-input'
             id="subject"
             value={subject}
             onChange={handleChange}
