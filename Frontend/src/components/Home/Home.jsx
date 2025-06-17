@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Header/Header.jsx";
-import Footer from "../Footer/Footer.jsx";
 import "./Home.css";
 import { format } from "date-fns";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import PeopleIcon from '@mui/icons-material/People';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import BookIcon from '@mui/icons-material/Book';
@@ -250,7 +246,7 @@ const Home = () => {
                 </a>
               </div>
               <div className="quick-item">
-                <a href="https://www.greythr.com/login/" target="_blank" rel="noopener noreferrer">
+                <a href="https://drive.google.com/drive/folders/1c4h3r3CYDHWsYEpS10SAbk40aXcH3imO?usp=sharing" target="_blank" rel="noopener noreferrer">
                   <PeopleIcon className="icon" />
                   <p className="para">V-Depot</p>
                 </a>

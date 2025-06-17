@@ -17,7 +17,8 @@
 
 /* Management Container */
 .news-management-container {
-  max-width: 1200px;
+  width: 70vw;
+  place-self: center;
   margin: 0 auto;
   padding: var(--spacing-xl);
   font-family: inherit;

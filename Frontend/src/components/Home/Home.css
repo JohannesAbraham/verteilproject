@@ -384,15 +384,16 @@
 }
 
 .calendar-grid {
+  place-self: center;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, 36px);
   margin-top: 10px;
 }
 
 .calendar-day {
+  width: 36px;
   text-align: center;
-  padding: 12px 8px;
-  border-radius: 8px;
+  padding: 8px 0px;
   background-color: #f7f7f7;
   font-weight: 500;
   font-size: 14px;
@@ -403,6 +404,8 @@
 
 .calendar-day.header {
   font-weight: 700;
+  width: 28px;
+  padding: 5px;
   background-color: #e2e2e2;
   color: var(--secondary-color);
 }
