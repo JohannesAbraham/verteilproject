@@ -9,6 +9,9 @@ import Settings from './components/Settings/Settings'
 import News from './components/News/News'
 import OrgStructure from './components/Org Structure/OrgStructure'
 import CareerFramework from "./components/Career Framework/CFramework";
+import Sudokuboard from "./components/quickgames/Sudokuboard/Sudoku";
+import Popupquiz from "./components/quickgames/Popupquiz/Popupquiz";
+import Games from "./components/quickgames/Gameslist/Games";
 
 function App() {
   return (
@@ -24,6 +27,10 @@ function App() {
         <Route path="/news" element={<News />}></Route>
         <Route path="/org-structure" element={<OrgStructure />}></Route>
         <Route path="/career-framework" element={<CareerFramework />}></Route>
+        <Route path="/quickgames/sudoku" element={<Sudokuboard />}></Route>
+        <Route path="/quickgames/popupquiz" element={<Popupquiz />}></Route>
+        <Route path="/quickgames" element={<Games />}></Route>  
+        {/* Add more routes as needed */} 
       </Routes>
     </Router>
     <Footer />

@@ -16,6 +16,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
 import GroupsIcon from '@mui/icons-material/Groups';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 const placeholderImage = "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg";
 const profilePlaceholder = "https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png";
@@ -248,6 +249,12 @@ const Home = () => {
                 <a href="https://www.zappyhire.com/" target="_blank" rel="noopener noreferrer">
                   <PeopleIcon className="icon" />
                   <p className="para">Hiring and Referrals</p>
+                </a>
+              </div>
+              <div className="quick-item">
+                <a href="/quickgames" rel="noopener noreferrer">
+                  <SportsEsportsIcon className="icon" />
+                  <p className="para">Games</p>
                 </a>
               </div>
             </div>

@@ -1,0 +1,73 @@
+/* Games.css */
+
+:root {
+  --primary-color: #81a73d;
+  --secondary-color: #4a6532;
+  --background-color: #f9fcef;
+  --box-shadow: 0 3px 8px rgba(129, 167, 61, 0.25);
+  --border-color: #81a73d;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+}
+
+.game-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+  min-height: 69vh;
+  background-color: var(--background-color);
+}
+
+.game-list-title {
+  font-size: 2.5rem;
+  color: var(--secondary-color);
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.game-card-container {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  padding: 20px;
+  cursor: pointer;
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  background-color: white;
+}
+
+.game-card:hover {
+  transform: scale(1.07);
+  background-color: #f0fbe1;
+}
+
+.game-logo {
+  font-size: 96px; /* Larger icon */
+  color: var(--secondary-color);
+  margin-bottom: 16px;
+}
+
+.game-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  text-align: center;
+}

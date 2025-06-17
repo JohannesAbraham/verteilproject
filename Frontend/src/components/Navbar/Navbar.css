@@ -1,11 +1,11 @@
 :root {
   --primary: #FFF8F0;
-  --secondary: #80A23F;
+  --secondary: #80A23F;       /* Original green (now hover color) */
   --accent: #3F3F3F;
-  --darker-secondary:#689710;
+  --darker-secondary: #689710; /* Darker green (now main BG color) */
 }
 
-
+/* Main sidebar styling */
 .sidenav {
   position: fixed;
   left: 2vw;
@@ -14,11 +14,12 @@
   height: fit-content;
   width: 80px;
   border-radius: 40px;
-  background-color: var(--secondary);
-  color: var(--accent);
+  background-color: #80A23F;
+  color: white;
   transition: width 0.4s ease;
   overflow: hidden;
   z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .sidenav.expanded {
@@ -35,24 +36,25 @@
   flex: 1;
   padding: 20px 0;
   list-style: none;
+  margin: 0;
 }
 
-.nav-item a {
+.nav-item a, .nav-button {
   display: flex;
   align-items: center;
   padding: 12px 20px;
   color: white;
   text-decoration: none;
-  transition: background-color 0.2s;
-}
-    
-.nav-item a:hover {
-  background-color: var(--darker-secondary);
+  transition: all 0.2s;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
 
-.nav-button{
-    width: 40px;
-    height: 40px;
+.nav-item a:hover, .nav-button:hover {
+  background-color: var(--secondary);
 }
 
 .nav-icon {
@@ -63,7 +65,6 @@
 .nav-item span {
   margin-left: 15px;
   white-space: nowrap;
-  word-wrap: break-word;
 }
 
 .nav-footer {
