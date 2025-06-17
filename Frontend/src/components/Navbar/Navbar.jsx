@@ -8,6 +8,7 @@ import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import MessageIcon from '@mui/icons-material/Message';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 
 
 const Navbar = () => {
@@ -49,7 +50,7 @@ const Navbar = () => {
           <li className="nav-item">
             <a href="/suggestion">
              <MessageIcon fontSize='large'/>
-              {isExpanded && <span>Suggestions</span>}
+              {isExpanded && <span>Add Suggestion</span>}
             </a>
           </li>
           <li className="nav-item">
@@ -68,6 +69,12 @@ const Navbar = () => {
             <a href="/news-management">
              <FeedIcon fontSize='large'/>
               {isExpanded && <span>News Management</span>}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a href="/suggestion-management">
+             <ChatBubbleIcon fontSize='large'/>
+              {isExpanded && <span>Suggestions</span>}
             </a>
           </li>
         </ul>

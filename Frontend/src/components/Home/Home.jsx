@@ -35,9 +35,20 @@ const mediaContent = [
 ];
 
 const holidays = [
-  { date: "2025-06-01", name: "Company Foundation Day" },
-  { date: "2025-06-15", name: "Summer Break" },
-  { date: "2025-06-26", name: "Public Holiday" },
+  { date: "2025-01-26", name: "Republic Day" },
+  { date: "2025-02-26", name: "Sivaratri" },
+  { date: "2025-03-31", name: "Id-Ul-Fitr (Ramzan)" },
+  { date: "2025-04-14", name: "Vishu / Dr B R Ambedkar Jayanthi" },
+  { date: "2025-04-18", name: "Good Friday" },
+  { date: "2025-04-20", name: "Easter" },
+  { date: "2025-05-01", name: "May Day" },
+  { date: "2025-06-06", name: "Id-Ul Ad'Ha (Bakrid)" },
+  { date: "2025-08-15", name: "Independence Day" },
+  { date: "2025-09-04", name: "First Onam" },
+  { date: "2025-09-05", name: "Thiruvonam / Milad-I-Sherif" },
+  { date: "2025-10-02", name: "Vijayadasami / Gandhi Jayanthi" },
+  { date: "2025-10-25", name: "Deepavali" },
+  { date: "2025-12-25", name: "Christmas" },
 ];
 
 const birthdays = [
