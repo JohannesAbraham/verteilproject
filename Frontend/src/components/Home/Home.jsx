@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
 import { format } from "date-fns";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import BookIcon from '@mui/icons-material/Book';
@@ -13,6 +12,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const placeholderImage = "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg";
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
