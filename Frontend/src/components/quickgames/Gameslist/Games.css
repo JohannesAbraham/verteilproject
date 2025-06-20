@@ -1,5 +1,3 @@
-/* Games.css */
-
 :root {
   --primary-color: #81a73d;
   --secondary-color: #4a6532;
@@ -36,6 +34,7 @@ body {
   gap: 40px;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 60px;
 }
 
 .game-card {
@@ -60,7 +59,7 @@ body {
 }
 
 .game-logo {
-  font-size: 96px; /* Larger icon */
+  font-size: 96px;
   color: var(--secondary-color);
   margin-bottom: 16px;
 }
@@ -70,4 +69,58 @@ body {
   font-weight: 600;
   color: var(--secondary-color);
   text-align: center;
+}
+
+.scoreboard-title {
+  font-size: 2rem;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.scoreboard-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.scoreboard {
+  background-color: #ffffff;
+  padding: 20px 25px;
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--box-shadow);
+  width: 300px;
+}
+
+.scoreboard h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.scoreboard table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.scoreboard th,
+.scoreboard td {
+  padding: 10px;
+  text-align: left;
+  font-size: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.scoreboard th:first-child,
+.scoreboard td:first-child {
+  width: 40px;
+  text-align: center;
+}
+.scoreboard th {
+  background-color: var(--primary-color);
+  color: white;
 }

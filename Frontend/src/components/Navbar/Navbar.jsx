@@ -8,19 +8,32 @@ import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import MessageIcon from '@mui/icons-material/Message';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
-
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const Navbar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showMoreItems, setShowMoreItems] = useState(false);
+  const [showMoreButton, setShowMoreButton] = useState(true);
+
+  const handleMoreClick = () => {
+    setShowMoreItems(true);
+    setShowMoreButton(false); // hide "More" once clicked
+  };
+
+  const handleMouseLeave = () => {
+    setIsExpanded(false);
+    setShowMoreItems(false); // hide more items when leaving
+    setShowMoreButton(true); // show "More" again
+  };
 
   return (
-    <nav 
+    <nav
       className={`sidenav ${isExpanded ? 'expanded' : ''}`}
       onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="sidenav-inner">
-
         <ul className="nav-items">
           <li className="nav-item">
             <a href="/">
@@ -35,45 +48,60 @@ const Navbar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a href="/settings">
-             <SettingsIcon fontSize="large" />
-              {isExpanded && <span>Settings</span>}
-            </a>
-          </li>
-          <li className="nav-item">
             <a href="/games">
-             <VideogameAssetIcon fontSize='large'/>
+              <VideogameAssetIcon fontSize="large" />
               {isExpanded && <span>Games</span>}
             </a>
           </li>
           <li className="nav-item">
             <a href="/suggestion">
-             <MessageIcon fontSize='large'/>
-              {isExpanded && <span>Suggestions</span>}
+              <MessageIcon fontSize="large" />
+              {isExpanded && <span>Add Suggestion</span>}
             </a>
           </li>
           <li className="nav-item">
-            <a href="/org-structure">
-             <AccountTreeIcon fontSize='large'/>
-              {isExpanded && <span>Organization</span>}
+            <a href="/settings">
+              <SettingsIcon fontSize="large" />
+              {isExpanded && <span>Settings</span>}
             </a>
           </li>
-          <li className="nav-item">
-            <a href="/career-framework">
-             <WorkIcon fontSize='large'/>
-              {isExpanded && <span>Career Framework</span>}
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="/news-management">
-             <FeedIcon fontSize='large'/>
-              {isExpanded && <span>News Management</span>}
-            </a>
-          </li>
-        </ul>
 
-        
-        
+          {showMoreButton && (
+            <li className="nav-item more-item" onClick={handleMoreClick}>
+              <MoreHorizIcon fontSize="large" />
+              {isExpanded && <span>More</span>}
+            </li>
+          )}
+
+          {showMoreItems && (
+            <>
+              <li className="nav-item">
+                <a href="/org-structure">
+                  <AccountTreeIcon fontSize="large" />
+                  {isExpanded && <span>Organization</span>}
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="/career-framework">
+                  <WorkIcon fontSize="large" />
+                  {isExpanded && <span>Career Framework</span>}
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="/news-management">
+                  <FeedIcon fontSize="large" />
+                  {isExpanded && <span>News Management</span>}
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="/suggestion-management">
+                  <ChatBubbleIcon fontSize="large" />
+                  {isExpanded && <span>Suggestions</span>}
+                </a>
+              </li>
+            </>
+          )}
+        </ul>
       </div>
     </nav>
   );

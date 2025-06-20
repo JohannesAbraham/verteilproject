@@ -1,0 +1,76 @@
+:root {
+    --primary-color: #81a73d;
+    --secondary-color: #4a6532;
+    --background-color: #f9fcef;
+    --box-shadow: 0 3px 8px rgba(129, 167, 61, 0.25);
+    --border-color: #81a73d;
+    --background-paper: #ffffff;
+    --text-primary: rgba(0, 0, 0, 0.87);
+    --text-secondary: rgba(0, 0, 0, 0.6);
+    --divider: rgba(0, 0, 0, 0.12);
+  }
+
+/* Main container */
+.suggestion-management-container {
+    padding: 24px;
+    margin-left: 10vw;
+  }
+  
+  /* Title styling */
+  .suggestion-management-title {
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  
+  /* Grid container */
+  .suggestions-grid {
+    width: 100%;
+  }
+  
+  /* Grid item */
+  .suggestion-grid-item {
+    min-height: 100%;
+    width: 80vw;
+  }
+  
+  /* Card styling */
+  .suggestion-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--background-paper);
+    border-radius: 8px;
+    border: 1px solid var(--divider);
+  }
+  
+  .suggestion-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 
+                0px 5px 8px 0px rgba(0,0,0,0.14), 
+                0px 1px 14px 0px rgba(0,0,0,0.12);
+  }
+  
+  /* Card content */
+  .card-content {
+    flex-grow: 1;
+    padding: 16px;
+  }
+  
+  /* Subject text */
+  .suggestion-subject {
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--primary-color);
+  }
+  
+  /* Content text */
+  .suggestion-content {
+    line-height: 1.6;
+    color: var(--text-secondary);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  

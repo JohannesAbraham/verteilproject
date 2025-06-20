@@ -1,6 +1,6 @@
 :root {
   --primary: #FFF8F0;
-  --secondary: #80A23F;       /* Original green (now hover color) */
+  --secondary: #80A23F;        /* Original green (now hover color) */
   --accent: #3F3F3F;
   --darker-secondary: #689710; /* Darker green (now main BG color) */
 }
@@ -14,7 +14,7 @@
   height: fit-content;
   width: 80px;
   border-radius: 40px;
-  background-color: #80A23F;
+  background-color: var(--secondary);
   color: white;
   transition: width 0.4s ease;
   overflow: hidden;
@@ -34,12 +34,21 @@
 
 .nav-items {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 20px 0;
   list-style: none;
   margin: 0;
 }
 
-.nav-item a, .nav-button {
+.nav-item {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.nav-item a,
+.nav-button {
   display: flex;
   align-items: center;
   padding: 12px 20px;
@@ -53,8 +62,9 @@
   text-align: left;
 }
 
-.nav-item a:hover, .nav-button:hover {
-  background-color: var(--secondary);
+.nav-item a:hover,
+.nav-button:hover {
+  background-color: var(--darker-secondary);
 }
 
 .nav-icon {
@@ -67,6 +77,14 @@
   white-space: nowrap;
 }
 
+/* Center the More item */
+.more-item {
+  align-self: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* Optional Footer Profile Section */
 .nav-footer {
   padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -100,4 +118,8 @@
 .user-email {
   font-size: 12px;
   opacity: 0.8;
+}
+.more-item {
+  margin-top: 10px;
+  justify-content: center;
 }

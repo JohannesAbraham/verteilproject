@@ -1,164 +1,174 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Sudoku.css';
 
-const SudokuBoard = () => {
-  const emptyBoard = Array(9).fill().map(() => Array(9).fill(0));
-  
-  const [board, setBoard] = useState(emptyBoard);
-  const [initialBoard, setInitialBoard] = useState(emptyBoard);
-  const [selectedCell, setSelectedCell] = useState(null);
-  const [difficulty, setDifficulty] = useState('medium');
-  const [gameStarted, setGameStarted] = useState(false);
+const createEmptyBoard = () => Array(9).fill().map(() => Array(9).fill(0));
 
-  const generateNewPuzzle = () => {
-    const examplePuzzle = [
-      [5, 3, 0, 0, 7, 0, 0, 0, 0],
-      [6, 0, 0, 1, 9, 5, 0, 0, 0],
-      [0, 9, 8, 0, 0, 0, 0, 6, 0],
-      [8, 0, 0, 0, 6, 0, 0, 0, 3],
-      [4, 0, 0, 8, 0, 3, 0, 0, 1],
-      [7, 0, 0, 0, 2, 0, 0, 0, 6],
-      [0, 6, 0, 0, 0, 0, 2, 8, 0],
-      [0, 0, 0, 4, 1, 9, 0, 0, 5],
-      [0, 0, 0, 0, 8, 0, 0, 7, 9]
-    ];
-    const newBoard = JSON.parse(JSON.stringify(examplePuzzle));
-    setBoard(newBoard);
-    setInitialBoard(JSON.parse(JSON.stringify(newBoard)));
-    setGameStarted(true);
+const isSafe = (board, row, col, num) => {
+  for (let x = 0; x < 9; x++) {
+    if (board[row][x] === num || board[x][col] === num) return false;
+  }
+  const startRow = row - (row % 3);
+  const startCol = col - (col % 3);
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 3; c++) {
+      if (board[startRow + r][startCol + c] === num) return false;
+    }
+  }
+  return true;
+};
+
+const solveSudoku = (board) => {
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (board[row][col] === 0) {
+        for (let num = 1; num <= 9; num++) {
+          if (isSafe(board, row, col, num)) {
+            board[row][col] = num;
+            if (solveSudoku(board)) return true;
+            board[row][col] = 0;
+          }
+        }
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+const fillBox = (board, row, col) => {
+  let nums = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => 0.5 - Math.random());
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 3; c++) {
+      board[row + r][col + c] = nums.pop();
+    }
+  }
+};
+
+const generateFullBoard = () => {
+  const board = createEmptyBoard();
+  fillBox(board, 0, 0);
+  fillBox(board, 3, 3);
+  fillBox(board, 6, 6);
+  solveSudoku(board);
+  return board;
+};
+
+const removeCells = (board, difficulty = 'medium') => {
+  const puzzle = board.map(row => [...row]);
+  let holes = difficulty === 'easy' ? 30 : difficulty === 'medium' ? 40 : 50;
+  let count = 0;
+  while (count < holes) {
+    const row = Math.floor(Math.random() * 9);
+    const col = Math.floor(Math.random() * 9);
+    if (puzzle[row][col] !== 0) {
+      puzzle[row][col] = 0;
+      count++;
+    }
+  }
+  return puzzle;
+};
+
+const Sudoku = () => {
+  const [board, setBoard] = useState(createEmptyBoard());
+  const [original, setOriginal] = useState(createEmptyBoard());
+  const [difficulty, setDifficulty] = useState('medium');
+  const [time, setTime] = useState(0);
+  const [message, setMessage] = useState('');
+  const timerRef = useRef(null);
+
+  const startTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setTime(0);
+    timerRef.current = setInterval(() => setTime((prev) => prev + 1), 1000);
+  };
+
+  const generatePuzzle = () => {
+    const full = generateFullBoard();
+    const puzzle = removeCells(full, difficulty);
+    setBoard(puzzle);
+    setOriginal(puzzle.map(row => [...row]));
+    setMessage('');
+    startTimer();
   };
 
   useEffect(() => {
-    generateNewPuzzle();
+    generatePuzzle();
+    return () => clearInterval(timerRef.current);
   }, [difficulty]);
 
-  const handleCellClick = (row, col) => {
-    if (initialBoard[row][col] === 0) {
-      setSelectedCell({ row, col });
-    }
+  const handleChange = (r, c, value) => {
+    const updated = board.map(row => [...row]);
+    updated[r][c] = value;
+    setBoard(updated);
   };
 
-  const handleNumberInput = (num) => {
-    if (selectedCell) {
-      const newBoard = [...board];
-      newBoard[selectedCell.row][selectedCell.col] = num;
-      setBoard(newBoard);
-      if (isPuzzleComplete(newBoard)) {
-        setTimeout(() => alert('Congratulations! You solved the puzzle!'), 100);
-      }
-    }
+  const checkSolution = () => {
+    const flat = board.flat();
+    const isValid = flat.every((num, i) => {
+      const row = Math.floor(i / 9);
+      const col = i % 9;
+      if (num === 0) return false;
+      const tempBoard = board.map(r => [...r]);
+      tempBoard[row][col] = 0;
+      return isSafe(tempBoard, row, col, num);
+    });
+
+    setMessage(isValid ? '✅ Correct solution!' : '❌ Incorrect solution.');
   };
 
-  const handleKeyDown = (e) => {
-    if (selectedCell) {
-      if (e.key >= '1' && e.key <= '9') {
-        handleNumberInput(parseInt(e.key));
-      } else if (e.key === 'Backspace' || e.key === 'Delete' || e.key === '0') {
-        handleNumberInput(0);
-      } else if (e.key === 'ArrowUp' && selectedCell.row > 0) {
-        setSelectedCell(prev => ({ ...prev, row: prev.row - 1 }));
-      } else if (e.key === 'ArrowDown' && selectedCell.row < 8) {
-        setSelectedCell(prev => ({ ...prev, row: prev.row + 1 }));
-      } else if (e.key === 'ArrowLeft' && selectedCell.col > 0) {
-        setSelectedCell(prev => ({ ...prev, col: prev.col - 1 }));
-      } else if (e.key === 'ArrowRight' && selectedCell.col < 8) {
-        setSelectedCell(prev => ({ ...prev, col: prev.col + 1 }));
-      }
-    }
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
   };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedCell]);
-
-  const isInitialCell = (row, col) => initialBoard[row][col] !== 0;
-
-  const isCellValid = (row, col) => {
-    const value = board[row][col];
-    if (value === 0) return true;
-
-    for (let c = 0; c < 9; c++) {
-      if (c !== col && board[row][c] === value) return false;
-    }
-
-    for (let r = 0; r < 9; r++) {
-      if (r !== row && board[r][col] === value) return false;
-    }
-
-    const boxRow = Math.floor(row / 3) * 3;
-    const boxCol = Math.floor(col / 3) * 3;
-    for (let r = boxRow; r < boxRow + 3; r++) {
-      for (let c = boxCol; c < boxCol + 3; c++) {
-        if (r !== row && c !== col && board[r][c] === value) return false;
-      }
-    }
-
-    return true;
-  };
-
-  const isPuzzleComplete = (currentBoard) => {
-    for (let row = 0; row < 9; row++) {
-      for (let col = 0; col < 9; col++) {
-        if (currentBoard[row][col] === 0 || !isCellValid(row, col)) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
-
-  if (!gameStarted) return <div className="loading">Loading Sudoku...</div>;
 
   return (
-    <div className="sudoku-container">
-      <h1>Sudoku Game</h1>
+    <div className="sudoku-wrapper">
+      <h2 className="sudoku-title">Sudoku</h2>
 
       <div className="controls">
-        <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
+        <select
+          value={difficulty}
+          onChange={(e) => setDifficulty(e.target.value)}
+        >
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
         </select>
-        <button onClick={generateNewPuzzle}>New Game</button>
+        <div className="timer">⏱ {formatTime(time)}</div>
       </div>
 
-      <div className="board-and-pad">
+      <div className="sudoku-container">
         <div className="sudoku-board">
-          {board.map((row, rowIndex) => (
-            <div key={rowIndex} className="sudoku-row">
-              {row.map((cell, colIndex) => (
-                <div
-                  key={`${rowIndex}-${colIndex}`}
-                  className={`sudoku-cell 
-                    ${selectedCell?.row === rowIndex && selectedCell?.col === colIndex ? 'selected' : ''}
-                    ${!isCellValid(rowIndex, colIndex) ? 'invalid' : ''}
-                    ${(rowIndex + 1) % 3 === 0 && rowIndex < 8 ? 'thick-border-bottom' : ''}
-                    ${(colIndex + 1) % 3 === 0 && colIndex < 8 ? 'thick-border-right' : ''}
-                    ${isInitialCell(rowIndex, colIndex) ? 'initial-cell' : ''}
-                  `}
-                  onClick={() => handleCellClick(rowIndex, colIndex)}
-                >
-                  {cell !== 0 ? cell : ''}
-                </div>
-              ))}
+          {board.map((row, r) => (
+            <div className="sudoku-row" key={r}>
+              {row.map((cell, c) => {
+                const isFixed = original[r][c] !== 0;
+                return (
+                  <input
+                    key={c}
+                    className={`sudoku-cell ${isFixed ? 'fixed' : ''}`}
+                    value={cell || ''}
+                    onChange={(e) =>
+                      handleChange(r, c, parseInt(e.target.value) || 0)
+                    }
+                    disabled={isFixed}
+                  />
+                );
+              })}
             </div>
           ))}
         </div>
 
-        <div className="number-pad">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
-            <button key={num} className="number-button" onClick={() => handleNumberInput(num)}>
-              {num}
-            </button>
-          ))}
-          <button className="number-button clear-button" onClick={() => handleNumberInput(0)}>
-            Clear
-          </button>
+        <div className="button-row">
+          <button className="refresh-button" onClick={generatePuzzle}>New Puzzle</button>
+          <button className="check-button" onClick={checkSolution}>Check Solution</button>
         </div>
+
+        {message && <p className="result-message">{message}</p>}
       </div>
     </div>
   );
 };
 
-export default SudokuBoard;
+export default Sudoku;
