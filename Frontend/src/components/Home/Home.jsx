@@ -57,7 +57,7 @@ const mediaContent = [
   },
   { 
     type: "article", 
-    title: "The Future of Remote Work", 
+    title: "The Future of Remote Work",
     content: "How hybrid work models are shaping the post-pandemic workplace and what it means for employee productivity and satisfaction.",
     url: placeholderImage 
   },

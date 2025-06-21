@@ -48,7 +48,6 @@ const OrganizationStructure = () => {
               <>
                 <Controls />
                 <TransformComponent>
-                  {/* Level 1 - CEO */}
                   <div className="charts">
                   <NodeTree 
                     label={<div className="org-node root-node">Head of Organization<br /><span>CEO</span></div>}
@@ -62,7 +61,6 @@ const OrganizationStructure = () => {
                     ]}
                   />
 
-                  {/* Level 2 - Product Head */}
                   <div className="sub-tree">
                     <NodeTree 
                       label={<div className="org-node">Product Head</div>}
@@ -86,7 +84,6 @@ const OrganizationStructure = () => {
                     />
                   </div>
 
-                  {/* Level 3 - BA Team */}
                   <div className="sub-tree">
                     <NodeTree 
                       label={<div className="org-node">BA Team</div>}

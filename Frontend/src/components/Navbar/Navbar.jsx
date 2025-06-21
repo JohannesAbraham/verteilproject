@@ -13,7 +13,6 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const Navbar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [showMoreItems, setShowMoreItems] = useState(false);
   const [showMoreButton, setShowMoreButton] = useState(true);
 
   const handleMoreClick = () => {
@@ -59,22 +58,10 @@ const Navbar = () => {
               {isExpanded && <span>Add Suggestion</span>}
             </a>
           </li>
-          <li className="nav-item">
-            <a href="/settings">
-              <SettingsIcon fontSize="large" />
-              {isExpanded && <span>Settings</span>}
-            </a>
-          </li>
+          
+          
 
-          {showMoreButton && (
-            <li className="nav-item more-item" onClick={handleMoreClick}>
-              <MoreHorizIcon fontSize="large" />
-              {isExpanded && <span>More</span>}
-            </li>
-          )}
-
-          {showMoreItems && (
-            <>
+          
               <li className="nav-item">
                 <a href="/org-structure">
                   <AccountTreeIcon fontSize="large" />
@@ -99,8 +86,8 @@ const Navbar = () => {
                   {isExpanded && <span>Suggestions</span>}
                 </a>
               </li>
-            </>
-          )}
+            
+          
         </ul>
       </div>
     </nav>
