@@ -10,7 +10,7 @@
 
 .left-section,
 .right-section {
-  width: 120px; /* Match logo width for symmetry */
+  width: 150px; /* Match logo width for symmetry */
   display: flex;
   justify-content: flex-end;
 }

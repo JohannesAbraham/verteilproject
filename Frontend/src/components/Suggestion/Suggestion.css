@@ -27,6 +27,10 @@
   margin-bottom: 2rem;
 }
 
+.subject-input{
+  margin-bottom: 24px;
+}
+
 .suggestion-form {
   display: flex;
   flex-direction: column;
