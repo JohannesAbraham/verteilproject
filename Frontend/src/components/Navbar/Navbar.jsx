@@ -73,12 +73,6 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a href="/news-management">
-                  <FeedIcon fontSize="large" />
-                  {isExpanded && <span>News Management</span>}
-                </a>
-              </li>
-              <li className="nav-item">
                 <a href="/suggestion-management">
                   <ChatBubbleIcon fontSize="large" />
                   {isExpanded && <span>Suggestions</span>}

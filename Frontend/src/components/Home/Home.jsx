@@ -156,7 +156,7 @@ const CalendarBox = () => {
     </div>
 
     <div className="holiday-list">
-      <h3>Upcoming Holidays & Off Days</h3>
+      <h3>Holidays</h3>
       <ul>
         {filteredHolidays.map((h) => (
           <li key={h.date}>
@@ -220,8 +220,8 @@ const MediaBox = () => {
           <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center p-2">
               <h2 className="p-3">{currentMedia.title}</h2>
-              <button onClick={HandleClick} className="bg-lgreen rounded-xl text-light font-ariel">Add Media</button>
-              <button onClick={() => handleDelete(currentMedia._id)} className="bg-red-500 rounded-xl text-light font-ariel">Delete</button>
+              <button onClick={HandleClick} className="bg-lgreen rounded-xl text-light font-ariel py-2 px-4">Add Media</button>
+              <button onClick={() => handleDelete(currentMedia._id)} className="bg-red-500 rounded-xl text-light font-ariel py-2 px-4">Delete</button>
             </div>
             <img src={`http://localhost:5000${currentMedia.image}`} alt={currentMedia.title} className="media-image h-[50vh] w-auto object-contain mx-auto rounded-lg"/>
             <p className="p-4">{currentMedia.description}</p>
@@ -333,14 +333,14 @@ const Home = () => {
             <h3>{formattedDate}</h3>
             <p className="update-intro">Here's what's happening in our company today:</p>
             <ul className="company-updates">
-              <li>Deadline for submitting Q2 reports</li>
-              <li>Client demo scheduled with XYZ Corp</li>
+              <li>3 New Joinees this month!</li>
+              <li>3 New Joinees this month!</li>
               <li>Celebrating {birthdays.length} employee birthdays</li>
             </ul>
           </div>
 
           <div className="thought-word-container">
-            //word of the days
+            {/* word of the days */}
           </div>
 
           <WordsBox />

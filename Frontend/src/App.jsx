@@ -7,17 +7,19 @@ import Suggestion from "./components/Suggestion/Suggestion";
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import News from './components/News/News';
-import OrgStructure from './components/Org Structure/OrgStructure';
+import OrgStructure from './components/Org Structure/OrgStructure.jsx';
 import CareerFramework from "./components/Career Framework/CFramework";
 import Sudokuboard from "./components/quickgames/Sudokuboard/Sudoku";
 import Popupquiz from "./components/quickgames/Popupquiz/Popupquiz";
 import Gamelist  from "./components/quickgames/Gameslist/games";
-import NewsManagement from "./components/News Management/NewsManagement";
 import SuggestionManagement from "./components/Suggestion Management/SuggestionManagement";
 import MediaBox from "./components/MediaUpload";
 import EditThought from "./components/EditThought";
 
 function App() {
+
+
+
   return (
     <div className="app-container">
       <Header />
@@ -31,7 +33,6 @@ function App() {
             <Route path="/news" element={<News />}></Route>
             <Route path="/org-structure" element={<OrgStructure />}></Route>
             <Route path="/career-framework" element={<CareerFramework />}></Route>
-            <Route path="/news-management" element={<NewsManagement />}></Route>
             <Route path="/suggestion-management" element={<SuggestionManagement />}></Route>
             <Route path="/quickgames/sudoku" element={<Sudokuboard />}></Route>
             <Route path="/quickgames/popupquiz" element={<Popupquiz />}></Route>  
