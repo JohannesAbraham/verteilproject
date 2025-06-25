@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+.font-times{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.font-ariel{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.text-lgreen{
+    color:#81a73d; /* Example green color */
+}
+
+.text-dgreen{
+    color:#4a6532;
+}
+
+.text-light{
+    color: #f9fcef;
+}
+
+.bg-lgreen{
+    background-color: #81a73d; /* Example green color */
+}
+
+.bg-light{
+    background-color: #f9fcef;
+}
+
+.bg-dgreen{
+    background-color: #4a6532;
+}
+
+.border-lgreen{
+    border-color: #81a73d; /* Example green color */
+}
+.border-dgreen{
+    border-color: #4a6532;
+}
+
+.shadow-lgreen{
+    box-shadow: 0 3px 8px rgba(129, 167, 61, 0.25)
+}
