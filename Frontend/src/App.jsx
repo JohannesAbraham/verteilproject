@@ -14,6 +14,8 @@ import Popupquiz from "./components/quickgames/Popupquiz/Popupquiz";
 import Gamelist  from "./components/quickgames/Gameslist/games";
 import NewsManagement from "./components/News Management/NewsManagement";
 import SuggestionManagement from "./components/Suggestion Management/SuggestionManagement";
+import MediaBox from "./components/MediaUpload";
+import EditThought from "./components/EditThought";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
             <Route path="/quickgames/sudoku" element={<Sudokuboard />}></Route>
             <Route path="/quickgames/popupquiz" element={<Popupquiz />}></Route>  
             <Route path="/quickgames" element={<Gamelist />}></Route>
+            <Route path="/uploadmedia" element={<MediaBox />}></Route>
+            <Route path="/editthought" element={<EditThought />}></Route>
           </Routes>
         </Router>
       </div>

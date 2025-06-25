@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
+
 import "./Home.css";
 import { format } from "date-fns";
 import PeopleIcon from '@mui/icons-material/People';
@@ -13,6 +17,7 @@ import TheatersIcon from '@mui/icons-material/Theaters';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+
 
 const placeholderImage = "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg";
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
@@ -38,35 +43,6 @@ const newsList = [
     id: 5, 
     title: "New Employee Benefits Policy"
   },
-];
-
-const mediaContent = [
-  { 
-    type: "book-review", 
-    title: "Atomic Habits by James Clear", 
-    review: "A revolutionary guide to building good habits and breaking bad ones. This book provides practical strategies for forming habits that stick.",
-    rating: "4.5/5",
-    url: "https://m.media-amazon.com/images/I/51B7kuFwQFL._SY425_.jpg" 
-  },
-  { 
-    type: "movie-review", 
-    title: "The Social Dilemma (2020)", 
-    review: "A powerful documentary-drama hybrid that explores the dangerous human impact of social networking.", 
-    rating: "4/5",
-    url: "https://m.media-amazon.com/images/M/MV5BOTYwM2YxOTAtODUzZi00NGFkLTg0NWItMDQ5ZTI5ZWM0OTU5XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" 
-  },
-  { 
-    type: "article", 
-    title: "The Future of Remote Work",
-    content: "How hybrid work models are shaping the post-pandemic workplace and what it means for employee productivity and satisfaction.",
-    url: placeholderImage 
-  },
-  { 
-    type: "video", 
-    title: "Motivational Video: Start Your Day Right", 
-    content: "A 5-minute morning routine to boost your productivity and mindset for the day ahead.",
-    url: placeholderImage 
-  }
 ];
 
 const holidays = [
@@ -196,42 +172,61 @@ const CalendarBox = () => {
 
 const MediaBox = () => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+  const [mediaContent, setMediaContent] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/media/getmedia')
+    .then(response => setMediaContent(response.data))
+    .catch(error => console.error("Error fetching media content:", error));
+  },[]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentMediaIndex((prev) => (prev + 1) % mediaContent.length);
-    }, 10000); // Change every 10 seconds
+    }, 5000); // Change every 5 seconds
     return () => clearInterval(interval);
-  }, []);
+  }, [mediaContent]);
 
   const currentMedia = mediaContent[currentMediaIndex];
+
+  const HandleClick = () => {
+    navigate("/uploadmedia");
+    console.log("Navigating to media upload page");
+  }
+
+  const handleDelete = async(id) => {
+    const password = prompt("Enter admin password to delete:");
+    if(!password){
+      return
+    }
+
+    try{
+      await axios.post(`http://localhost:5000/api/media/delete`,{id,password});
+      setMediaContent(mediaContent.filter(media => media._id !== id));
+    }
+    catch(e){
+      console.error("Error deleting media:", e);
+      alert("Failed to delete media");
+    }
+  }
 
   return (
     <div className="media-box">
       <h2><TheatersIcon className="icon-title" />Media Corner</h2>
       <div className="media-slideshow">
-        <img src={currentMedia.url} alt={currentMedia.title} className="media-content" />
-        <div className="media-info">
-          <h3>{currentMedia.title}</h3>
-          {currentMedia.type === "book-review" && (
-            <>
-              <p className="media-review">{currentMedia.review}</p>
-              <p className="media-rating">Rating: {currentMedia.rating}</p>
-            </>
-          )}
-          {currentMedia.type === "movie-review" && (
-            <>
-              <p className="media-review">{currentMedia.review}</p>
-              <p className="media-rating">Rating: {currentMedia.rating}</p>
-            </>
-          )}
-          {currentMedia.type === "article" && (
-            <p className="media-content-text">{currentMedia.content}</p>
-          )}
-          {currentMedia.type === "video" && (
-            <p className="media-content-text">{currentMedia.content}</p>
-          )}
-        </div>
+        {currentMedia && (
+          <div className="flex flex-col">
+            <div className="flex flex-row justify-between items-center p-2">
+              <h2 className="p-3">{currentMedia.title}</h2>
+              <button onClick={HandleClick} className="bg-lgreen rounded-xl text-light font-ariel">Add Media</button>
+              <button onClick={() => handleDelete(currentMedia._id)} className="bg-red-500 rounded-xl text-light font-ariel">Delete</button>
+            </div>
+            <img src={`http://localhost:5000${currentMedia.image}`} alt={currentMedia.title} className="media-image h-[50vh] w-auto object-contain mx-auto rounded-lg"/>
+            <p className="p-4">{currentMedia.description}</p>
+          </div>
+        )}        
       </div>
       <div className="media-dots">
         {mediaContent.map((_, index) => (
@@ -269,6 +264,43 @@ const NewsBox = () => {
     </div>
   );
 };
+
+const WordsBox = () => {
+
+  const [thoughtData, setThoughtData] = useState({ thought: "", author: "", word: "", meaning: "" });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/thoughtword")
+      .then(res => {
+        if (res.data) setThoughtData(res.data);
+      })
+      .catch(err => console.error("Failed to load thought/word:", err));
+  }, []);
+
+  return(
+    <div className='flex flex-col justify-center items-center bg-white rounded-lg shadow-lg p-4 mb-4'>
+      <div className="flex flex-row flex-1 w-full justify-center items-center p-2 space-x-10">
+        <div className="border-lgreen border-2 p-3 rounded-lg w-full">
+          <h2 className="font-ariel text-dgreen text-2xl font-bold pb-2"><LightbulbIcon className="text-lgreen" /> Thought of the Day</h2>
+          <p className="thought-content">"{thoughtData.thought}"</p>
+          <p className="thought-author">- {thoughtData.author}</p>
+        </div>
+        <div className="border-lgreen border-2 p-3 rounded-lg w-full">
+          <h2 className="text-2xl font-ariel font-bold text-dgreen pb-3"><MenuBookIcon className="text-lgreen" /> Word of the Day</h2>
+          <h3 className="text-2xl pb-2 text-lgreen font-ariel font-semibold">{thoughtData.word}</h3>
+          <p className="pl-4 text-md font-ariel">{thoughtData.meaning}</p>
+        </div>
+      </div>
+      <button onClick={() => {
+        const pwd = prompt("Enter admin password:");
+        if (pwd) navigate(`/editthought?pwd=${pwd}`);
+      }} className="bg-lgreen text-white rounded px-4 py-1 mt-2">
+        Edit
+      </button>
+    </div>
+  );
+}
 
 const Home = () => {
   const [showHandbook, setShowHandbook] = useState(false);
@@ -308,89 +340,80 @@ const Home = () => {
           </div>
 
           <div className="thought-word-container">
-            <div className="thought-box">
-              <h2><LightbulbIcon className="icon-title" />Thought of the Day</h2>
-              <p className="thought-content">"{thoughtOfTheDay}"</p>
-              <p className="thought-author">- Winston Churchill</p>
-            </div>
-            <div className="word-box">
-              <h2><MenuBookIcon className="icon-title" />Word of the Day</h2>
-              <h3 className="word">{wordOfTheDay.word}</h3>
-              <p className="meaning">{wordOfTheDay.meaning}</p>
-            </div>
+            //word of the days
           </div>
+
+          <WordsBox />
 
           <div className="quick-access-message-container">
           <div className="new-joinees-box">
-  <h2><PeopleIcon className="icon-title" />New Joinees</h2>
-  <div className="celebration-list">
-    {newJoinees.map((person, index) => (
-      <div key={index} className="celebration-item">
-        <img src={person.image} alt={person.name} className="profile-pic" />
-        <div className="celebration-details">
-          <h3>{person.name}</h3>
-          <p>{person.role} • {person.department}</p>
-          <p>Joined on {new Date(person.joiningDate).toLocaleDateString(undefined, {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
-          })}</p>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
-
+            <h2><PeopleIcon className="icon-title" />New Joinees</h2>
+            <div className="celebration-list">
+              {newJoinees.map((person, index) => (
+                <div key={index} className="celebration-item">
+                  <img src={person.image} alt={person.name} className="profile-pic" />
+                  <div className="celebration-details">
+                    <h3>{person.name}</h3>
+                    <p>{person.role} • {person.department}</p>
+                    <p>Joined on {new Date(person.joiningDate).toLocaleDateString(undefined, {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric"
+                    })}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-
+          </div>
           <MediaBox />
           <NewsBox />
         </div>
 
         <div className="events-column">
           <div className="quick-access-box">
-  <h2>Quick Access</h2>
-  <div className="quick-access-grid">
-    <div className="quick-column">
-      <div className="quick-item">
-        <a href="https://www.verteil.com/" target="_blank" rel="noopener noreferrer">
-          <CampaignIcon className="icon" />
-          <p className="para">Verteil</p>
-        </a>
-      </div>
-      <div className="quick-item" onClick={() => setShowHandbook(true)} style={{ cursor: "pointer" }}>
-        <BookIcon className="icon" />
-        <p className="para">Handbook</p>
-      </div>
-      <div className="quick-item">
-        <a href="https://www.greythr.com/login/" target="_blank" rel="noopener noreferrer">
-          <GroupsIcon className="icon" />
-          <p className="para">GreytHR</p>
-        </a>
-      </div>
-    </div>
-    <div className="quick-column">
-      <div className="quick-item">
-        <a href="https://www.greythr.com/login/" target="_blank" rel="noopener noreferrer">
-          <PeopleIcon className="icon" />
-          <p className="para">V-Depot</p>
-        </a>
-      </div>
-      <div className="quick-item">
-        <a href="https://www.zappyhire.com/" target="_blank" rel="noopener noreferrer">
-          <PeopleIcon className="icon" />
-          <p className="para">Hiring-Referrals</p>
-        </a>
-      </div>
-      <div className="quick-item">
-        <a href="/quickgames" rel="noopener noreferrer">
-          <SportsEsportsIcon className="icon" />
-          <p className="para">Games</p>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
+            <h2>Quick Access</h2>
+            <div className="quick-access-grid">
+              <div className="quick-column">
+                <div className="quick-item">
+                  <a href="https://www.verteil.com/" target="_blank" rel="noopener noreferrer">
+                    <CampaignIcon className="icon" />
+                    <p className="para">Verteil</p>
+                  </a>
+                </div>
+                <div className="quick-item" onClick={() => setShowHandbook(true)} style={{ cursor: "pointer" }}>
+                  <BookIcon className="icon" />
+                  <p className="para">Handbook</p>
+                </div>
+                <div className="quick-item">
+                  <a href="https://www.greythr.com/login/" target="_blank" rel="noopener noreferrer">
+                    <GroupsIcon className="icon" />
+                    <p className="para">GreytHR</p>
+                  </a>
+                </div>
+              </div>
+              <div className="quick-column">
+                <div className="quick-item">
+                  <a href="https://www.greythr.com/login/" target="_blank" rel="noopener noreferrer">
+                    <PeopleIcon className="icon" />
+                    <p className="para">V-Depot</p>
+                  </a>
+                </div>
+                <div className="quick-item">
+                  <a href="https://www.zappyhire.com/" target="_blank" rel="noopener noreferrer">
+                    <PeopleIcon className="icon" />
+                    <p className="para">Hiring-Referrals</p>
+                  </a>
+                </div>
+                <div className="quick-item">
+                  <a href="/quickgames" rel="noopener noreferrer">
+                    <SportsEsportsIcon className="icon" />
+                    <p className="para">Games</p>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
           <div className="birthday-box">
