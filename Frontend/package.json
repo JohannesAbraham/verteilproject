@@ -28,6 +28,7 @@
     "react-orgchart": "^1.0.5",
     "react-router-dom": "^7.6.1",
     "react-zoom-pan-pinch": "^3.7.0",
+    "sudoku-gen": "^1.0.2",
     "tailwindcss": "^4.1.10"
   },
   "devDependencies": {
