@@ -3,13 +3,11 @@ import './Navbar.css';
 import HomeIcon from '@mui/icons-material/Home';
 import FeedIcon from '@mui/icons-material/Feed';
 import WorkIcon from '@mui/icons-material/Work';
-import SettingsIcon from '@mui/icons-material/Settings';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import MessageIcon from '@mui/icons-material/Message';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const Navbar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -47,9 +45,9 @@ const Navbar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a href="/games">
+            <a href="/verite">
               <VideogameAssetIcon fontSize="large" />
-              {isExpanded && <span>Games</span>}
+              {isExpanded && <span>Verite</span>}
             </a>
           </li>
           <li className="nav-item">
