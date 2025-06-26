@@ -16,6 +16,8 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
+import ProfilePage from '../ProfilePage'
+
 
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
 
@@ -305,6 +307,8 @@ const Home = () => {
   const today = new Date();
   const formattedDate = format(today, "EEEE, MMMM d, yyyy");
 
+  const navigate=useNavigate();
+
   return (
     <>
       {showHandbook && (
@@ -372,6 +376,9 @@ const Home = () => {
             <h2>Quick Access</h2>
             <div className="quick-access-grid">
               <div className="quick-column">
+                <div className="quick-item" onClick={() => navigate('/profile')}>
+                  Profile
+                </div>
                 <div className="quick-item">
                   <a href="https://www.verteil.com/" target="_blank" rel="noopener noreferrer">
                     <CampaignIcon className="icon" />
