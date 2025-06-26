@@ -8,6 +8,7 @@ import {
   teamNames,
   getTreeForTab
 } from './orgstructure.js';
+import { Typography } from '@mui/material';
 
 
 const TreeNode = ({ node, onExpand }) => {
@@ -95,9 +96,7 @@ const App = () => {
   
   return (
     <div className="app-layout">
-      <header className="app-header">
-        <h1>Company Organization Structure</h1>
-      </header>
+      
       
       <div className="app-main-container">
         <div className="sidebar">
@@ -116,7 +115,7 @@ const App = () => {
         </div>
         
         <div className="main-content">
-          <h2>Organization Chart - {teamNames[activeTab]}</h2>
+          <Typography variant='h5'>Organization Chart - {teamNames[activeTab]}</Typography>
           <div className="org-chart-container">
             <TransformWrapper
               initialScale={1}
