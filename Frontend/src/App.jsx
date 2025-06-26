@@ -28,11 +28,12 @@ const AppContent = () => {
 
   return (
     <div className="app-container">
-      {!hideHeaderFooter && <Header />}
-      {!hideHeaderFooter && <Navbar />}
-      <img src={backgroundImage} alt="background" className="background-image" />
+     {!hideHeaderFooter && <Header />}
+     {!hideHeaderFooter && <Navbar />}
+    {/* //   <img src={backgroundImage} alt="background" className="background-image" />
 
-      <div className="content-wrapper">
+    
+      // <div className="content-wrapper"> */}
         
           <Routes>
             <Route path="/home" element={<Home/>}></Route>
@@ -50,10 +51,10 @@ const AppContent = () => {
             <Route path="/editthought" element={<EditThought />}></Route>
             <Route path="/quizmanager" element={<QuizManager />} />
           </Routes>
-        </div>
-        <Footer />
+        {/* </div> */}
+      {/* //   <Footer /> */}
       
-      {!hideHeaderFooter && <Footer />}
+       {!hideHeaderFooter && <Footer />}
     </div>
   );
 };
