@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 import "./App.css";
 import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
@@ -16,8 +17,11 @@ import NewsManagement from "./components/News Management/NewsManagement";
 import SuggestionManagement from "./components/Suggestion Management/SuggestionManagement";
 import MediaBox from "./components/MediaUpload";
 import EditThought from "./components/EditThought";
+import LoginPage from "../src/components/LoginPage";
+import ProfilePage from "../src/components/ProfilePage";
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem("token"));
   return (
     <div className="app-container">
       <Header />
@@ -25,8 +29,9 @@ function App() {
       <div className="content-wrapper">
         <Router>
           <Routes>
-            <Route path="/" element={<Home/>}></Route>
-            <Route path="/login" element={<Login />}></Route>
+            <Route path="/home" element={<Home/>}></Route>
+            <Route path="/" element={<LoginPage />}></Route>
+            <Route path="/profile" element={<ProfilePage />}></Route>
             <Route path="/suggestion" element={<Suggestion />}></Route>
             <Route path="/news" element={<News />}></Route>
             <Route path="/org-structure" element={<OrgStructure />}></Route>

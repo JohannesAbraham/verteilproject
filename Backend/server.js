@@ -8,9 +8,13 @@ const newsRoutes = require('./routes/NewsRoutes');
 const suggestionRoutes = require('./routes/SuggestionRoutes');
 const mediaBoxRoutes = require('./routes/MediaBoxRoutes');
 const thoughtWordRoutes = require('./routes/ThoughtWordRoutes');
+const profileRoutes = require('./routes/ProfileRoutes')
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin:"http://localhost:5173",
+  credentials:true
+}));
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
@@ -22,6 +26,7 @@ app.use('/api/news', newsRoutes);
 app.use('/api/suggestions', suggestionRoutes);
 app.use('/api/media', mediaBoxRoutes);
 app.use('/api/thoughtword', thoughtWordRoutes);
+app.use("/api/auth", profileRoutes);
 
 
 app.use((err, req, res, next) => {

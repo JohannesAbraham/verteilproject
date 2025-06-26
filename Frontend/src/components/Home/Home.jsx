@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-
 import "./Home.css";
 import { format } from "date-fns";
 import PeopleIcon from '@mui/icons-material/People';
@@ -17,6 +16,8 @@ import TheatersIcon from '@mui/icons-material/Theaters';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+
+import ProfilePage from '../ProfilePage'
 
 
 const placeholderImage = "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg";
@@ -308,6 +309,8 @@ const Home = () => {
   const today = new Date();
   const formattedDate = format(today, "EEEE, MMMM d, yyyy");
 
+  const navigate=useNavigate();
+
   return (
     <>
       {showHandbook && (
@@ -375,6 +378,9 @@ const Home = () => {
             <h2>Quick Access</h2>
             <div className="quick-access-grid">
               <div className="quick-column">
+                <div className="quick-item" onClick={() => navigate('/profile')}>
+                  Profile
+                </div>
                 <div className="quick-item">
                   <a href="https://www.verteil.com/" target="_blank" rel="noopener noreferrer">
                     <CampaignIcon className="icon" />
