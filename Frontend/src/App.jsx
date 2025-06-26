@@ -43,10 +43,11 @@ function App() {
             <Route path="/quizmanager" element={<QuizManager />} />
             {/* <Route path="/verite" element={<Verite />} /> */}
           </Routes>
+          </Router>
         </div>
         <Footer />
       </div>
-    </Router>
+    
   );
 }
 
