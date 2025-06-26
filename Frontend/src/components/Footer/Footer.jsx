@@ -9,7 +9,7 @@ function Footer() {
   };
 
   return (
-    <div className="div-block-2">
+    <div className="div-block-2 footer">
       <div className="container w-container">
         <div className="div-block">
           <p className="copy-right">

@@ -19,6 +19,7 @@
     "@unicef/react-org-chart": "^0.3.4",
     "axios": "^1.10.0",
     "date-fns": "^4.1.0",
+    "json-edit-react": "^1.27.2",
     "lucide-react": "^0.511.0",
     "react": "^19.1.0",
     "react-datepicker": "^8.4.0",

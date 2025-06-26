@@ -1,5 +1,5 @@
 :root {
-  --bg-color: #ffffff;
+  --bg-color: #d3eac0;
   --text-color: #333333;
   --header-bg: #f8f9fa;
   --footer-bg: #f8f9fa;
@@ -7,6 +7,7 @@
   --card-bg: #ffffff;
   --border-color: #dee2e6;
   --link-color: #007bff;
+  --backgroundSize: 300px;
 }
 
 [data-theme="dark"] {
@@ -22,23 +23,25 @@
 
 /* Update your existing styles to use these variables */
 .app-container {
-  background-color: var(--bg-color);
   color: var(--text-color);
 }
 
 /* Header component */
 header {
   background-color: var(--header-bg);
+  z-index: 1;
 }
 
 /* Navbar component */
 nav {
   background-color: var(--nav-bg);
+  z-index: 1;
 }
 
 /* Footer component */
 footer {
   background-color: var(--footer-bg);
+  z-index: 1;
 }
 
 /* Cards or other components */
@@ -49,4 +52,26 @@ footer {
 
 a {
   color: var(--link-color);
+}
+
+.app-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  object-fit: cover;  
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.content-wrapper {
+  position: relative; /* Ensures content appears above background */
+  z-index: 1; /* Higher than background's z-index */
 }

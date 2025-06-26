@@ -83,6 +83,9 @@ const PopupQuiz = () => {
   };
 
   return (
+    <div className="popupquizwrapper">
+
+      
     <div className="quiz-container">
       {!started ? (
         <button className="start-button" onClick={() => setStarted(true)}>Start Quiz</button>
@@ -117,6 +120,7 @@ const PopupQuiz = () => {
       ) : (
         <div>Loading quiz...</div>
       )}
+    </div>
     </div>
   );
 };

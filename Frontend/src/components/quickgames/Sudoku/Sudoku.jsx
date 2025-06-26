@@ -182,6 +182,7 @@ const Sudoku = () => {
   if (!gameStarted) return <div className="loading">Loading Sudoku...</div>;
 
   return (
+    <div className="sudoku-wrapper">
     <div className="sudoku-container">
       <h1>Sudoku Game</h1>
 
@@ -220,6 +221,7 @@ const Sudoku = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };

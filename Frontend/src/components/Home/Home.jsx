@@ -16,6 +16,8 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
+import ProfilePage from '../ProfilePage'
+
 
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
 
@@ -223,7 +225,7 @@ const MediaBox = () => {
   }
 
   return (
-    <div className="media-box">
+    <div className="media-box card">
       <h2><TheatersIcon className="icon-title" />Media Corner</h2>
       <div className="media-slideshow">
         {currentMedia && (
@@ -262,7 +264,7 @@ const NewsBox = () => {
   }, []);
 
   return (
-     <div className="news-box">
+     <div className="news-box card">
       <h2><ArticleIcon className="icon-title" />Company News</h2>
       <ul className="news-headings-list">
         {newsList.map((news) => (
@@ -289,7 +291,7 @@ const WordsBox = () => {
   }, []);
 
   return(
-    <div className='flex flex-col justify-center items-center bg-white rounded-lg shadow-lg p-4 mb-4'>
+    <div className='flex flex-col justify-center items-center rounded-lg shadow-lg p-4 mb-4 card'>
       <div className="flex flex-row flex-1 w-full justify-center items-center p-2 space-x-10">
         <div className="border-lgreen border-2 p-3 rounded-lg w-full">
           <h2 className="font-ariel text-dgreen text-2xl font-bold pb-2"><LightbulbIcon className="text-lgreen" /> Thought of the Day</h2>
@@ -317,6 +319,8 @@ const Home = () => {
 
   const today = new Date();
   const formattedDate = format(today, "EEEE, MMMM d, yyyy");
+
+  const navigate=useNavigate();
 
   return (
     <>
@@ -381,10 +385,13 @@ const Home = () => {
         </div>
 
         <div className="events-column">
-          <div className="quick-access-box">
+          <div className="quick-access-box card">
             <h2>Quick Access</h2>
             <div className="quick-access-grid">
               <div className="quick-column">
+                <div className="quick-item" onClick={() => navigate('/profile')}>
+                  Profile
+                </div>
                 <div className="quick-item">
                   <a href="https://www.verteil.com/" target="_blank" rel="noopener noreferrer">
                     <CampaignIcon className="icon" />
@@ -426,7 +433,7 @@ const Home = () => {
           </div>
 
 
-          <div className="birthday-box">
+          <div className="birthday-box card">
             <h2><CakeIcon className="icon-title" />Birthdays This Week</h2>
             <div className="celebration-list">
               {birthdays.map((person, index) => (
@@ -441,7 +448,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="anniversary-box">
+          <div className="anniversary-box card">
             <h2><CelebrationIcon className="icon-title" />Work Anniversaries</h2>
             <div className="celebration-list">
               {anniversaries.map((person, index) => (

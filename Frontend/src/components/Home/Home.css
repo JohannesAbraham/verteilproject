@@ -1,7 +1,7 @@
 :root {
   --primary-color: #81a83f;
   --secondary-color: #ffffff;
-  --background-color: #ffffff;
+  --background-color: #cbf39e;
   --font-color: #4a6532;
   --box-shadow: 0 3px 8px rgba(129, 167, 61, 0.25);
   --border-color: #81a83f;
@@ -10,7 +10,6 @@
 .dashboard-container {
   display: flex;
   padding: 20px;
-  background: var(--background-color);
   gap: 20px;
   min-height: 100vh;
   box-sizing: border-box;
@@ -101,21 +100,12 @@
   margin-bottom: 10px;
 }
 
-.thought-box,
-.word-box {
+.card {
   flex: 1;
+  background-color: var(--background-color);
+  border: 1.5px solid var(--primary-color);
 }
 
-.thought-box h2,
-.word-box h2 {
-  color: var(--secondary-color);
-  font-weight: 600;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex:1;
-}
 
 .thought-content {
   font-style: italic;
@@ -130,16 +120,6 @@
   color: var(--secondary-color);
 }
 
-.word-box .word {
-  color: var(--primary-color);
-  font-size: 1.5rem;
-  margin: 0 0 8px 0;
-}
-
-.word-box .meaning {
-  color: #555;
-  font-size: 0.95rem;
-}
 
 /* New Joinees Box (Same style as celebration boxes) */
 .new-joinees-box {
@@ -377,7 +357,6 @@
 }
 
 .quick-access-box {
-  background-color: white;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
@@ -507,7 +486,6 @@
 
 .calendar-box {
   margin-top: 20px;
-  background-color: white;
   border-radius: 10px;
   padding: 20px;
   box-shadow: var(--box-shadow);
