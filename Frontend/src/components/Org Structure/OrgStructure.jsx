@@ -7,7 +7,7 @@ import {
   teamTrees,
   teamNames,
   getTreeForTab
-} from './orgstructure';
+} from './orgstructure.js';
 
 
 const TreeNode = ({ node, onExpand }) => {
