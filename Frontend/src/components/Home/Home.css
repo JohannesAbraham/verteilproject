@@ -50,20 +50,31 @@
   border-radius: 10px;
   padding: 20px;
   box-shadow: var(--box-shadow);
-  border: 1.5px solid var(--border-color);
+  border: 2px solid var(--primary-color);
   box-sizing: border-box;
+}
+.welcome-box {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.85), 
+      rgba(255, 255, 255, 0.85)
+    );
+  margin-bottom : 24px;
+  backdrop-filter: blur(-23px);
 }
 
 /* Welcome Box */
 .welcome-box h1 {
   color: var(--secondary-color);
   margin-bottom: 6px;
+  font-weight: bold;
+  font-size: 2rem;
 }
 
 .welcome-box h3 {
   color: var(--primary-color);
   font-weight: 400;
   margin-bottom: 12px;
+  font-size: 1.2rem;
 }
 
 .company-updates {
@@ -79,9 +90,60 @@
   gap: 8px;
 }
 
-/* Common List Item Styles */
-.new-joinee-item,
-.celebration-item {
+.company-updates li:last-child {
+  border-bottom: none;
+}
+
+/* Thought & Word Boxes */
+.thought-word-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.card {
+  flex: 1;
+  background-color: var(--background-color);
+  border: 1.5px solid var(--primary-color);
+}
+
+
+.thought-content {
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.thought-author {
+  text-align: right;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+
+/* New Joinees Box (Same style as celebration boxes) */
+.new-joinees-box {
+  margin-bottom: 20px;
+}
+
+.new-joinees-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: larger;
+}
+
+.new-joinees-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.new-joinee-item {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -124,7 +186,200 @@
   color: var(--primary-color);
 }
 
-/* Quick Access Grid */
+.joinee-details .department {
+  color: var(--secondary-color);
+}
+
+.joinee-details .joining-date {
+  font-size: 0.8rem;
+  color: #ffffff;
+  font-style: italic;
+}
+
+/* Media Box */
+.media-box {
+  margin-bottom: 20px;
+}
+
+.media-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.media-slideshow {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.media-content {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.media-info {
+  padding: 15px;
+  background: white;
+}
+
+.media-info h3 {
+  color: var(--secondary-color);
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+}
+
+.media-review {
+  font-style: italic;
+  color: #444;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.media-rating {
+  font-weight: bold;
+  color: #ff9800;
+  font-size: 0.9rem;
+}
+
+.media-content-text {
+  color: #444;
+  line-height: 1.5;
+}
+
+.media-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.media-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ddd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.media-dot.active {
+  background: var(--primary-color);
+  transform: scale(1.2);
+}
+
+/* News Box */
+.news-box {
+  margin-bottom: 20px;
+}
+
+.news-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.news-list-container {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.news-item {
+  display: flex;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.news-item.highlighted {
+  background-color: #f5f9ff;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.news-image-container {
+  flex: 0 0 120px;
+  margin-right: 15px;
+}
+
+.news-image {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.news-content {
+  flex: 1;
+}
+
+.news-content h3 {
+  font-size: 1.1rem;
+  margin: 0 0 6px 0;
+  color: var(--secondary-color);
+}
+
+.news-date {
+  color: #666;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.news-date svg {
+  margin-right: 5px;
+  font-size: 1rem;
+}
+
+.news-excerpt {
+  color: #444;
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+.read-more-btn {
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 5px 0;
+}
+
+.read-more-btn:hover {
+  text-decoration: underline;
+}
+
+.quick-access-box {
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 3px 8px rgba(129, 167, 61, 0.25);
+  box-sizing: border-box;
+
+}
+
+.quick-access-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
 .quick-access-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -176,7 +431,37 @@
   width: 120px;
   height: 90px;
   object-fit: cover;
-  border-radius: 4px;
+  border: 2px solid var(--primary-color);
+}
+
+.celebration-details h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--secondary-color);
+}
+
+.celebration-details p {
+  margin: 4px 0 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.calendar-box {
+  margin-top: 20px;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: var(--box-shadow);
+  border: 2px solid var(--primary-color);
+  box-sizing: border-box;
+  max-width: 360px;
+  font-size: 0.9rem;
+}
+
+.calendar-box h2 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-size: large;
 }
 
 /* Calendar Styles */
@@ -250,7 +535,20 @@ a {
 a:hover {
   text-decoration: underline;
 }
-.card {
-  background-color: var(--background-color);
-  border: 1.5px solid var(--primary-color);
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar-selectors {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.calendar-selectors select {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
 }

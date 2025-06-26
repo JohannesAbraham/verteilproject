@@ -1,6 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { useState } from "react";
 import "./App.css";
+import ProfilePage from "./components/ProfilePage";
 import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
@@ -13,27 +14,30 @@ import CareerFramework from "./components/Career Framework/CFramework";
 import NewsManagement from "./components/News Management/NewsManagement.jsx";
 import Sudokuboard from "./components/quickgames/Sudoku/Sudoku";
 import Popupquiz from "./components/quickgames/Popupquiz/Popupquiz";
-import Gamelist  from "./components/quickgames/Gameslist/games";
+import Gamelist from "./components/quickgames/Gameslist/games";
 import SuggestionManagement from "./components/Suggestion Management/SuggestionManagement";
 import MediaBox from "./components/MediaUpload";
 import EditThought from "./components/EditThought";
-import LoginPage from "../src/components/LoginPage";
-import ProfilePage from "../src/components/ProfilePage";
-import backgroundImage from '/glass-frosting-design.jpg';
 import QuizManager from "./components/quickgames/AdminAccess/AdminQuizPanel";
 import TreePage from './components/Career Framework/Tree.jsx'
 import JobDescription from './components/Career Framework/JobDescription.jsx';
 // import Verite from "./components/Verite.jsx";
+import backgroundImage from '/glass-frosting-design.jpg';
 
-function App() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+const AppContent = () => {
+  const location = useLocation();
+  const hideHeaderFooter =
+    location.pathname.startsWith('/quickgames') || location.pathname.startsWith('/games');
+
   return (
     <div className="app-container">
-      <Header />
-      <Navbar />
-      <img src={backgroundImage} alt="" className="background-image" />
-      <div className="content-wrapper">
-        <Router>
+     {!hideHeaderFooter && <Header />}
+     {!hideHeaderFooter && <Navbar />}
+    {/* //   <img src={backgroundImage} alt="background" className="background-image" />
+
+    
+      // <div className="content-wrapper"> */}
+        
           <Routes>
             <Route path="/home" element={<Home/>}></Route>
             <Route path="/" element={<Login />}></Route>
@@ -52,12 +56,23 @@ function App() {
             <Route path="/quizmanager" element={<QuizManager />} />
             <Route path="/news-management" element={<NewsManagement/>}></Route>
           </Routes>
-          </Router>
-        </div>
-        <Footer />
-      </div>
-    
+        {/* </div> */}
+      {/* //   <Footer /> */}
+      
+       {!hideHeaderFooter && <Footer />}
+    </div>
   );
-}
+};
+
+// Final App with Router wrapper
+const App = () => {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+};
 
 export default App;

@@ -5,20 +5,19 @@ const connectDB = require('./config/db');
 const mongoose = require('mongoose');
 const cheerio = require('cheerio');
 const axios = require('axios')
+const quiz = require('./routes/Quiz');
 
 const newsRoutes = require('./routes/NewsRoutes');
 const suggestionRoutes = require('./routes/SuggestionRoutes');
 const mediaBoxRoutes = require('./routes/MediaBoxRoutes');
 const thoughtWordRoutes = require('./routes/ThoughtWordRoutes');
 const profileRoutes = require('./routes/ProfileRoutes')
-const quizRoutes = require('./routes/Quiz');
 const treeRoutes = require('./routes/TreeRoutes')
-
+const quizRoutes = require('./routes/Quiz');
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
-
 const PORT = process.env.PORT ;
 const url = "http://www.verteil.com/newsroom" 
 connectDB();
@@ -30,6 +29,8 @@ app.use('/api/media', mediaBoxRoutes);
 app.use('/api/thoughtword', thoughtWordRoutes);
 app.use("/api/auth", profileRoutes);
 app.use("/api/tree",treeRoutes);
+app.use('/api/quiz', quizRoutes);
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Server Error');

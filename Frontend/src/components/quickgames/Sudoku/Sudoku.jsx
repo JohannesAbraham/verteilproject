@@ -182,9 +182,12 @@ const Sudoku = () => {
   if (!gameStarted) return <div className="loading">Loading Sudoku...</div>;
 
   return (
+    <div className="sudoku-wrapper">
     <div className="sudoku-container">
       <h1>Sudoku Game</h1>
-
+      {/* <div className="games-fullscreen-bg">
+      <div className="games-overlay"> */}
+      
       <div className="controls">
         <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
           <option value="easy">Easy</option>
@@ -193,7 +196,8 @@ const Sudoku = () => {
         </select>
         <button onClick={generateNewPuzzle}>New Game</button>
         <button onClick={handleCheckSolution}>Check Solution</button>
-        <div className="timer">⏱ Time: {formatTime(timeElapsed)}</div>
+        <div className="timer-container">⏱: {formatTime(timeElapsed)}</div>
+
       </div>
 
       {message && <div className="message">{message}</div>}
@@ -220,6 +224,10 @@ const Sudoku = () => {
         ))}
       </div>
     </div>
+    
+    </div>
+    // </div>
+    // </div>
   );
 };
 
