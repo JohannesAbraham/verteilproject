@@ -20,6 +20,8 @@ import LoginPage from "../src/components/LoginPage";
 import ProfilePage from "../src/components/ProfilePage";
 import backgroundImage from '/glass-frosting-design.jpg';
 import QuizManager from "./components/quickgames/AdminAccess/AdminQuizPanel";
+import TreePage from './components/Career Framework/Tree.jsx'
+import JobDescription from './components/Career Framework/JobDescription.jsx';
 // import Verite from "./components/Verite.jsx";
 
 function App() {
@@ -38,7 +40,8 @@ function App() {
             <Route path="/suggestion" element={<Suggestion />}></Route>
             <Route path="/news" element={<News />}></Route>
             <Route path="/org-structure" element={<OrgStructure />}></Route>
-            <Route path="/career-framework" element={<CareerFramework />}></Route>
+            <Route path="/tree" element={<TreePage />} />
+            <Route path="/job/:name" element={<JobDescription />} />
             <Route path="/suggestion-management" element={<SuggestionManagement />}></Route>
             <Route path="/quickgames/sudoku" element={<Sudokuboard />}></Route>
             <Route path="/quickgames/popupquiz" element={<Popupquiz />}></Route>  

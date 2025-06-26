@@ -67,7 +67,7 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a href="/career-framework">
+                <a href="/tree">
                   <WorkIcon fontSize="large" />
                   {isExpanded && <span>Career Framework</span>}
                 </a>
