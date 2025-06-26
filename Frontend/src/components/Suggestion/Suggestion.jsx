@@ -5,6 +5,7 @@ import axios from 'axios';
 const Suggestion = () => {
   const [suggestion, setSuggestion] = useState('');
   const [subject, setSubject] = useState('');
+  const [empId, setEmpId] = useState('')
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -12,16 +13,20 @@ const Suggestion = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!subject.trim() || !suggestion.trim()) {
-      setError('Please fill in both subject and suggestion fields');
+    if (!subject.trim() || !suggestion.trim() || !empId.trim()) {
+      setError('Please fill in all fields');
       return;
     }
     
     try {
+
+      // TODO: CHECK IF EMPLOYEE ID IS VALID
+
       setIsLoading(true);
       const response = await axios.post('http://localhost:5000/api/suggestions', {
         title: subject,
-        content: suggestion
+        content: suggestion,
+        empId: empId
       });
       
       console.log('Suggestion submitted:', response.data);
@@ -29,6 +34,8 @@ const Suggestion = () => {
       setError('');
       setSuggestion('');
       setSubject('');
+      setEmpId('');
+
     } catch (err) {
       console.error('Error submitting suggestion:', err);
       setError('Failed to submit suggestion. Please try again.');
@@ -38,13 +45,18 @@ const Suggestion = () => {
   };
 
   const handleSuggestionChange = (e) => {
-    setSuggestion(e.target.value);
+    setSuggestion(e.currentTarget.value);
     if (error) setError('');
   };
 
   const handleSubjectChange = (e) => {
-    setSubject(e.target.value);
+    setSubject(e.currentTarget.value);
     if (error) setError('');
+  };
+
+  const handleEmpIdChange = (e) => {
+    setEmpId(e.currentTarget.value)
+    if (error) setError('')
   };
 
   if (submitted) {
@@ -83,6 +95,14 @@ const Suggestion = () => {
             onChange={handleSuggestionChange}
             placeholder="Type your suggestion here..."
             rows="6"
+          />
+
+          <input
+            className='form-input'
+            id="employee-id"
+            value={empId}
+            onChange={handleEmpIdChange}
+            placeholder="Enter your employee ID..."
           />
           
           {error && <p className="error-message">{error}</p>}

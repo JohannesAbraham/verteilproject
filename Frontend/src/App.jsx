@@ -15,6 +15,7 @@ import Gamelist  from "./components/quickgames/Gameslist/games";
 import SuggestionManagement from "./components/Suggestion Management/SuggestionManagement";
 import MediaBox from "./components/MediaUpload";
 import EditThought from "./components/EditThought";
+import backgroundImage from '/glass-frosting-design.jpg';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
     <div className="app-container">
       <Header />
       <Navbar />
+      <img src={backgroundImage} alt="" className="background-image" />
       <div className="content-wrapper">
         <Router>
           <Routes>

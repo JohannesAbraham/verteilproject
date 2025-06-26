@@ -32,6 +32,12 @@ const Suggestion = ({ suggestion, onDelete }) => {
           >
             {suggestion.content}
           </Typography>
+          <Typography 
+            variant="body1" 
+            className="suggestion-content"
+          >
+            {suggestion.empId}
+          </Typography>
           <Typography variant="caption" color="text.secondary">
             {new Date(suggestion.publishDate).toLocaleDateString()}
           </Typography>
@@ -98,26 +104,34 @@ const SuggestionManagement = () => {
   }
 
   return (
-    <div className="suggestion-management-container">
-      <Typography 
-        sx={{ marginBottom: "32px" }}
-        variant="h4" 
-        component="h1" 
-        className="suggestion-management-title"
-      >
-        User Suggestions
-      </Typography>
-      
-      <Grid2 container spacing={3} className="suggestions-grid">
-        {suggestions.map((suggestion) => (
-          <Suggestion 
-            key={suggestion._id}
-            suggestion={suggestion}
-            onDelete={handleDelete}
-          />
-        ))}
-      </Grid2>
-    </div>
+    
+        <div className="suggestion-management-container">
+          <Typography 
+            sx={{ marginBottom: "32px" }}
+            variant="h4" 
+            component="h1" 
+            className="suggestion-management-title"
+          >
+            User Suggestions
+          </Typography>
+          
+          <Grid2 container spacing={3} className="suggestions-grid">
+            {suggestions.length!=0? 
+              suggestions.map((suggestion) => (
+                <Suggestion 
+                  key={suggestion._id}
+                  suggestion={suggestion}
+                  onDelete={handleDelete}
+                />
+              ))
+            :
+            <Typography>
+              No suggestions right now!
+            </Typography>
+            }
+          </Grid2>
+        </div>
+    
   );
 };
 

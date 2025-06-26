@@ -51,7 +51,7 @@ app.get("/scrape", async (req, res) => {
      })
      
      newsIndex = data.indexOf(news)
-     res.json(data.slice(newsIndex,newsIndex+5))
+     res.json(data.slice(newsIndex,newsIndex+6))
     
   } catch (error) {
     res.status(500).json({ message: error });
