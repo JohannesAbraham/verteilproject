@@ -50,16 +50,15 @@
   border-radius: 10px;
   padding: 20px;
   box-shadow: var(--box-shadow);
-  border: 1.5px solid var(--border-color);
+  border: 2px solid var(--primary-color);
   box-sizing: border-box;
 }
 .welcome-box {
   background: linear-gradient(
       rgba(255, 255, 255, 0.85), 
       rgba(255, 255, 255, 0.85)
-    ),
-    url("https://cdn.prod.website-files.com/66320ea2479383a9be2e9681/66320ea2479383a9be2e98fb_Inauguration_Entrance.png") center/cover no-repeat;
-  margin-bottom: 24px;
+    );
+  margin-bottom : 24px;
   backdrop-filter: blur(-23px);
 }
 
@@ -67,12 +66,15 @@
 .welcome-box h1 {
   color: var(--secondary-color);
   margin-bottom: 6px;
+  font-weight: bold;
+  font-size: 2rem;
 }
 
 .welcome-box h3 {
   color: var(--primary-color);
   font-weight: 400;
   margin-bottom: 12px;
+  font-size: 1.2rem;
 }
 
 .company-updates {
@@ -107,7 +109,7 @@
 .thought-box h2,
 .word-box h2 {
   color: var(--secondary-color);
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -151,6 +153,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: larger;
 }
 
 .new-joinees-list {
@@ -378,9 +381,10 @@
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
-  border: 1.5px solid var(--primary-color);
+  border: 2px solid var(--primary-color);
   box-shadow: 0 3px 8px rgba(129, 167, 61, 0.25);
   box-sizing: border-box;
+
 }
 
 .quick-access-box h2 {
@@ -507,7 +511,7 @@
   border-radius: 10px;
   padding: 20px;
   box-shadow: var(--box-shadow);
-  border: 1.5px solid var(--border-color);
+  border: 2px solid var(--primary-color);
   box-sizing: border-box;
   max-width: 360px;
   font-size: 0.9rem;
@@ -517,6 +521,7 @@
   color: var(--secondary-color);
   font-weight: 700;
   margin-bottom: 12px;
+  font-size: large;
 }
 
 .calendar-grid {
@@ -690,4 +695,21 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar-selectors {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.calendar-selectors select {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
 }

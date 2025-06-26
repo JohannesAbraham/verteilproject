@@ -47,7 +47,7 @@ const Games = () => {
         {games.map((game, index) => (
           <div
             key={index}
-            className="game-card"
+            className={`game-card ${index === 0 ? 'slide-left' : 'slide-right'}`}
             onClick={() => navigate(game.path)}
           >
             <game.logo className="game-logo" />
@@ -58,7 +58,7 @@ const Games = () => {
 
       <h2 className="scoreboard-title">Top Performers</h2>
       <div className="scoreboard-wrapper">
-        <div className="scoreboard">
+        <div className="scoreboard fade-in">
           <h3>Sudoku</h3>
           <table>
             <thead>
@@ -80,7 +80,7 @@ const Games = () => {
           </table>
         </div>
 
-        <div className="scoreboard">
+        <div className="scoreboard fade-in" style={{ animationDelay: '0.3s' }}>
           <h3>Popup Quiz</h3>
           <table>
             <thead>

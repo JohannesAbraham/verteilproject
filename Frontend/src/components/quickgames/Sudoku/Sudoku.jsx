@@ -193,7 +193,8 @@ const Sudoku = () => {
         </select>
         <button onClick={generateNewPuzzle}>New Game</button>
         <button onClick={handleCheckSolution}>Check Solution</button>
-        <div className="timer">⏱ Time: {formatTime(timeElapsed)}</div>
+        <div className="timer-container">⏱: {formatTime(timeElapsed)}</div>
+
       </div>
 
       {message && <div className="message">{message}</div>}

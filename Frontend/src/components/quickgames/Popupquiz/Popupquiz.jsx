@@ -93,7 +93,7 @@ const PopupQuiz = () => {
         </div>
       ) : questions.length > 0 ? (
         <>
-          <div className="timer">Time Left: {timeLeft}s</div>
+          <div className="timer">Time: {timeLeft}s</div>
           <div className="question-box">
             <h3>Q{currentQn + 1}. {questions[currentQn].question}</h3>
             <ul>

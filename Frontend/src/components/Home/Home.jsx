@@ -90,82 +90,95 @@ function generateCalendarDays(year, month) {
 
 const CalendarBox = () => {
   const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth();
-  const days = generateCalendarDays(year, month);
+  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+
+  const days = generateCalendarDays(selectedYear, selectedMonth);
 
   const isWeekend = (date) => date.getDay() === 0 || date.getDay() === 6;
   const isHoliday = (date) => holidays.some(h => new Date(h.date).toDateString() === date.toDateString());
   const isToday = (date) => date.toDateString() === today.toDateString();
 
-  // Filter holidays to show only current and next month
-  const currentMonth = today.getMonth();
-  const nextMonth = currentMonth === 11 ? 0 : currentMonth + 1;
-  const currentYear = today.getFullYear();
-  const nextYear = nextMonth === 0 ? currentYear + 1 : currentYear;
+  const handleMonthChange = (e) => setSelectedMonth(Number(e.target.value));
+  const handleYearChange = (e) => setSelectedYear(Number(e.target.value));
 
   const filteredHolidays = holidays.filter(h => {
     const holidayDate = new Date(h.date);
-    const holidayMonth = holidayDate.getMonth();
-    const holidayYear = holidayDate.getFullYear();
-    
     return (
-      (holidayMonth === currentMonth && holidayYear === currentYear) ||
-      (holidayMonth === nextMonth && holidayYear === nextYear)
+      holidayDate.getMonth() === selectedMonth &&
+      holidayDate.getFullYear() === selectedYear
     );
   });
 
   return (
-  <div className="calendar-box">
-    <h2><CalendarMonthIcon className="icon-title" />Calendar & Holidays</h2>
-    <div className="calendar-grid">
-      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
-        <div key={day} className="calendar-day header">{day}</div>
-      ))}
+    <div className="calendar-box">
+      <div className="calendar-header">
+       <div className="calendar-heading">
+  <CalendarMonthIcon className="icon-title" />
+  <h2>Calendar</h2>
+</div>
 
-      {Array(days[0].getDay()).fill(null).map((_, i) => (
-        <div key={"empty-start-" + i} className="calendar-day empty"></div>
-      ))}
+        <div className="calendar-selectors">
+          <select value={selectedMonth} onChange={handleMonthChange}>
+            {Array.from({ length: 12 }, (_, i) => (
+              <option key={i} value={i}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+            ))}
+          </select>
+          <select value={selectedYear} onChange={handleYearChange}>
+            {[2024, 2025, 2026].map((year) => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+          </select>
+        </div>
+      </div>
 
-      {days.map((date) => {
-        const dayNum = date.getDate();
-        const weekend = isWeekend(date);
-        const holiday = isHoliday(date);
-        return (
-          <div
-            key={date.toISOString()}
-            className={`calendar-day 
-              ${weekend ? "weekend" : ""} 
-              ${holiday ? "holiday" : ""} 
-              ${isToday(date) ? "today" : ""}`}
-            title={holiday ? holidays.find(h => new Date(h.date).toDateString() === date.toDateString()).name : ""}
-          >
-            {dayNum}
-            {holiday && <span className="holiday-dot"></span>}
-          </div>
-        );
-      })}
-
-      {/* Fill the trailing cells to make the grid a multiple of 7 */}
-      {Array((7 - (days.length + days[0].getDay()) % 7) % 7).fill(null).map((_, i) => (
-        <div key={"empty-end-" + i} className="calendar-day empty"></div>
-      ))}
-    </div>
-
-    <div className="holiday-list">
-      <h3>Holidays</h3>
-      <ul>
-        {filteredHolidays.map((h) => (
-          <li key={h.date}>
-            <strong>{new Date(h.date).toLocaleDateString(undefined, { day: "numeric", month: "short" })}</strong>: {h.name}
-          </li>
+      <div className="calendar-grid">
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
+          <div key={day} className="calendar-day header">{day}</div>
         ))}
-      </ul>
-    </div>
-  </div>
-);
 
+        {Array(days[0].getDay()).fill(null).map((_, i) => (
+          <div key={"empty-start-" + i} className="calendar-day empty"></div>
+        ))}
+
+        {days.map((date) => {
+          const dayNum = date.getDate();
+          const weekend = isWeekend(date);
+          const holiday = isHoliday(date);
+          return (
+            <div
+              key={date.toISOString()}
+              className={`calendar-day 
+                ${weekend ? "weekend" : ""} 
+                ${holiday ? "holiday" : ""} 
+                ${isToday(date) ? "today" : ""}`}
+              title={holiday ? holidays.find(h => new Date(h.date).toDateString() === date.toDateString()).name : ""}
+            >
+              {dayNum}
+              {holiday && <span className="holiday-dot"></span>}
+            </div>
+          );
+        })}
+
+        {Array((7 - (days.length + days[0].getDay()) % 7) % 7).fill(null).map((_, i) => (
+          <div key={"empty-end-" + i} className="calendar-day empty"></div>
+        ))}
+      </div>
+
+      <div className="holiday-list">
+        <h3>Holidays</h3>
+        <ul>
+          {filteredHolidays.map((h) => (
+            <li key={h.date}>
+              <strong>{new Date(h.date).toLocaleDateString(undefined, { day: "numeric", month: "short" })}</strong>: {h.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
 };
+
 
 const MediaBox = () => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
@@ -344,7 +357,7 @@ const Home = () => {
 
           <div className="quick-access-message-container">
           <div className="new-joinees-box">
-            <h2><PeopleIcon className="icon-title" />New Joinees</h2>
+            <h2><PeopleIcon className="icon-title" />New Joiners</h2>
             <div className="celebration-list">
               {newJoinees.map((person, index) => (
                 <div key={index} className="celebration-item">
@@ -403,7 +416,7 @@ const Home = () => {
                   </a>
                 </div>
                 <div className="quick-item">
-                  <a href="/quickgames" rel="noopener noreferrer">
+                  <a href="/quickgames" >
                     <SportsEsportsIcon className="icon" />
                     <p className="para">Games</p>
                   </a>

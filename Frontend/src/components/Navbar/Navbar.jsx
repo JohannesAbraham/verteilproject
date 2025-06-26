@@ -56,28 +56,24 @@ const Navbar = () => {
               {isExpanded && <span>Add Suggestion</span>}
             </a>
           </li>
-          
-          
-
-          
-              <li className="nav-item">
-                <a href="/org-structure">
+          <li className="nav-item">
+                <a href="/orgstructure">
                   <AccountTreeIcon fontSize="large" />
                   {isExpanded && <span>Organization</span>}
                 </a>
-              </li>
-              <li className="nav-item">
+          </li>
+          <li className="nav-item">
                 <a href="/career-framework">
                   <WorkIcon fontSize="large" />
                   {isExpanded && <span>Career Framework</span>}
                 </a>
-              </li>
-              <li className="nav-item">
+          </li>
+          <li className="nav-item">
                 <a href="/suggestion-management">
                   <ChatBubbleIcon fontSize="large" />
                   {isExpanded && <span>Suggestions</span>}
                 </a>
-              </li>
+          </li>
             
           
         </ul>

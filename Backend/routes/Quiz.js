@@ -54,6 +54,26 @@ router.post('/submit', async (req, res) => {
     res.status(500).json({ error: 'Failed to evaluate quiz' });
   }
 });
+// Route 4: DELETE a question (Admin only)
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.query; // use query param, since DELETE doesn't usually handle body well
+
+  if (password !== ADMIN_PASSWORD) {
+    return res.status(403).json({ error: 'Unauthorized: Invalid password' });
+  }
+
+  try {
+    const deleted = await QuizQuestion.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(404).json({ error: 'Question not found' });
+    }
+    res.json({ message: 'Question deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete question' });
+  }
+});
+
 
 // Optional: Add routes to update or delete questions
 
