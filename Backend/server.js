@@ -10,6 +10,8 @@ const newsRoutes = require('./routes/NewsRoutes');
 const suggestionRoutes = require('./routes/SuggestionRoutes');
 const mediaBoxRoutes = require('./routes/MediaBoxRoutes');
 const thoughtWordRoutes = require('./routes/ThoughtWordRoutes');
+const quizRoutes = require('./routes/Quiz');
+
 
 const app = express();
 app.use(cors());
@@ -25,12 +27,12 @@ app.use('/api/news', newsRoutes);
 app.use('/api/suggestions', suggestionRoutes);
 app.use('/api/media', mediaBoxRoutes);
 app.use('/api/thoughtword', thoughtWordRoutes);
-
-
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Server Error');
 });
+app.use('/api/quiz',quizRoutes); 
+
 
 
 app.get("/scrape", async (req, res) => {

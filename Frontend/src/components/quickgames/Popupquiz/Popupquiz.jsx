@@ -1,51 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import './Popupquiz.css';
-
-const questions = [
-  {
-    question: "What is the capital of France?",
-    options: ["Berlin", "Madrid", "Paris", "Lisbon"],
-    answer: "Paris",
-  },
-  {
-    question: "Which planet is known as the Red Planet?",
-    options: ["Earth", "Saturn", "Mars", "Venus"],
-    answer: "Mars",
-  },
-  {
-    question: "What is 5 + 7?",
-    options: ["10", "12", "13", "11"],
-    answer: "12",
-  },
-  {
-    question: "Who wrote Hamlet?",
-    options: ["Shakespeare", "Dante", "Chaucer", "Homer"],
-    answer: "Shakespeare",
-  },
-  {
-    question: "Which gas do plants absorb?",
-    options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
-    answer: "Carbon Dioxide",
-  },
-  {
-    question: "What is the boiling point of water?",
-    options: ["100°C", "90°C", "110°C", "80°C"],
-    answer: "100°C",
-  },
-  {
-    question: "Who painted the Mona Lisa?",
-    options: ["Van Gogh", "Da Vinci", "Picasso", "Michelangelo"],
-    answer: "Da Vinci",
-  },
-];
 
 const PopupQuiz = () => {
   const [started, setStarted] = useState(false);
+  const [questions, setQuestions] = useState([]);
   const [currentQn, setCurrentQn] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [timeLeft, setTimeLeft] = useState(60);
   const [submitted, setSubmitted] = useState(false);
+  const [score, setScore] = useState(null);
 
+  // Fetch quiz questions from backend
+  useEffect(() => {
+    if (started && questions.length === 0) {
+      fetch('http://localhost:5000/api/quiz')
+        .then(res => res.json())
+        .then(data => setQuestions(data))
+        .catch(err => console.error('Error fetching quiz:', err));
+    }
+  }, [started]);
+
+  // Timer
   useEffect(() => {
     if (!started || submitted) return;
 
@@ -53,7 +28,7 @@ const PopupQuiz = () => {
       setTimeLeft(prev => {
         if (prev === 1) {
           clearInterval(timer);
-          setSubmitted(true);
+          handleSubmit(); // Auto-submit
         }
         return prev - 1;
       });
@@ -62,17 +37,28 @@ const PopupQuiz = () => {
     return () => clearInterval(timer);
   }, [started, submitted]);
 
+  // Handle option select
   const handleOptionSelect = (option) => {
     setSelectedOptions({ ...selectedOptions, [currentQn]: option });
   };
 
+  // Submit answers to backend
   const handleSubmit = () => {
     setSubmitted(true);
-  };
 
-  const score = Object.entries(selectedOptions).reduce((acc, [index, value]) => {
-    return value === questions[index].answer ? acc + 1 : acc;
-  }, 0);
+    const orderedAnswers = questions.map((_, index) => selectedOptions[index] || "");
+
+    fetch('http://localhost:5000/api/quiz/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers: orderedAnswers }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        setScore(data.score);
+      })
+      .catch(err => console.error('Error submitting answers:', err));
+  };
 
   const goNext = () => {
     if (currentQn < questions.length - 1) {
@@ -86,6 +72,16 @@ const PopupQuiz = () => {
     }
   };
 
+  const restartQuiz = () => {
+    setStarted(false);
+    setQuestions([]);
+    setSelectedOptions({});
+    setCurrentQn(0);
+    setTimeLeft(60);
+    setSubmitted(false);
+    setScore(null);
+  };
+
   return (
     <div className="quiz-container">
       {!started ? (
@@ -93,15 +89,9 @@ const PopupQuiz = () => {
       ) : submitted ? (
         <div className="result-section">
           <h2>Your Score: {score} / {questions.length}</h2>
-          <button className="start-button" onClick={() => {
-            setStarted(false);
-            setSelectedOptions({});
-            setCurrentQn(0);
-            setTimeLeft(60);
-            setSubmitted(false);
-          }}>Restart</button>
+          <button className="start-button" onClick={restartQuiz}>Restart</button>
         </div>
-      ) : (
+      ) : questions.length > 0 ? (
         <>
           <div className="timer">Time Left: {timeLeft}s</div>
           <div className="question-box">
@@ -124,6 +114,8 @@ const PopupQuiz = () => {
             <button className="submit-button" onClick={handleSubmit}>Submit</button>
           </div>
         </>
+      ) : (
+        <div>Loading quiz...</div>
       )}
     </div>
   );

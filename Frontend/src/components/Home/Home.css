@@ -384,7 +384,7 @@
 
 .quick-item {
   background-color: #d8e4a2;
-  padding: 16px 12px;
+  padding: 38px;
   border-radius: 10px;
   text-align: center;
   font-weight: 600;
@@ -523,7 +523,7 @@
 
 .calendar-day.header {
   font-weight: 700;
-  width: 28px;
+  width: 35px;
   padding: 5px;
   background-color: #e2e2e2;
   color: var(--secondary-color);

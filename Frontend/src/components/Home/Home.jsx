@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
-
 import "./Home.css";
 import { format } from "date-fns";
 import PeopleIcon from '@mui/icons-material/People';
@@ -19,7 +17,6 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 
-const placeholderImage = "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg";
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
 
 const newsList = [

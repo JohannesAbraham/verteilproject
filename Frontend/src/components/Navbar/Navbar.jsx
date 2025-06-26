@@ -45,7 +45,7 @@ const Navbar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a href="/verite">
+            <a  href="http://localhost:5173/"  target="_blank" rel="noopener noreferrer">
               <VideogameAssetIcon fontSize="large" />
               {isExpanded && <span>Verite</span>}
             </a>
