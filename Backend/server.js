@@ -15,10 +15,7 @@ const quizRoutes = require('./routes/Quiz');
 const treeRoutes = require('./routes/TreeRoutes')
 
 const app = express();
-app.use(cors({
-  origin:"http://localhost:5173",
-  credentials:true
-}));
+app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
@@ -50,8 +47,6 @@ app.get("/scrape", async (req, res) => {
   
     $("a").each((index, element) => {
 
-      console.log("Full element object:", element);
-      console.log("Cheerio wrapped object:", $(element));
       data.push({
         text: $(element).text(),
         href: $(element).attr("href"),

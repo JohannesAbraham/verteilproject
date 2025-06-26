@@ -12,11 +12,11 @@ const Suggestion = ({ suggestion, onDelete }) => {
         <CardContent className="card-content">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography 
-              variant="h5" 
+              variant="h4" 
               component="h2" 
               className="suggestion-subject"
             >
-              {suggestion.title}
+              {suggestion.category}
             </Typography>
             <IconButton 
               aria-label="delete" 
@@ -27,7 +27,7 @@ const Suggestion = ({ suggestion, onDelete }) => {
             </IconButton>
           </div>
           <Typography 
-            variant="body1" 
+            variant="h6" 
             className="suggestion-content"
           >
             {suggestion.content}
@@ -120,6 +120,7 @@ const SuggestionManagement = () => {
               suggestions.map((suggestion) => (
                 <Suggestion 
                   key={suggestion._id}
+                  
                   suggestion={suggestion}
                   onDelete={handleDelete}
                 />

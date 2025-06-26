@@ -103,6 +103,7 @@ body {
 .org-chart-container {
   flex: 1;
   border: 1px solid #ddd;
+  background-color: #ddd;
   border-radius: 4px;
   overflow: hidden;
   position: relative;
