@@ -11,7 +11,7 @@ const newsRoutes = require('./routes/NewsRoutes');
 const suggestionRoutes = require('./routes/SuggestionRoutes');
 const mediaBoxRoutes = require('./routes/MediaBoxRoutes');
 const thoughtWordRoutes = require('./routes/ThoughtWordRoutes');
-const profileRoutes = require('./routes/ProfileRoutes')
+// const profileRoutes = require('./routes/ProfileRoutes')
 const quizRoutes = require('./routes/Quiz');
 const app = express();
 app.use(cors());
@@ -44,8 +44,6 @@ app.get("/scrape", async (req, res) => {
   
     $("a").each((index, element) => {
 
-      console.log("Full element object:", element);
-      console.log("Cheerio wrapped object:", $(element));
       data.push({
         text: $(element).text(),
         href: $(element).attr("href"),

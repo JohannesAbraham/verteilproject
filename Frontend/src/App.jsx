@@ -11,6 +11,7 @@ import Footer from './components/Footer/Footer';
 import News from './components/News/News';
 import OrgStructure from "./components/Org Structure/OrgStructure.jsx";
 import CareerFramework from "./components/Career Framework/CFramework";
+import NewsManagement from "./components/News Management/NewsManagement.jsx";
 import Sudokuboard from "./components/quickgames/Sudoku/Sudoku";
 import Popupquiz from "./components/quickgames/Popupquiz/Popupquiz";
 import Gamelist from "./components/quickgames/Gameslist/games";
@@ -50,6 +51,7 @@ const AppContent = () => {
             <Route path="/uploadmedia" element={<MediaBox />}></Route>
             <Route path="/editthought" element={<EditThought />}></Route>
             <Route path="/quizmanager" element={<QuizManager />} />
+            <Route path="/news-management" element={<NewsManagement/>}></Route>
           </Routes>
         {/* </div> */}
       {/* //   <Footer /> */}

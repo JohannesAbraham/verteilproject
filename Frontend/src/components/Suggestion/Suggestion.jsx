@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const Suggestion = () => {
   const [suggestion, setSuggestion] = useState('');
-  const [subject, setSubject] = useState('');
+  const [category, setCategory] = useState('General');
   const [empId, setEmpId] = useState('')
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
@@ -12,8 +12,10 @@ const Suggestion = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     
-    if (!subject.trim() || !suggestion.trim() || !empId.trim()) {
+    
+    if (!category.trim() || !suggestion.trim() || !empId.trim()) {
       setError('Please fill in all fields');
       return;
     }
@@ -22,18 +24,23 @@ const Suggestion = () => {
 
       // TODO: CHECK IF EMPLOYEE ID IS VALID
 
+
+      
+
       setIsLoading(true);
-      const response = await axios.post('http://localhost:5000/api/suggestions', {
-        title: subject,
+      const request = {
+        category: category,
         content: suggestion,
         empId: empId
-      });
+      }
+      console.log(request)
+      const response = await axios.post('http://localhost:5000/api/suggestions', request);
       
       console.log('Suggestion submitted:', response.data);
       setSubmitted(true);
       setError('');
       setSuggestion('');
-      setSubject('');
+      setCategory('General');
       setEmpId('');
 
     } catch (err) {
@@ -44,13 +51,12 @@ const Suggestion = () => {
     }
   };
 
+  const handleCategoryChange = (e) => {
+    setCategory(e.currentTarget.value)
+    if (error) setError('');
+  }
   const handleSuggestionChange = (e) => {
     setSuggestion(e.currentTarget.value);
-    if (error) setError('');
-  };
-
-  const handleSubjectChange = (e) => {
-    setSubject(e.currentTarget.value);
     if (error) setError('');
   };
 
@@ -74,18 +80,25 @@ const Suggestion = () => {
   return (
     <div className="suggestion-container">
       <h1>Share Your Suggestions</h1>
-      <p>We value your feedback! Please share your ideas, suggestions, or feedback below.</p>
+      <p>We value your suggestions! Please share your ideas and suggestions below.</p>
       
       <form onSubmit={handleSubmit} className="suggestion-form">
         <div className="form-group">
-          <label htmlFor="subject">Subject:</label>
-          <input
-            className='form-input'
-            id="subject"
-            value={subject}
-            onChange={handleSubjectChange}
-            placeholder="Enter subject..."
-          />
+              <label htmlFor="category">Category</label>
+              <select
+                id="category"
+                name="category"
+                value={category}
+                onChange={handleCategoryChange}
+              >
+                <option value="General">General</option>
+                <option value="Product">Product</option>
+                <option value="Tech and Tools">Tech and Tools</option>
+                <option value="Training">Training</option>
+                <option value="Finance">Finance</option>
+                <option value="Policies">Policies</option>
+                <option value="HR and People's Operations">HR and People Operations</option>
+              </select>
           
           <label htmlFor="suggestion">Your Suggestion:</label>
           <textarea
