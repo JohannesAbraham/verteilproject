@@ -15,6 +15,7 @@ import TheatersIcon from '@mui/icons-material/Theaters';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { Typography } from "@mui/material";
 
 import ProfilePage from '../ProfilePage'
 
@@ -113,13 +114,11 @@ const CalendarBox = () => {
   });
 
   return (
-    <div className="calendar-box">
-      <div className="calendar-header">
-       <div className="calendar-heading">
-  <CalendarMonthIcon className="icon-title" />
-  <h2>Calendar</h2>
-</div>
+  <div className="calendar-box card">
+    <Typography variant="h6"><CalendarMonthIcon className="icon-title" /> Calendars and Holidays</Typography>
 
+    <div className="calendar-grid">
+      
         <div className="calendar-selectors">
           <select value={selectedMonth} onChange={handleMonthChange}>
             {Array.from({ length: 12 }, (_, i) => (
@@ -386,7 +385,7 @@ const Home = () => {
 
         <div className="events-column">
           <div className="quick-access-box card">
-            <h2>Quick Access</h2>
+            <Typography variant="h6">Quick Access</Typography>
             <div className="quick-access-grid">
               <div className="quick-column">
                 <div className="quick-item" onClick={() => navigate('/profile')}>
@@ -434,7 +433,7 @@ const Home = () => {
 
 
           <div className="birthday-box card">
-            <h2><CakeIcon className="icon-title" />Birthdays This Week</h2>
+            <Typography variant="h6"><CakeIcon className="icon-title" /> Birthdays This Week</Typography>
             <div className="celebration-list">
               {birthdays.map((person, index) => (
                 <div key={index} className="celebration-item">
@@ -449,7 +448,7 @@ const Home = () => {
           </div>
 
           <div className="anniversary-box card">
-            <h2><CelebrationIcon className="icon-title" />Work Anniversaries</h2>
+            <Typography variant="h6"><CelebrationIcon className="icon-title" /> Work Anniversaries</Typography>
             <div className="celebration-list">
               {anniversaries.map((person, index) => (
                 <div key={index} className="celebration-item">

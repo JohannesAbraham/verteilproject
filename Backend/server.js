@@ -32,8 +32,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Server Error');
 });
-app.use('/api/quiz',quizRoutes); 
-
 
 
 app.get("/scrape", async (req, res) => {
@@ -43,7 +41,12 @@ app.get("/scrape", async (req, res) => {
     const html = response.data;
     const $ = cheerio.load(html);
     let data = [];
+    
+  
     $("a").each((index, element) => {
+
+      console.log("Full element object:", element);
+      console.log("Cheerio wrapped object:", $(element));
       data.push({
         text: $(element).text(),
         href: $(element).attr("href"),

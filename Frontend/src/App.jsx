@@ -9,9 +9,9 @@ import Suggestion from "./components/Suggestion/Suggestion";
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import News from './components/News/News';
-import OrgStructure from "./components/Org Structure/OrgStructure";
+import OrgStructure from "./components/Org Structure/OrgStructure.jsx";
 import CareerFramework from "./components/Career Framework/CFramework";
-import Sudoku from "./components/quickgames/Sudoku/Sudoku";
+import Sudokuboard from "./components/quickgames/Sudoku/Sudoku";
 import Popupquiz from "./components/quickgames/Popupquiz/Popupquiz";
 import Gamelist from "./components/quickgames/Gameslist/games";
 import SuggestionManagement from "./components/Suggestion Management/SuggestionManagement";
@@ -33,26 +33,26 @@ const AppContent = () => {
       <img src={backgroundImage} alt="background" className="background-image" />
 
       <div className="content-wrapper">
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/suggestion" element={<Suggestion />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/orgstructure" element={<OrgStructure />} />
-          <Route path="/career-framework" element={<CareerFramework />} />
-          <Route path="/suggestion-management" element={<SuggestionManagement />} />
-          <Route path="/uploadmedia" element={<MediaBox />} />
-          <Route path="/editthought" element={<EditThought />} />
-          <Route path="/quizmanager" element={<QuizManager />} />
-
-          {/* Quick Games */}
-          <Route path="/quickgames" element={<Gamelist />} />
-          <Route path="/quickgames/sudoku" element={<Sudoku />} />
-          <Route path="/quickgames/popupquiz" element={<Popupquiz />} />
-        </Routes>
-      </div>
-
+        
+          <Routes>
+            <Route path="/home" element={<Home/>}></Route>
+            <Route path="/" element={<Login />}></Route>
+            <Route path="/profile" element={<ProfilePage />}></Route>
+            <Route path="/suggestion" element={<Suggestion />}></Route>
+            <Route path="/news" element={<News />}></Route>
+            <Route path="/org-structure" element={<OrgStructure />}></Route>
+            <Route path="/career-framework" element={<CareerFramework />}></Route>
+            <Route path="/suggestion-management" element={<SuggestionManagement />}></Route>
+            <Route path="/quickgames/sudoku" element={<Sudokuboard />}></Route>
+            <Route path="/quickgames/popupquiz" element={<Popupquiz />}></Route>  
+            <Route path="/quickgames" element={<Gamelist />}></Route>
+            <Route path="/uploadmedia" element={<MediaBox />}></Route>
+            <Route path="/editthought" element={<EditThought />}></Route>
+            <Route path="/quizmanager" element={<QuizManager />} />
+          </Routes>
+        </div>
+        <Footer />
+      
       {!hideHeaderFooter && <Footer />}
     </div>
   );

@@ -185,7 +185,9 @@ const Sudoku = () => {
     <div className="sudoku-wrapper">
     <div className="sudoku-container">
       <h1>Sudoku Game</h1>
-
+      {/* <div className="games-fullscreen-bg">
+      <div className="games-overlay"> */}
+      
       <div className="controls">
         <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
           <option value="easy">Easy</option>
@@ -222,7 +224,10 @@ const Sudoku = () => {
         ))}
       </div>
     </div>
+    
     </div>
+    // </div>
+    // </div>
   );
 };
 

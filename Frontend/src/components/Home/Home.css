@@ -6,6 +6,7 @@
   --box-shadow: 0 3px 8px rgba(129, 167, 61, 0.25);
   --border-color: #81a83f;
 }
+
 /* General Styles */
 .dashboard-container {
   display: flex;
@@ -150,10 +151,13 @@
   border-bottom: 1px solid #d3e2b9;
 }
 
-.new-joinee-item:last-child {
+.new-joinee-item:last-child,
+.celebration-item:last-child {
   border-bottom: none;
 }
 
+/* Profile Image Styles */
+.profile-pic,
 .joinee-profile-container img.profile-pic {
   width: 50px;
   height: 50px;
@@ -162,13 +166,16 @@
   border: 2px solid var(--primary-color);
 }
 
-.joinee-details h3 {
+/* Detail Styles */
+.joinee-details h3,
+.celebration-details h3 {
   margin: 0;
   font-size: 1rem;
   color: var(--secondary-color);
 }
 
-.joinee-details p {
+.joinee-details p,
+.celebration-details p {
   margin: 4px 0 0 0;
   font-size: 0.85rem;
   color: #666;
@@ -375,8 +382,9 @@
 
 .quick-access-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);  /* Ensures 2 equal-width columns */
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+  margin-top: 12px;
 }
 
 .quick-column {
@@ -387,12 +395,12 @@
 
 .quick-item {
   background-color: #d8e4a2;
-  padding: 38px;
+  padding: 32px;
   border-radius: 10px;
   text-align: center;
   font-weight: 600;
   color: var(--secondary-color);
-  height: 80px; /* Fixed height for consistent alignment */
+  height: 80px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
@@ -405,69 +413,23 @@
   transform: translateY(-4px);
 }
 
-.quick-item .icon {
-  font-size: 1.8rem;
-  margin-bottom: 6px;
+/* News Styles */
+.news-list-container {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
-.quick-item a {
+.news-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: inherit;
-  text-decoration: none;
-}
-
-.para {
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-
-@media (max-width: 768px) {
-  .quick-access-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Celebration Boxes (Birthdays/Anniversaries) */
-.birthday-box,
-.anniversary-box {
   margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
 }
 
-.birthday-box h2,
-.anniversary-box h2 {
-  color: var(--secondary-color);
-  font-weight: 700;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.celebration-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.celebration-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid #d3e2b9;
-}
-
-.celebration-item:last-child {
-  border-bottom: none;
-}
-
-.profile-pic {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+.news-image {
+  width: 120px;
+  height: 90px;
   object-fit: cover;
   border: 2px solid var(--primary-color);
 }
@@ -502,132 +464,36 @@
   font-size: large;
 }
 
+/* Calendar Styles */
 .calendar-grid {
-  place-self: center;
   display: grid;
-  /* grid-template-columns: repeat(7, 1fr); */
-  gap: 6px;
   grid-template-columns: repeat(7, 36px);
+  gap: 6px;
   margin-top: 10px;
 }
 
 .calendar-day {
   width: 36px;
   text-align: center;
-  /* padding: 10px 4px; */
+  padding: 8px 0;
   border-radius: 8px;
-  padding: 8px 0px;
   background-color: #f7f7f7;
   font-weight: 500;
   font-size: 13px;
-  position: relative;
-  user-select: none;
-  transition: background-color 0.3s ease;
 }
 
 .calendar-day.header {
   font-weight: 700;
-  width: 35px;
-  padding: 5px;
   background-color: #e2e2e2;
   color: var(--secondary-color);
-  padding: 8px 4px;
-  font-size: 13px;
-}
-
-.calendar-day.weekend {
-  color: #999;
-}
-
-.calendar-day.holiday {
-  background-color: #ffebeb;
-  color: #d8000c;
-  font-weight: 700;
+  padding: 8px 8px;
 }
 
 .calendar-day.today {
   background-color: var(--primary-color);
   color: white;
-  font-weight: 700;
   border-radius: 50%;
   box-shadow: 0 0 8px var(--primary-color);
-}
-
-.calendar-day.empty {
-  background-color: transparent;
-  box-shadow: none;
-  pointer-events: none;
-}
-
-.holiday-dot {
-  position: absolute;
-  bottom: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6px;
-  height: 6px;
-  background-color: red;
-  border-radius: 50%;
-}
-
-.holiday-list {
-  margin-top: 16px;
-  font-size: 13px;
-}
-
-.holiday-list h3 {
-  margin-bottom: 10px;
-  color: var(--secondary-color);
-  font-weight: 600;
-}
-
-.holiday-list ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
-}
-
-.holiday-list li {
-  margin-bottom: 6px;
-  font-size: 13px;
-  color: #444;
-  font-weight: 500;
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: white;
-  width: 80%;
-  max-width: 800px;
-  border-radius: 12px;
-  padding: 20px;
-  position: relative;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  font-size: 1.8rem;
-  color: #333;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
 }
 
 /* Responsive Styles */
@@ -641,31 +507,26 @@
 }
 
 @media (max-width: 768px) {
-  .thought-word-container {
-    flex-direction: column;
+  .quick-access-grid {
+    grid-template-columns: 1fr;
   }
-  .quick-items {
-    flex-direction: column;
-  }
-  .quick-item {
-    width: 100%;
-  }
+  
   .news-item {
     flex-direction: column;
   }
+  
   .news-image-container {
     margin-right: 0;
     margin-bottom: 10px;
   }
 }
 
-/* Icons */
+/* Icons & Links */
 .icon-title {
   color: var(--primary-color);
   font-size: 1.5rem !important;
 }
 
-/* Links */
 a {
   text-decoration: none;
   color: var(--secondary-color);

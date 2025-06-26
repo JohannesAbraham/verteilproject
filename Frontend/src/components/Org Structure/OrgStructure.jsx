@@ -1,199 +1,165 @@
 import React from 'react';
-import { Tree, TreeNode } from 'react-organizational-chart';
 import './OrgStructure.css';
-import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+import {
+  defaultProfilePic,
+  profilePictures,
+  teamTrees,
+  teamNames,
+  getTreeForTab
+} from './orgstructure.js' // Importing necessary data and utilities
 
-const Controls = () => {
-  const { zoomIn, zoomOut, resetTransform } = useControls();
-  return (
-    <div className="tools">
-      <button onClick={() => zoomIn()}>+</button>
-      <button onClick={() => zoomOut()}>-</button>
-      <button onClick={() => resetTransform()}>x</button>
-    </div>
-  );
-};
 
-const NodeTree = ({ label, children }) => {
-  return (
-    <div className="node-tree-container">
-      <Tree
-        lineWidth="2px"
-        lineColor="#80A23F"
-        lineBorderRadius="4px"
-        lineHeight="36px"  
-        nodePadding="4px"
-        label={label}
-      >
-        {children && children.map((child, index) => (
-          <TreeNode key={index} label={child.label} />
-        ))}
-      </Tree>
-    </div>
-  );
-};
+const TreeNode = ({ node, onExpand }) => {
+  const shouldShowProfilePic = node.name && node.name.trim() !== '' && profilePictures[node.id];
+  const profilePic = shouldShowProfilePic ? profilePictures[node.id] : null;
 
-const OrganizationStructure = () => {
   return (
-    <div className="org-chart-container">
-      <h1 className="org-chart-title">Organization Structure</h1>
-      <div className="org-chart-wrapper">
-        <div className="org-chart-inner">
-          <TransformWrapper
-            initialScale={1}
-            initialPositionX={200}
-            initialPositionY={100}
+    <div className="node">
+      <div className="node-content">
+        {shouldShowProfilePic && (
+          <img 
+            src={profilePic} 
+            alt={`${node.name}'s profile`} 
+            className="node-avatar"
+          />
+        )}
+        <div className={`node-info ${!shouldShowProfilePic ? 'no-avatar' : ''}`}>
+          {node.name && <div className="node-name">{node.name}</div>}
+          <div className="node-title">{node.title}</div>
+        </div>
+        {node.children && node.children.length > 0 && (
+          <button 
+            className="expand-button" 
+            onClick={() => onExpand(node.id)}
           >
-            {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <>
-                <Controls />
-                <TransformComponent>
-                  <div className="charts">
-                  <NodeTree 
-                    label={<div className="org-node root-node">Head of Organization<br /><span>CEO</span></div>}
-                    children={[
-                      { label: <div className="org-node">Product Head</div> },
-                      { label: <div className="org-node">Technology Head</div> },
-                      { label: <div className="org-node">Engineering Head</div> },
-                      { label: <div className="org-node">Growth Head</div> },
-                      { label: <div className="org-node">Business Development Head</div> },
-                      { label: <div className="org-node">People's Operations Head</div> }
-                    ]}
-                  />
+            {node.expanded ? '−' : '+'}
+          </button>
+        )}
+      </div>
+      {node.expanded && node.children && (
+        <div className="children">
+          {node.children.map(child => (
+            <TreeNode 
+              key={child.id} 
+              node={child} 
+              onExpand={onExpand} 
+            />
+          ))}
+        </div>
+      )}
+      
+    </div>
+  );
+};
 
-                  <div className="sub-tree">
-                    <NodeTree 
-                      label={<div className="org-node">Product Head</div>}
-                      children={[
-                        { label: <div className="org-node">BA Team</div> },
-                        { label: <NodeTree 
-                      label={<div className="org-node">Customer Success Team</div>}
-                      children={[
-                        { label: <div className="org-node">Customer Support</div> },
-                        { label: <div className="org-node">Tech Support</div> }
-                      ]}
-                    /> },
-                        { label: <div className="org-node">Account Management</div> },
-                        { label: <NodeTree 
-                      label={<div className="org-node">Sales</div>}
-                      children={[
-                        { label: <div className="org-node">Customer Onboarding</div> }
-                      ]}
-                    /> }
-                      ]}
-                    />
+const OrgChart = ({ data, onExpand }) => {
+  return (
+    <div className="org-chart">
+      <TreeNode node={data} onExpand={onExpand} />
+    </div>
+  );
+};
+
+
+
+const App = () => {
+  // Create 30 copies of the initial tree data, with Team 2 having special structure
+  const [trees, setTrees] = React.useState(
+    Array.from({ length: 30 }, (_, i) => getTreeForTab(i))
+  );
+  
+  const [activeTab, setActiveTab] = React.useState(0);
+
+  const handleExpand = (nodeId, tabIndex) => {
+    setTrees(prevTrees => {
+      const newTrees = [...prevTrees];
+      
+      const updateNode = (node) => {
+        if (node.id === nodeId) {
+          return { ...node, expanded: !node.expanded };
+        }
+        if (node.children) {
+          return {
+            ...node,
+            children: node.children.map(updateNode)
+          };
+        }
+        return node;
+      };
+
+      newTrees[tabIndex] = updateNode(newTrees[tabIndex]);
+      return newTrees;
+    });
+  };
+  
+  return (
+    <div className="app-layout">
+      <header className="app-header">
+        <h1>Company Organization Structure</h1>
+      </header>
+      
+      <div className="app-main-container">
+        <div className="sidebar">
+          <div className="sidebar-header">Teams</div>
+          <div className="tabs">
+            {teamNames.map((name, index) => (
+              <button
+                key={index}
+                className={`tab ${activeTab === index ? 'active' : ''}`}
+                onClick={() => setActiveTab(index)}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+        </div>
+        
+        <div className="main-content">
+          <h2>Organization Chart - {teamNames[activeTab]}</h2>
+          <div className="org-chart-container">
+            <TransformWrapper
+              initialScale={1}
+              minScale={0.5}
+              maxScale={2}
+              wheel={{ step: 0.08 }}
+              doubleClick={{ disabled: true }}
+            >
+              {({ zoomIn, zoomOut, resetTransform }) => (
+                <>
+                  <div className="controls">
+                    <button className='control' onClick={() => zoomIn()}>+</button>
+                    <button className='control' onClick={() => zoomOut()}>-</button>
+                    <button className='control' onClick={() => resetTransform()}>Reset</button>
                   </div>
-
-                  <div className="sub-tree">
-                    <NodeTree 
-                      label={<div className="org-node">BA Team</div>}
-                      children={[
-                        { label: <div className="org-node">Product</div> },
-                        { label: <div className="org-node">API Integrations</div> },
-                        { label: <div className="org-node">Airline Integrations</div> },
-                        { label: <div className="org-node">UX Designer</div> }
-                      ]}
-                    />
-                  </div>
-
-                 
-
-                  
-
-                  {/* Level 2 - Technology Head */}
-                  <div className="sub-tree">
-                    <NodeTree 
-                      label={<div className="org-node">Technology Head</div>}
-                      children={[
-                        { label: <div className="org-node">DevOps</div> },
-                        { label: <div className="org-node">Tech Group</div> }
-                      ]}
-                    />
-                  </div>
-
-                  {/* Level 2 - Engineering Head */}
-                  <div className="sub-tree">
-                    <NodeTree 
-                      label={<div className="org-node">Engineering Head</div>}
-                      children={[
-                        { label: <NodeTree 
-                      label={<div className="org-node">Payment Management</div>}
-                      children={[
-                        { label:  <NodeTree 
-                      label={<div className="org-node">Order Management</div>}
-                      children={[
-                        { label: <div className="org-node">Offer Management</div> }
-                      ]}
-                    /> }
-                      ]}
-                    /> },
-                        { label: <NodeTree 
-                      label={<div className="org-node">Admin Platform Management</div>}
-                      children={[
-                        { label: <NodeTree 
-                      label={<div className="org-node">V4-OMS</div>}
-                      children={[
-                        { label: <div className="org-node">AIT Dev</div> }
-                      ]}
-                    /> }
-                      ]}
-                    /> },
-                        { label: <NodeTree 
-                      label={<div className="org-node">QA</div>}
-                      children={[
-                        { label: <div className="org-node">UI Dev</div> }
-                      ]}
-                    /> }
-                      ]}
-                    />
-                  </div>
-
-                 
-
-
-                  {/* Level 2 - Growth Head */}
-                  <div className="sub-tree">
-                    <NodeTree 
-                      label={<div className="org-node">Growth Head</div>}
-                      children={[
-                        { label: <div className="org-node">OC Operations</div> },
-                        { label: <div className="org-node">OC Sales</div> },
-                        { label: <div className="org-node">OC Dev</div> }
-                      ]}
-                    />
-                  </div>
-
-                  {/* Level 2 - Business Development Head */}
-                  <div className="sub-tree">
-                    <NodeTree 
-                      label={<div className="org-node">Business Development Head</div>}
-                      children={[
-                        { label: <div className="org-node">Pre Sales Team</div> },
-                        { label: <div className="org-node">Marketing</div> }
-                      ]}
-                    />
-                  </div>
-
-                  {/* Level 2 - People's Operations Head */}
-                  <div className="sub-tree">
-                    <NodeTree 
-                      label={<div className="org-node">People's Operations Head</div>}
-                      children={[
-                        { label: <div className="org-node">HR Team</div> },
-                        { label: <div className="org-node">Finance Team</div> },
-                        { label: <div className="org-node">Operations Team</div> }
-                      ]}
-                    />
-                  </div>
-                  </div>
-                </TransformComponent>
-              </>
-            )}
-          </TransformWrapper>
+                  <TransformComponent
+                    wrapperStyle={{ width: "100%", height: "100%" }}
+                    contentStyle={{ 
+                      width: "100%", 
+                      minWidth: "fit-content",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "flex-start" // Align to top but center horizontally
+                    }}
+                  >
+                    <div className="org-chart-wrapper">
+                      <OrgChart 
+                        data={trees[activeTab]} 
+                        onExpand={(nodeId) => handleExpand(nodeId, activeTab)} 
+                      />
+                    </div>
+                  </TransformComponent>
+                </>
+              )}
+            </TransformWrapper>
+          </div>
         </div>
       </div>
+      
+      
     </div>
-  );
+);
+  
 };
 
-export default OrganizationStructure;
+export default App;
