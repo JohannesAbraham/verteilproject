@@ -19,9 +19,11 @@ import SuggestionManagement from "./components/Suggestion Management/SuggestionM
 import MediaBox from "./components/MediaUpload";
 import EditThought from "./components/EditThought";
 import QuizManager from "./components/quickgames/AdminAccess/AdminQuizPanel";
+import TreePage from './components/Career Framework/Tree.jsx'
+import JobDescription from './components/Career Framework/JobDescription.jsx';
+// import Verite from "./components/Verite.jsx";
 import backgroundImage from '/glass-frosting-design.jpg';
 
-// Sub component to manage routes & layout
 const AppContent = () => {
   const location = useLocation();
   const hideHeaderFooter =
@@ -43,7 +45,8 @@ const AppContent = () => {
             <Route path="/suggestion" element={<Suggestion />}></Route>
             <Route path="/news" element={<News />}></Route>
             <Route path="/org-structure" element={<OrgStructure />}></Route>
-            <Route path="/career-framework" element={<CareerFramework />}></Route>
+            <Route path="/tree" element={<TreePage />} />
+            <Route path="/job/:name" element={<JobDescription />} />
             <Route path="/suggestion-management" element={<SuggestionManagement />}></Route>
             <Route path="/quickgames/sudoku" element={<Sudokuboard />}></Route>
             <Route path="/quickgames/popupquiz" element={<Popupquiz />}></Route>  

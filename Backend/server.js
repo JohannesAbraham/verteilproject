@@ -11,7 +11,8 @@ const newsRoutes = require('./routes/NewsRoutes');
 const suggestionRoutes = require('./routes/SuggestionRoutes');
 const mediaBoxRoutes = require('./routes/MediaBoxRoutes');
 const thoughtWordRoutes = require('./routes/ThoughtWordRoutes');
-// const profileRoutes = require('./routes/ProfileRoutes')
+const profileRoutes = require('./routes/ProfileRoutes')
+const treeRoutes = require('./routes/TreeRoutes')
 const quizRoutes = require('./routes/Quiz');
 const app = express();
 app.use(cors());
@@ -26,7 +27,10 @@ app.use('/api/news', newsRoutes);
 app.use('/api/suggestions', suggestionRoutes);
 app.use('/api/media', mediaBoxRoutes);
 app.use('/api/thoughtword', thoughtWordRoutes);
+app.use("/api/auth", profileRoutes);
+app.use("/api/tree",treeRoutes);
 app.use('/api/quiz', quizRoutes);
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Server Error');
