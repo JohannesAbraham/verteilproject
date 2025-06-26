@@ -10,8 +10,6 @@ const newsRoutes = require('./routes/NewsRoutes');
 const suggestionRoutes = require('./routes/SuggestionRoutes');
 const mediaBoxRoutes = require('./routes/MediaBoxRoutes');
 const thoughtWordRoutes = require('./routes/ThoughtWordRoutes');
-const quizRoutes = require('./routes/Quiz');
-
 
 const app = express();
 app.use(cors());
@@ -27,12 +25,12 @@ app.use('/api/news', newsRoutes);
 app.use('/api/suggestions', suggestionRoutes);
 app.use('/api/media', mediaBoxRoutes);
 app.use('/api/thoughtword', thoughtWordRoutes);
+
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Server Error');
 });
-app.use('/api/quiz',quizRoutes); 
-
 
 
 app.get("/scrape", async (req, res) => {
@@ -42,7 +40,12 @@ app.get("/scrape", async (req, res) => {
     const html = response.data;
     const $ = cheerio.load(html);
     let data = [];
+    
+  
     $("a").each((index, element) => {
+
+      console.log("Full element object:", element);
+      console.log("Cheerio wrapped object:", $(element));
       data.push({
         text: $(element).text(),
         href: $(element).attr("href"),

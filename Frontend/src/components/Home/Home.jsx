@@ -15,6 +15,7 @@ import TheatersIcon from '@mui/icons-material/Theaters';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { Typography } from "@mui/material";
 
 
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
@@ -117,7 +118,8 @@ const CalendarBox = () => {
 
   return (
   <div className="calendar-box card">
-    <h2><CalendarMonthIcon className="icon-title" />Calendar & Holidays</h2>
+    <Typography variant="h6"><CalendarMonthIcon className="icon-title" /> Calendars and Holidays</Typography>
+
     <div className="calendar-grid">
       {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
         <div key={day} className="calendar-day header">{day}</div>
@@ -369,7 +371,7 @@ const Home = () => {
 
         <div className="events-column">
           <div className="quick-access-box card">
-            <h2>Quick Access</h2>
+            <Typography variant="h6">Quick Access</Typography>
             <div className="quick-access-grid">
               <div className="quick-column">
                 <div className="quick-item">
@@ -414,7 +416,7 @@ const Home = () => {
 
 
           <div className="birthday-box card">
-            <h2><CakeIcon className="icon-title" />Birthdays This Week</h2>
+            <Typography variant="h6"><CakeIcon className="icon-title" /> Birthdays This Week</Typography>
             <div className="celebration-list">
               {birthdays.map((person, index) => (
                 <div key={index} className="celebration-item">
@@ -429,7 +431,7 @@ const Home = () => {
           </div>
 
           <div className="anniversary-box card">
-            <h2><CelebrationIcon className="icon-title" />Work Anniversaries</h2>
+            <Typography variant="h6"><CelebrationIcon className="icon-title" /> Work Anniversaries</Typography>
             <div className="celebration-list">
               {anniversaries.map((person, index) => (
                 <div key={index} className="celebration-item">
