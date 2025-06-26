@@ -8,18 +8,23 @@
     --text-primary: rgba(0, 0, 0, 0.87);
     --text-secondary: rgba(0, 0, 0, 0.6);
     --divider: rgba(0, 0, 0, 0.12);
+
   }
 
 /* Main container */
 .suggestion-management-container {
     padding: 24px;
-    margin-left: 10vw;
+    margin: 40px 5vw 40px 5vw;
+    min-height: 80vh;
+    background-color: var(--background-color);
+    border: 1.5px solid var(--primary-color);
   }
   
   /* Title styling */
   .suggestion-management-title {
     font-weight: 700;
     color: var(--text-primary);
+    
   }
   
   /* Grid container */

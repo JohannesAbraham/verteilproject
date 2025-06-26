@@ -1,0 +1,83 @@
+:root {
+  --primary-color: #81a73d;
+  --secondary-color: #4a6532;
+  --background-color: #f9fcef;
+  --box-shadow: 0 4px 12px rgba(129, 167, 61, 0.15);
+  --border-color: #4a6532;
+  --fixed-bg: #81a73d;
+}
+
+.quiz-manager {
+  background-color: var(--background-color);
+  padding: 2rem;
+  color: var(--secondary-color);
+  margin-left: 7rem;
+}
+
+.quiz-manager h2 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+.input-form {
+  background: #fff;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.input-form input {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.input-form button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.input-form button:hover {
+  background-color: var(--secondary-color);
+}
+
+.message {
+  color: red;
+  font-size: 0.95rem;
+}
+
+.quiz-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: var(--box-shadow);
+}
+
+.quiz-table th,
+.quiz-table td {
+  border: 1px solid var(--border-color);
+  padding: 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.quiz-table th {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.quiz-table ul {
+  padding-left: 1rem;
+  margin: 0;
+}

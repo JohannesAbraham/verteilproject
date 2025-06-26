@@ -1,25 +1,77 @@
-/* Reset default margins and set full height */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-  
-  /* Main app container */
-  .app-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  /* Content wrapper that grows to push footer down */
-  .content-wrapper {
-    flex: 1;
-    /* Add any additional padding or margins you need */
-    padding: 20px 0;
-  }
-  
-  /* Footer styles (adjust as needed) */
-  footer {
-    margin-top: 20px;
-  }
+:root {
+  --bg-color: #d3eac0;
+  --text-color: #333333;
+  --header-bg: #f8f9fa;
+  --footer-bg: #f8f9fa;
+  --nav-bg: #e9ecef;
+  --card-bg: #ffffff;
+  --border-color: #dee2e6;
+  --link-color: #007bff;
+  --backgroundSize: 300px;
+}
+
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --header-bg: #1e1e1e;
+  --footer-bg: #1e1e1e;
+  --nav-bg: #2d2d2d;
+  --card-bg: #1e1e1e;
+  --border-color: #444;
+  --link-color: #bb86fc;
+}
+
+/* Update your existing styles to use these variables */
+.app-container {
+  color: var(--text-color);
+}
+
+/* Header component */
+header {
+  background-color: var(--header-bg);
+  z-index: 1;
+}
+
+/* Navbar component */
+nav {
+  background-color: var(--nav-bg);
+  z-index: 1;
+}
+
+/* Footer component */
+footer {
+  background-color: var(--footer-bg);
+  z-index: 1;
+}
+
+/* Cards or other components */
+.card {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+a {
+  color: var(--link-color);
+}
+
+.app-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  object-fit: cover;  
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.content-wrapper {
+  position: relative; /* Ensures content appears above background */
+  z-index: 1; /* Higher than background's z-index */
+}

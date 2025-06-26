@@ -17,7 +17,7 @@ body {
   background-color: var(--background-color);
   color: var(--secondary-color);
   padding: 30px;
-  max-width: 600px;
+  max-width: 700px;
   margin: 50px auto;
   box-shadow: var(--box-shadow);
   border-radius: 12px;
@@ -110,4 +110,5 @@ body {
   color: var(--secondary-color);
   font-size: 24px;
   margin-bottom: 20px;
+
 }

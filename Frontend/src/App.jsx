@@ -8,17 +8,19 @@ import Suggestion from "./components/Suggestion/Suggestion";
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import News from './components/News/News';
-import OrgStructure from './components/Org Structure/OrgStructure';
+// import OrgStructure from "./components/OrgStructure/Orgstructure.js";
 import CareerFramework from "./components/Career Framework/CFramework";
-import Sudokuboard from "./components/quickgames/Sudokuboard/Sudoku";
+import Sudoku from "./components/quickgames/Sudoku/Sudoku";
 import Popupquiz from "./components/quickgames/Popupquiz/Popupquiz";
 import Gamelist  from "./components/quickgames/Gameslist/games";
-import NewsManagement from "./components/News Management/NewsManagement";
 import SuggestionManagement from "./components/Suggestion Management/SuggestionManagement";
 import MediaBox from "./components/MediaUpload";
 import EditThought from "./components/EditThought";
 import LoginPage from "../src/components/LoginPage";
 import ProfilePage from "../src/components/ProfilePage";
+import backgroundImage from '/glass-frosting-design.jpg';
+import QuizManager from "./components/quickgames/AdminAccess/AdminQuizPanel";
+// import Verite from "./components/Verite.jsx";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -26,11 +28,12 @@ function App() {
     <div className="app-container">
       <Header />
       <Navbar />
+      <img src={backgroundImage} alt="" className="background-image" />
       <div className="content-wrapper">
         <Router>
           <Routes>
             <Route path="/home" element={<Home/>}></Route>
-            <Route path="/" element={<LoginPage />}></Route>
+            <Route path="/" element={<Login />}></Route>
             <Route path="/profile" element={<ProfilePage />}></Route>
             <Route path="/suggestion" element={<Suggestion />}></Route>
             <Route path="/news" element={<News />}></Route>
@@ -43,11 +46,13 @@ function App() {
             <Route path="/quickgames" element={<Gamelist />}></Route>
             <Route path="/uploadmedia" element={<MediaBox />}></Route>
             <Route path="/editthought" element={<EditThought />}></Route>
+            <Route path="/quizmanager" element={<QuizManager />} />
           </Routes>
-        </Router>
+          </Router>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    
   );
 }
 

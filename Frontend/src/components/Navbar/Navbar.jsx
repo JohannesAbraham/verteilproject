@@ -45,7 +45,7 @@ const Navbar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a href="/verite">
+            <a  href="http://localhost:5173/"  target="_blank" rel="noopener noreferrer">
               <VideogameAssetIcon fontSize="large" />
               {isExpanded && <span>Verite</span>}
             </a>
@@ -70,12 +70,6 @@ const Navbar = () => {
                 <a href="/career-framework">
                   <WorkIcon fontSize="large" />
                   {isExpanded && <span>Career Framework</span>}
-                </a>
-              </li>
-              <li className="nav-item">
-                <a href="/news-management">
-                  <FeedIcon fontSize="large" />
-                  {isExpanded && <span>News Management</span>}
                 </a>
               </li>
               <li className="nav-item">

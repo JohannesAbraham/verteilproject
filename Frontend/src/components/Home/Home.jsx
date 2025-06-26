@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
 import "./Home.css";
 import { format } from "date-fns";
 import PeopleIcon from '@mui/icons-material/People';
@@ -20,7 +19,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ProfilePage from '../ProfilePage'
 
 
-const placeholderImage = "https://thumbs.dreamstime.com/b/news-woodn-dice-depicting-letters-bundle-small-newspapers-leaning-left-dice-34802664.jpg";
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
 
 const newsList = [
@@ -120,7 +118,7 @@ const CalendarBox = () => {
   });
 
   return (
-  <div className="calendar-box">
+  <div className="calendar-box card">
     <h2><CalendarMonthIcon className="icon-title" />Calendar & Holidays</h2>
     <div className="calendar-grid">
       {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
@@ -157,7 +155,7 @@ const CalendarBox = () => {
     </div>
 
     <div className="holiday-list">
-      <h3>Upcoming Holidays & Off Days</h3>
+      <h3>Holidays</h3>
       <ul>
         {filteredHolidays.map((h) => (
           <li key={h.date}>
@@ -214,15 +212,15 @@ const MediaBox = () => {
   }
 
   return (
-    <div className="media-box">
+    <div className="media-box card">
       <h2><TheatersIcon className="icon-title" />Media Corner</h2>
       <div className="media-slideshow">
         {currentMedia && (
           <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center p-2">
               <h2 className="p-3">{currentMedia.title}</h2>
-              <button onClick={HandleClick} className="bg-lgreen rounded-xl text-light font-ariel">Add Media</button>
-              <button onClick={() => handleDelete(currentMedia._id)} className="bg-red-500 rounded-xl text-light font-ariel">Delete</button>
+              <button onClick={HandleClick} className="bg-lgreen rounded-xl text-light font-ariel py-2 px-4">Add Media</button>
+              <button onClick={() => handleDelete(currentMedia._id)} className="bg-red-500 rounded-xl text-light font-ariel py-2 px-4">Delete</button>
             </div>
             <img src={`http://localhost:5000${currentMedia.image}`} alt={currentMedia.title} className="media-image h-[50vh] w-auto object-contain mx-auto rounded-lg"/>
             <p className="p-4">{currentMedia.description}</p>
@@ -253,7 +251,7 @@ const NewsBox = () => {
   }, []);
 
   return (
-     <div className="news-box">
+     <div className="news-box card">
       <h2><ArticleIcon className="icon-title" />Company News</h2>
       <ul className="news-headings-list">
         {newsList.map((news) => (
@@ -280,7 +278,7 @@ const WordsBox = () => {
   }, []);
 
   return(
-    <div className='flex flex-col justify-center items-center bg-white rounded-lg shadow-lg p-4 mb-4'>
+    <div className='flex flex-col justify-center items-center rounded-lg shadow-lg p-4 mb-4 card'>
       <div className="flex flex-row flex-1 w-full justify-center items-center p-2 space-x-10">
         <div className="border-lgreen border-2 p-3 rounded-lg w-full">
           <h2 className="font-ariel text-dgreen text-2xl font-bold pb-2"><LightbulbIcon className="text-lgreen" /> Thought of the Day</h2>
@@ -336,20 +334,20 @@ const Home = () => {
             <h3>{formattedDate}</h3>
             <p className="update-intro">Here's what's happening in our company today:</p>
             <ul className="company-updates">
-              <li>Deadline for submitting Q2 reports</li>
-              <li>Client demo scheduled with XYZ Corp</li>
+              <li>3 New Joinees this month!</li>
+              <li>3 New Joinees this month!</li>
               <li>Celebrating {birthdays.length} employee birthdays</li>
             </ul>
           </div>
 
           <div className="thought-word-container">
-            //word of the days
+            {/* word of the days */}
           </div>
 
           <WordsBox />
 
           <div className="quick-access-message-container">
-          <div className="new-joinees-box">
+          <div className="new-joinees-box card">
             <h2><PeopleIcon className="icon-title" />New Joinees</h2>
             <div className="celebration-list">
               {newJoinees.map((person, index) => (
@@ -374,7 +372,7 @@ const Home = () => {
         </div>
 
         <div className="events-column">
-          <div className="quick-access-box">
+          <div className="quick-access-box card">
             <h2>Quick Access</h2>
             <div className="quick-access-grid">
               <div className="quick-column">
@@ -422,7 +420,7 @@ const Home = () => {
           </div>
 
 
-          <div className="birthday-box">
+          <div className="birthday-box card">
             <h2><CakeIcon className="icon-title" />Birthdays This Week</h2>
             <div className="celebration-list">
               {birthdays.map((person, index) => (
@@ -437,7 +435,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="anniversary-box">
+          <div className="anniversary-box card">
             <h2><CelebrationIcon className="icon-title" />Work Anniversaries</h2>
             <div className="celebration-list">
               {anniversaries.map((person, index) => (
