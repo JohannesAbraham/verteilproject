@@ -422,7 +422,7 @@ const Home = () => {
                   </a>
                 </div>
                 <div className="quick-item">
-                  <a href="/quickgames" >
+                  <a href="/quickgames" target="_blank" rel="noopener noreferrer">
                     <SportsEsportsIcon className="icon" />
                     <p className="para">Games</p>
                   </a>
