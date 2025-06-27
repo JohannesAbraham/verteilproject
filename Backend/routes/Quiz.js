@@ -1,65 +1,73 @@
 const express = require('express');
 const router = express.Router();
-const SuggestionModel = require('../models/QuizQuestion');
+const QuizQuestion = require('../models/QuizQuestion');
 
+// GET all quiz questions
 router.get('/', async (req, res) => {
   try {
-    const suggestions = await SuggestionModel.find(); 
-    res.json(suggestions);
+    const questions = await QuizQuestion.find();
+    res.json(questions);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-router.post('/', async (req, res) => {
+// POST a new quiz question
+router.post('/add', async (req, res) => {
   try {
-    await SuggestionModel(req.body).save();
-    res.json({ message: "Added Suggestion Successfully!" });
-    console.log({ message: "Added Suggestion Successfully!" });
+    const newQuestion = new QuizQuestion(req.body);
+    await newQuestion.save();
+    res.json({ message: "Question added successfully!" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
-    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 });
 
-router.delete('/:id', async (req, res) => {
-  try {
-    const deletedSuggestion = await SuggestionModel.findByIdAndDelete(req.params.id);
-    
-    if (!deletedSuggestion) {
-      return res.status(404).json({ message: "Suggestion not found" });
-    }
-    
-    res.json({ 
-      message: "Suggestion Deleted Successfully!",
-      suggestion: deletedSuggestion
-    });
-    console.log({ message: "Suggestion Deleted Successfully!" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-    console.error(err);
-  }
-});
-// Route 4: DELETE a question (Admin only)
+// DELETE a question with admin password
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD; // Replace with real secure method in production
+
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  const { password } = req.query; // use query param, since DELETE doesn't usually handle body well
+  const { password } = req.query;
 
   if (password !== ADMIN_PASSWORD) {
     return res.status(403).json({ error: 'Unauthorized: Invalid password' });
   }
 
   try {
+    console.log(`Attempting to delete question with ID: ${id}`);
     const deleted = await QuizQuestion.findByIdAndDelete(id);
     if (!deleted) {
       return res.status(404).json({ error: 'Question not found' });
     }
     res.json({ message: 'Question deleted successfully' });
   } catch (err) {
+    console.log(`Error deleting question with ID ${id}:`, err);
     res.status(500).json({ error: 'Failed to delete question' });
   }
 });
 
+// PUT to update a question
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { password, ...updateData } = req.body;
+
+  if (password !== ADMIN_PASSWORD) {
+    return res.status(403).json({ error: 'Unauthorized: Invalid password',
+     });
+  }
+
+  try {
+    const updatedQuestion = await QuizQuestion.findByIdAndUpdate(id, updateData, { new: true });
+    if (!updatedQuestion) {
+      return res.status(404).json({ error: 'Question not found' });
+    }
+    res.json(updatedQuestion);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update question' });
+  }
+}
+)
 
 module.exports = router;

@@ -199,7 +199,7 @@ const Sudoku = () => {
     return (
       <div className="sudoku-wrapper">
         <div className="start-screen">
-          <h1>Welcome to Sudoku</h1>
+          <h1 className='header-text'>Welcome to Sudoku</h1>
           <input
             type="text"
             placeholder="Enter your name"

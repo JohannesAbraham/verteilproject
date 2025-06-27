@@ -14,7 +14,7 @@ import CareerFramework from "./components/Career Framework/CFramework";
 import NewsManagement from "./components/News Management/NewsManagement.jsx";
 import Sudokuboard from "./components/quickgames/Sudoku/Sudoku";
 import Popquiz from "./components/quickgames/Popquiz/PopQuiz.jsx";
-import Gamelist from "./components/quickgames/Gameslist/games";
+import Gamelist from "./components/quickgames/Gameslist/Games.jsx";
 import SuggestionManagement from "./components/Suggestion Management/SuggestionManagement";
 import MediaBox from "./components/MediaUpload";
 import EditThought from "./components/EditThought";
@@ -45,7 +45,7 @@ const AppContent = () => {
             <Route path="/job/:name" element={<JobDescription />} />
             <Route path="/suggestion-management" element={<SuggestionManagement />}></Route>
             <Route path="/quickgames/sudoku" element={<Sudokuboard />}></Route>
-            <Route path="/quickgames/popupquiz" element={<Popquiz />}></Route>  
+            <Route path="/quickgames/popquiz" element={<Popquiz />}></Route>  
             <Route path="/quickgames" element={<Gamelist />}></Route>
             <Route path="/uploadmedia" element={<MediaBox />}></Route>
             <Route path="/editthought" element={<EditThought />}></Route>

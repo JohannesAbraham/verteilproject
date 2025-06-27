@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './AdminQuizPanel.css';
+import axios from 'axios';
 
 const AdminQuizPanel = () => {
   const [questions, setQuestions] = useState([]);
@@ -12,11 +13,14 @@ const AdminQuizPanel = () => {
   const [message, setMessage] = useState('');
   const [editingId, setEditingId] = useState(null);
 
+
+  console.log(questions);
   useEffect(() => {
     if (isAuthenticated) {
-      fetch('http://localhost:5000/api/quiz')
-        .then(res => res.json())
-        .then(data => setQuestions(data))
+      axios.get('http://localhost:5000/api/quiz')
+        .then( res => {
+          console.log("Fetched questions:", res.data);
+          setQuestions(res.data)})
         .catch(err => console.error(err));
     }
   }, [isAuthenticated]);
@@ -35,15 +39,19 @@ const AdminQuizPanel = () => {
   };
 
   const handleAddOrUpdateQuestion = () => {
+    if (editingId){
+      console.log("editing a question:");
+    }
     const endpoint = editingId
       ? `http://localhost:5000/api/quiz/${editingId}`
       : 'http://localhost:5000/api/quiz/add';
     const method = editingId ? 'PUT' : 'POST';
-
+    const data = { question, options, answer, password: adminPassword } 
+    console.log("data to be sent:", data);
     fetch(endpoint, {
       method,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question, options, answer, password: adminPassword }),
+      body: JSON.stringify(data),
     })
       .then(res => res.json())
       .then(data => {

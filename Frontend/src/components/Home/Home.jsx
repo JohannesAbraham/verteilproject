@@ -115,7 +115,7 @@ const CalendarBox = () => {
 
   return (
   <div className="calendar-box card">
-    <Typography variant="h6"><CalendarMonthIcon className="icon-title" /> Calendars and Holidays</Typography>
+    <Typography variant="h6"><CalendarMonthIcon className="icon-title" /> Calendar</Typography>
 
     <div className="calendar-grid">
       

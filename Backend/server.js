@@ -5,7 +5,6 @@ const connectDB = require('./config/db');
 const mongoose = require('mongoose');
 const cheerio = require('cheerio');
 const axios = require('axios')
-const quiz = require('./routes/Quiz');
 
 const newsRoutes = require('./routes/NewsRoutes');
 const suggestionRoutes = require('./routes/SuggestionRoutes');

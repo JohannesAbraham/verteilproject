@@ -509,6 +509,23 @@ margin-top: 5px;
   border-radius: 50%;
   box-shadow: 0 0 8px var(--primary-color);
 }
+.calendar-day.holiday {
+  background-color: #ffefc0;
+  border: 2px solid #ff9800;
+  color: #000;
+  position: relative;
+}
+
+.holiday-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #ff5722;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+}
+
 
 /* Responsive Styles */
 @media (max-width: 1080px) {
