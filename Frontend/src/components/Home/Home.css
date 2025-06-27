@@ -46,7 +46,6 @@
 .word-box,
 .media-box,
 .calendar-box {
-  background-color: white;
   border-radius: 10px;
   padding: 20px;
   box-shadow: var(--box-shadow);
