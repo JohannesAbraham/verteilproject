@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'; 
-import './Popupquiz.css';
+import './Popquiz.css';
+import { Typography } from '@mui/material';
 
 const PopupQuiz = () => {
   const [started, setStarted] = useState(false);
@@ -83,14 +84,14 @@ const PopupQuiz = () => {
   };
 
   return (
-    <div className="popupquizwrapper">
+    <div className="popquizwrapper">
 
     <div className="quiz-container">
       {!started ? (
         <button className="start-button" onClick={() => setStarted(true)}>Start Quiz</button>
       ) : submitted ? (
         <div className="result-section">
-          <h2>Your Score: {score} / {questions.length}</h2>
+          <Typography variant='h3' sx={{color:"white"}}>Your Score: {score} / {questions.length}</Typography>
           <button className="start-button" onClick={restartQuiz}>Restart</button>
         </div>
       ) : questions.length > 0 ? (

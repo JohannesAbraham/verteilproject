@@ -47,7 +47,7 @@ const Navbar = () => {
           <li className="nav-item">
             <a href="/news-management">
               <FeedIcon fontSize="large" />
-              {isExpanded && <span>News Feed</span>}
+              {isExpanded && <span>Add News</span>}
             </a>
           </li>
           <li className="nav-item">
@@ -63,7 +63,7 @@ const Navbar = () => {
             </a>
           </li>
           <li className="nav-item">
-                <a href="/orgstructure">
+                <a href="/org-structure">
                   <AccountTreeIcon fontSize="large" />
                   {isExpanded && <span>Organization</span>}
                 </a>

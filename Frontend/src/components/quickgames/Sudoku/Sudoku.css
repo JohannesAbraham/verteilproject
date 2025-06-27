@@ -230,7 +230,7 @@ h1 {
   align-items: center;
   justify-content: center;
   width:100%;
-  background-image: url('/popupquiz.jpg') ;
+  background-image: url('/popquiz.jpg') ;
   /* z-index: 2000; */
   background-size: cover;
 }

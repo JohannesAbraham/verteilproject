@@ -145,7 +145,7 @@ body::before {
   background-color:transparent
 }
 
-.popupquizwrapper{
+.popquizwrapper{
   height:100%;
   min-height:100vh;
   display: flex ;
@@ -153,7 +153,7 @@ body::before {
   align-items: center;
   justify-content: center;
   width:100%;
-  background-image: url('/popupquiz.jpg');
+  background-image: url('/popquiz.jpg');
   /* z-index: 2000; */
   background-size: cover;
 }

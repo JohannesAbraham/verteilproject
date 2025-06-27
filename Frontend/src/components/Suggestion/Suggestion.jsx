@@ -100,7 +100,7 @@ const Suggestion = () => {
                 <option value="HR and People's Operations">HR and People Operations</option>
               </select>
           
-          <label htmlFor="suggestion">Your Suggestion:</label>
+          <label  htmlFor="suggestion">Your Suggestion:</label>
           <textarea
             className='form-textarea'
             id="suggestion"

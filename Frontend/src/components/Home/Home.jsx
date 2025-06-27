@@ -265,13 +265,16 @@ const NewsBox = () => {
   return (
      <div className="news-box card">
       <h2><ArticleIcon className="icon-title" />Company News</h2>
-      <ul className="news-headings-list">
+      <div className="news-list-container">
         {newsList.map((news) => (
-          <li key={news.id} className="news-heading-item">
-            {news.title}
-          </li>
+          
+          <div className=" news-card card">
+              <img className="news-image" src="image.png" alt="image" />
+              <p className="news-title">{news.title}</p>
+          </div>
         ))}
-      </ul>
+        </div>
+      
     </div>
   );
 };
@@ -351,14 +354,12 @@ const Home = () => {
             </ul>
           </div>
 
-          <div className="thought-word-container">
-            {/* word of the days */}
-          </div>
+          
 
           <WordsBox />
 
           <div className="quick-access-message-container">
-          <div className="new-joinees-box">
+          <div className="new-joinees-box card">
             <h2><PeopleIcon className="icon-title" />New Joiners</h2>
             <div className="celebration-list">
               {newJoinees.map((person, index) => (

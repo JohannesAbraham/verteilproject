@@ -1,22 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './NewsManagement.css';
 import { Typography } from '@mui/material';
+import axios from 'axios';
 
 const NewsManagement = () => {
   const navigate = useNavigate();
-  const [articles, setArticles] = useState([
-    {
-      id: 1,
-      title: 'Lorem ipsum dolor sit amet consectetur',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.',
-      category: 'company',
-      imageFile: null,
-      previewImage: 'placeholder.png', // For existing articles
-      date: 'XX:XX on Feb 29th',
-    }
-  ]);
-
+  const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   const [currentArticle, setCurrentArticle] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,6 +20,23 @@ const NewsManagement = () => {
     previewImage: null,
     type: 'primary'
   });
+
+  // Fetch articles on component mount
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/news');
+        setArticles(response.data);
+        setIsLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setIsLoading(false);
+        console.error('Error fetching articles:', err);
+      }
+    };
+    
+    fetchArticles();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,26 +58,47 @@ const NewsManagement = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // In a real app, you would upload the file here
-    const newArticle = {
-      ...formData,
-      id: isEditing ? currentArticle.id : Date.now(),
-      date: new Date().toLocaleString(),
-      // For demo purposes, we'll just use the preview URL
-      previewImage: formData.previewImage || 'placeholder.png'
-    };
-
-    if (isEditing) {
-      setArticles(articles.map(article => 
-        article.id === currentArticle.id ? newArticle : article
-      ));
-    } else {
-      setArticles([...articles, newArticle]);
+    try {
+      let response;
+      const formDataToSend = new FormData();
+      
+      // Append all form data to FormData object
+      Object.keys(formData).forEach(key => {
+        if (key !== 'previewImage') {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
+      
+      if (isEditing) {
+        // Update existing article
+        response = await axios.put(`http://localhost:5000/api/news/${currentArticle._id}`, formDataToSend, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        
+        setArticles(articles.map(article => 
+          article._id === currentArticle._id ? response.data.article : article
+        ));
+      } else {
+        // Create new article
+        response = await axios.post('http://localhost:5000/api/news', formDataToSend, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        
+        setArticles([response.data, ...articles]);
+      }
+      
+      resetForm();
+    } catch (err) {
+      console.error('Error saving article:', err);
+      setError(err.response?.data?.message || 'Error saving article');
     }
-    resetForm();
   };
 
   const resetForm = () => {
@@ -81,6 +112,7 @@ const NewsManagement = () => {
     });
     setIsEditing(false);
     setCurrentArticle(null);
+    setError(null);
   };
 
   const handleEdit = (article) => {
@@ -90,19 +122,31 @@ const NewsManagement = () => {
       content: article.content,
       category: article.category,
       imageFile: null,
-      previewImage: article.previewImage,
-      type: article.type
+      previewImage: article.imageUrl || 'placeholder.png',
+      type: article.type || 'primary'
     });
     setIsEditing(true);
   };
 
-  const handleDelete = (id) => {
-    setArticles(articles.filter(article => article.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/news/${id}`);
+      setArticles(articles.filter(article => article._id !== id));
+    } catch (err) {
+      console.error('Error deleting article:', err);
+      setError(err.response?.data?.message || 'Error deleting article');
+    }
   };
+
+  if (isLoading) {
+    return <div className="news-management-container">Loading...</div>;
+  }
+
+  console.log(articles)
 
   return (
     <div className="news-management-container">
-      
+      {error && <div className="error-message">{error}</div>}
 
       <div className="management-content">
         <form className="article-form" onSubmit={handleSubmit}>
@@ -190,17 +234,17 @@ const NewsManagement = () => {
           ) : (
             <ul>
               {articles.map(article => (
-                <li key={article.id} className="article-item">
+                <li key={article._id} className="article-item">
                   <div className="article-preview">
                     <img 
-                      src="image.png"
+                      src={article.imageUrl || 'placeholder.png'}
                       alt="Article preview" 
                       className="article-thumbnail"
                     />
                     <div className="article-info">
                       <h3>{article.title}</h3>
                       <p className="article-meta">
-                        {article.category === 'company' ? 'Company' : 'Airline'} News • {article.type} • {article.date}
+                        {article.category === 'company' ? 'Company' : 'Airline'} News • {article.type} • {new Date(article.publishDate).toLocaleString()}
                       </p>
                     </div>
                   </div>
@@ -213,7 +257,7 @@ const NewsManagement = () => {
                     </button>
                     <button 
                       className="delete-button"
-                      onClick={() => handleDelete(article.id)}
+                      onClick={() => handleDelete(article._id)}
                     >
                       Delete
                     </button>
