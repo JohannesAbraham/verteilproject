@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import ProfilePage from "./components/ProfilePage";
 import Login from "./components/Login/Login";
@@ -25,7 +25,31 @@ import JobDescription from './components/Career Framework/JobDescription.jsx';
 const AppContent = () => {
   const location = useLocation();
   const hideHeaderFooter =
-    location.pathname.startsWith('/quickgames') || location.pathname.startsWith('/games');
+  location.pathname.startsWith('/quickgames') || location.pathname.startsWith('/games');
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/me', {
+      credentials: 'include'
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.user) {
+          setUser(data.user); // use this in your app
+        } else {
+          window.location.href = 'http://localhost:5000/auth/google'; // not logged in
+        }
+      })
+      .catch(() => {
+        window.location.href = 'http://localhost:5000/auth/google';
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (!user) return <h2>Logging in...</h2>;
 
   return (
     <div className="app-container">
