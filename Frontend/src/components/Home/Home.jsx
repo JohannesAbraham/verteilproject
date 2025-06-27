@@ -291,18 +291,26 @@ const WordsBox = () => {
 
   return(
     <div className='flex flex-col justify-center items-center rounded-lg shadow-lg p-4 mb-4 card'>
-      <div className="flex flex-row flex-1 w-full justify-center items-center p-2 space-x-10">
-        <div className="border-lgreen border-2 p-3 rounded-lg w-full">
-          <h2 className="font-ariel text-dgreen text-2xl font-bold pb-2"><LightbulbIcon className="text-lgreen" /> Thought of the Day</h2>
+      <div className="flex flex-col items-center space-y-8 w-full px-4">
+        <div className="border-lgreen border-2 rounded-lg w-full max-w-3xl p-4">
+          <h2 className="font-ariel text-dgreen text-2xl font-bold pb-2 flex items-center gap-2">
+            <LightbulbIcon className="text-lgreen" /> Thought of the Day
+          </h2>
           <p className="thought-content">"{thoughtData.thought}"</p>
-          <p className="thought-author">- {thoughtData.author}</p>
+          <p className="thought-author text-right font-semibold pr-2">- {thoughtData.author}</p>
         </div>
-        <div className="border-lgreen border-2 p-3 rounded-lg w-full">
-          <h2 className="text-2xl font-ariel font-bold text-dgreen pb-3"><MenuBookIcon className="text-lgreen" /> Word of the Day</h2>
-          <h3 className="text-2xl pb-2 text-lgreen font-ariel font-semibold">{thoughtData.word}</h3>
-          <p className="pl-4 text-md font-ariel">{thoughtData.meaning}</p>
+
+        <div className="border-lgreen border-2 rounded-lg w-full max-w-3xl p-4">
+          <h2 className="text-2xl font-ariel font-bold text-dgreen pb-3 flex items-center gap-2">
+            <MenuBookIcon className="text-lgreen" /> Word of the Day
+          </h2>
+          <h3 className="text-2xl pb-2 text-lgreen font-ariel font-semibold">
+            {thoughtData.word}
+          </h3>
+          <p className="pl-2 text-md font-ariel">{thoughtData.meaning}</p>
         </div>
       </div>
+
       <button onClick={() => {
         const pwd = prompt("Enter admin password:");
         if (pwd) navigate(`/editthought?pwd=${pwd}`);
