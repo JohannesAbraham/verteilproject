@@ -119,7 +119,7 @@ button {
 
 .submit-button {
   background-color: var(--secondary);
-  color: white;
+  color: var(--secondary);
 }
 
 .submit-button:hover {
@@ -170,7 +170,8 @@ button {
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-md) 0;
-  border-bottom: 1px solid #ddd;
+  
+  
 }
 
 .article-item:last-child {

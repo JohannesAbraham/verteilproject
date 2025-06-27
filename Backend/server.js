@@ -44,7 +44,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Server Error');
 });
 
-
+// TODO : remove this get request
 app.get("/scrape", async (req, res) => {
   const url = "http://www.verteil.com/newsroom" 
   try {

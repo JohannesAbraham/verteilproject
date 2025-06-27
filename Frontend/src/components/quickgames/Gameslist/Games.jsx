@@ -14,8 +14,8 @@ const Games = () => {
       logo: ExtensionIcon,
     },
     {
-      name: 'Popup Quiz',
-      path: '/quickgames/popupquiz',
+      name: 'Pop Quiz',
+      path: '/quickgames/popquiz',
       logo: QuizIcon,
     },
   ];

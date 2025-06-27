@@ -92,13 +92,13 @@ const PopupQuiz = () => {
         <>
           <div className="timer">Time: {timeLeft}s</div>
           <div className="question-box">
-            <h3>Q{currentQn + 1}. {questions[currentQn].question}</h3>
-            <ul>
+            <h3> {questions[currentQn].question}</h3>
+            <ul className='options-list'>
               {questions[currentQn].options.map((opt, i) => (
                 <li
                   key={i}
                   onClick={() => handleOptionSelect(opt)}
-                  className={selectedOptions[currentQn] === opt ? "selected" : ""}
+                  className={selectedOptions[currentQn] === opt ? "selected-option  " : ""}
                 >
                   {opt}
                 </li>

@@ -33,7 +33,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('/popupquiz.jpg');
+  background-image: url('/popquiz.jpg');
   background-size: cover;
   background-position: center;
   backdrop-filter: blur(6px);
@@ -126,10 +126,10 @@ body {
 
 
 /* Centered Heading */
-h1,.centered-heading {
+.header-text,.centered-heading {
  text-align: center;
   color: white;
-    font-size: 2.5rem;
+  font-size: 2.5rem;
   margin: 0 0 15px;
 }
 

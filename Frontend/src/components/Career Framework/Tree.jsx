@@ -132,12 +132,15 @@ function TreePage() {
     );
 
   return (
-    <div className="h-screen bg-light" >
-      <div className="bg-lgreen text-center p-4">
-        <h1 className="text-4xl text-light font-ariel font-bold">
-          CAREER FRAMEWORK
-        </h1>
-      </div>
+    <div className="h-screen bg-light pt-2" >
+     <div className="bg-lgreen text-center p-3  border-b border-dgreen shadow-sm rounded-md max-w-xl mx-auto">
+  <h1 className="text-2xl text-light font-ariel font-bold tracking-wide m-0 mb-0">
+    CAREER FRAMEWORK
+  </h1>
+</div>
+
+
+
       <div className="flex justify-center items-center gap-4 mt-4">
         {!isEditing ? (
           <>
