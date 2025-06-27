@@ -24,6 +24,13 @@
 /* Update your existing styles to use these variables */
 .app-container {
   color: var(--text-color);
+  background-image: url('/glass-frosting-design.jpg');
+  background-size:cover ;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  
+
 }
 
 /* Header component */

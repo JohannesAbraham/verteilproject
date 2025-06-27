@@ -6,16 +6,20 @@ const AdminQuizPanel = () => {
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState(['', '', '', '']);
   const [answer, setAnswer] = useState('');
-  const [password, setPassword] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
+  const [tempPassword, setTempPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [message, setMessage] = useState('');
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/quiz')
-      .then(res => res.json())
-      .then(data => setQuestions(data))
-      .catch(err => console.error(err));
-  }, []);
+    if (isAuthenticated) {
+      fetch('http://localhost:5000/api/quiz')
+        .then(res => res.json())
+        .then(data => setQuestions(data))
+        .catch(err => console.error(err));
+    }
+  }, [isAuthenticated]);
 
   const handleOptionChange = (value, index) => {
     const newOptions = [...options];
@@ -27,18 +31,19 @@ const AdminQuizPanel = () => {
     setQuestion('');
     setOptions(['', '', '', '']);
     setAnswer('');
-    setPassword('');
     setEditingId(null);
   };
 
   const handleAddOrUpdateQuestion = () => {
-    const endpoint = editingId ? `http://localhost:5000/api/quiz/${editingId}` : 'http://localhost:5000/api/quiz/add';
+    const endpoint = editingId
+      ? `http://localhost:5000/api/quiz/${editingId}`
+      : 'http://localhost:5000/api/quiz/add';
     const method = editingId ? 'PUT' : 'POST';
 
     fetch(endpoint, {
       method,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question, options, answer, password }),
+      body: JSON.stringify({ question, options, answer, password: adminPassword }),
     })
       .then(res => res.json())
       .then(data => {
@@ -54,7 +59,10 @@ const AdminQuizPanel = () => {
           resetForm();
         }
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        setMessage('Something went wrong.');
+      });
   };
 
   const handleEdit = (q) => {
@@ -67,10 +75,8 @@ const AdminQuizPanel = () => {
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this question?')) return;
 
-    fetch(`http://localhost:5000/api/quiz/${id}`, {
+    fetch(`http://localhost:5000/api/quiz/${id}?password=${encodeURIComponent(adminPassword)}`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password })
     })
       .then(res => res.json())
       .then(data => {
@@ -79,12 +85,62 @@ const AdminQuizPanel = () => {
           setQuestions(prev => prev.filter(q => q._id !== id));
         }
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        setMessage('Something went wrong while deleting.');
+      });
   };
+
+  const handleLogin = () => {
+    if (!tempPassword) {
+      setMessage('Please enter admin password');
+      return;
+    }
+
+    // Try a simple fetch to verify password by hitting GET + password-protected endpoint
+    fetch(`http://localhost:5000/api/quiz`) // could be replaced with a dedicated `/verify`
+      .then(res => res.json())
+      .then(() => {
+        setAdminPassword(tempPassword);
+        setIsAuthenticated(true);
+        setMessage('');
+      })
+      .catch(() => setMessage('Login failed'));
+  };
+
+  const handleLogout = () => {
+    setAdminPassword('');
+    setTempPassword('');
+    setIsAuthenticated(false);
+    setQuestions([]);
+    resetForm();
+  };
+
+  // ---------- RENDER ----------
+  if (!isAuthenticated) {
+  return (
+    <div className="login-container">
+      <h2>Enter Admin Password</h2>
+      <input
+        type="password"
+        placeholder="Admin password"
+        value={tempPassword}
+        onChange={(e) => setTempPassword(e.target.value)}
+      />
+      <button onClick={handleLogin}>Login</button>
+      {message && <p className="message">{message}</p>}
+    </div>
+  );
+}
+
 
   return (
     <div className="quiz-manager">
-      <h2>Quiz Admin Panel</h2>
+      <div className="panel-header">
+        <h2>Quiz Admin Panel</h2>
+        <button onClick={handleLogout} className="logout-btn">Logout</button>
+      </div>
+
       <div className="input-form">
         <input
           type="text"
@@ -106,12 +162,6 @@ const AdminQuizPanel = () => {
           placeholder="Correct answer"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Admin password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={handleAddOrUpdateQuestion}>
           {editingId ? 'Update Question' : 'Add Question'}
