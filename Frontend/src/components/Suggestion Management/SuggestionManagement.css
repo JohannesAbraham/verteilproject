@@ -16,6 +16,8 @@
     padding: 24px;
     margin: 40px 5vw 40px 5vw;
     min-height: 80vh;
+    max-width: 80vw;
+    place-self: center;
     background-color: var(--background-color);
     border: 1.5px solid var(--primary-color);
   }
