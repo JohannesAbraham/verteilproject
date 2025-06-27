@@ -9,13 +9,10 @@ const NewsPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulate fetching news data from an API
+    
     const fetchNews = async () => {
       try {
-        // In a real app, you would fetch from a news API like NewsAPI.org
-        // const response = await fetch('https://newsapi.org/v2/top-headlines?country=us&apiKey=YOUR_API_KEY');
         
-        // Mock data for demonstration
         axios.get("http://localhost:5000/scrape")
         .then((res) => {
           setArticles(res.data)

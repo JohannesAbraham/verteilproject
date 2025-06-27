@@ -95,7 +95,8 @@ const App = () => {
   };
   
   return (
-    <div className="app-layout">
+    <div className='content-wrapper'>
+         <div className="app-layout">
       
       
       <div className="app-main-container">
@@ -157,6 +158,8 @@ const App = () => {
       
       
     </div>
+    </div>
+   
 );
   
 };

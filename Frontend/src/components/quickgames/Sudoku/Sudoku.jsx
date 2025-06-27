@@ -1,18 +1,32 @@
+// Sudoku.jsx
 import { useState, useEffect } from 'react';
 import './Sudoku.css';
 
+const createSeededRandom = (seed) => {
+  let h = 1779033703 ^ seed.length;
+  for (let i = 0; i < seed.length; i++) {
+    h = Math.imul(h ^ seed.charCodeAt(i), 3432918353);
+  }
+  return () => {
+    h ^= h >>> 13;
+    h = Math.imul(h, 2246822507);
+    h ^= h >>> 15;
+    return (h >>> 0) / 4294967296;
+  };
+};
+
 const Sudoku = () => {
   const emptyBoard = Array(9).fill().map(() => Array(9).fill(0));
-
   const [board, setBoard] = useState(emptyBoard);
   const [initialBoard, setInitialBoard] = useState(emptyBoard);
   const [selectedCell, setSelectedCell] = useState(null);
-  const [difficulty, setDifficulty] = useState('medium');
   const [gameStarted, setGameStarted] = useState(false);
   const [message, setMessage] = useState('');
   const [timeElapsed, setTimeElapsed] = useState(0);
+  const [name, setName] = useState('');
+  const [showStartScreen, setShowStartScreen] = useState(true);
+  const [showResults, setShowResults] = useState(false);
 
-  // Timer logic
   useEffect(() => {
     let timer;
     if (gameStarted) {
@@ -29,7 +43,8 @@ const Sudoku = () => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const generateFullBoard = () => {
+  const generateFullBoard = (seed) => {
+    const random = createSeededRandom(seed);
     const isSafe = (board, row, col, num) => {
       for (let x = 0; x < 9; x++) {
         if (board[row][x] === num || board[x][col] === num) return false;
@@ -48,7 +63,7 @@ const Sudoku = () => {
       for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
           if (board[row][col] === 0) {
-            const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => Math.random() - 0.5);
+            const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => random() - 0.5);
             for (let num of nums) {
               if (isSafe(board, row, col, num)) {
                 board[row][col] = num;
@@ -68,11 +83,10 @@ const Sudoku = () => {
     return board;
   };
 
-  const removeCells = (board, level) => {
-    const attempts = { easy: 35, medium: 45, hard: 55 };
+  const removeCells = (board) => {
     const puzzle = JSON.parse(JSON.stringify(board));
     let removed = 0;
-    while (removed < attempts[level]) {
+    while (removed < 45) {
       const row = Math.floor(Math.random() * 9);
       const col = Math.floor(Math.random() * 9);
       if (puzzle[row][col] !== 0) {
@@ -83,20 +97,23 @@ const Sudoku = () => {
     return puzzle;
   };
 
-  const generateNewPuzzle = () => {
-    const fullBoard = generateFullBoard();
-    const puzzleBoard = removeCells(fullBoard, difficulty);
+  const startGame = () => {
+    if (name.trim() === '') {
+      alert('Please enter your name');
+      return;
+    }
+    const today = new Date().toISOString().split('T')[0];
+    const seed = `${today}-sudoku`;
+    const fullBoard = generateFullBoard(seed);
+    const puzzleBoard = removeCells(fullBoard);
     setBoard(puzzleBoard);
-    setInitialBoard(JSON.parse(JSON.stringify(puzzleBoard)));
-    setGameStarted(true);
-    setSelectedCell(null);
-    setMessage('');
+    setInitialBoard(puzzleBoard);
     setTimeElapsed(0);
+    setSelectedCell(null);
+    setGameStarted(true);
+    setMessage('');
+    setShowStartScreen(false);
   };
-
-  useEffect(() => {
-    generateNewPuzzle();
-  }, [difficulty]);
 
   const handleCellClick = (row, col) => {
     if (initialBoard[row][col] === 0) {
@@ -117,16 +134,8 @@ const Sudoku = () => {
     if (!selectedCell) return;
     if (e.key >= '1' && e.key <= '9') {
       handleNumberInput(parseInt(e.key));
-    } else if (['Backspace', 'Delete', '0'].includes(e.key)) {
+    } else if (["Backspace", "Delete", "0"].includes(e.key)) {
       handleNumberInput(0);
-    } else if (e.key === 'ArrowUp' && selectedCell.row > 0) {
-      setSelectedCell(prev => ({ ...prev, row: prev.row - 1 }));
-    } else if (e.key === 'ArrowDown' && selectedCell.row < 8) {
-      setSelectedCell(prev => ({ ...prev, row: prev.row + 1 }));
-    } else if (e.key === 'ArrowLeft' && selectedCell.col > 0) {
-      setSelectedCell(prev => ({ ...prev, col: prev.col - 1 }));
-    } else if (e.key === 'ArrowRight' && selectedCell.col < 8) {
-      setSelectedCell(prev => ({ ...prev, col: prev.col + 1 }));
     }
   };
 
@@ -140,15 +149,12 @@ const Sudoku = () => {
   const isCellValid = (row, col) => {
     const value = board[row][col];
     if (value === 0) return true;
-
     for (let c = 0; c < 9; c++) {
       if (c !== col && board[row][c] === value) return false;
     }
-
     for (let r = 0; r < 9; r++) {
       if (r !== row && board[r][col] === value) return false;
     }
-
     const boxRow = Math.floor(row / 3) * 3;
     const boxCol = Math.floor(col / 3) * 3;
     for (let r = boxRow; r < boxRow + 3; r++) {
@@ -156,14 +162,13 @@ const Sudoku = () => {
         if ((r !== row || c !== col) && board[r][c] === value) return false;
       }
     }
-
     return true;
   };
 
-  const isPuzzleComplete = (currentBoard) => {
+  const isPuzzleComplete = () => {
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
-        if (currentBoard[row][col] === 0 || !isCellValid(row, col)) {
+        if (board[row][col] === 0 || !isCellValid(row, col)) {
           return false;
         }
       }
@@ -172,62 +177,74 @@ const Sudoku = () => {
   };
 
   const handleCheckSolution = () => {
-    if (isPuzzleComplete(board)) {
-      setMessage('🎉 Great job! You solved it correctly.');
+    if (isPuzzleComplete()) {
+      setMessage(`🎉 Well done, ${name}! You solved it in ${formatTime(timeElapsed)}.`);
+      const results = JSON.parse(localStorage.getItem("sudoku-results") || "{}");
+      const today = new Date().toISOString().split('T')[0];
+      results[today] = { name, time: timeElapsed };
+      localStorage.setItem("sudoku-results", JSON.stringify(results));
     } else {
       setMessage('❌ There are mistakes. Keep trying!');
     }
   };
 
-  if (!gameStarted) return <div className="loading">Loading Sudoku...</div>;
+  const renderResults = () => {
+    const results = JSON.parse(localStorage.getItem("sudoku-results") || "{}");
+    return Object.entries(results).map(([date, { name, time }]) => (
+      <div key={date}>{`${date} - ${name}: ${formatTime(time)}`}</div>
+    ));
+  };
+
+  if (showStartScreen) {
+    return (
+      <div className="sudoku-wrapper">
+        <div className="start-screen">
+          <h1>Welcome to Sudoku</h1>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+          <button onClick={startGame}>Start Game</button>
+          <button onClick={() => setShowResults(true)}>View Results</button>
+          {showResults && <div className="results-modal">{renderResults()}</div>}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="sudoku-wrapper">
-    <div className="sudoku-container">
-      <h1>Sudoku Game</h1>
-      {/* <div className="games-fullscreen-bg">
-      <div className="games-overlay"> */}
-      
-      <div className="controls">
-        <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-        <button onClick={generateNewPuzzle}>New Game</button>
-        <button onClick={handleCheckSolution}>Check Solution</button>
-        <div className="timer-container">⏱: {formatTime(timeElapsed)}</div>
-
-      </div>
-
-      {message && <div className="message">{message}</div>}
-
-      <div className="sudoku-board">
-        {board.map((row, rowIndex) => (
-          <div key={rowIndex} className="sudoku-row">
-            {row.map((cell, colIndex) => (
-              <div
-                key={`${rowIndex}-${colIndex}`}
-                className={`sudoku-cell 
-                  ${selectedCell?.row === rowIndex && selectedCell?.col === colIndex ? 'selected' : ''}
-                  ${!isCellValid(rowIndex, colIndex) && !isInitialCell(rowIndex, colIndex) ? 'invalid' : ''}
-                  ${(rowIndex + 1) % 3 === 0 && rowIndex < 8 ? 'thick-border-bottom' : ''}
-                  ${(colIndex + 1) % 3 === 0 && colIndex < 8 ? 'thick-border-right' : ''}
-                  ${isInitialCell(rowIndex, colIndex) ? 'initial-cell' : ''}
-                `}
-                onClick={() => handleCellClick(rowIndex, colIndex)}
-              >
-                {cell !== 0 ? cell : ''}
-              </div>
-            ))}
-          </div>
-        ))}
+      <div className="timer-container">⏱ {formatTime(timeElapsed)}</div>
+      <div className="sudoku-container">
+        <h1 className="centered-heading">Sudoku</h1>
+        <div className="controls">
+          <button onClick={handleCheckSolution}>Check Solution</button>
+        </div>
+        {message && <div className="message">{message}</div>}
+        <div className="sudoku-board">
+          {board.map((row, rowIndex) => (
+            <div key={rowIndex} className="sudoku-row">
+              {row.map((cell, colIndex) => (
+                <div
+                  key={`${rowIndex}-${colIndex}`}
+                  className={`sudoku-cell 
+                    ${selectedCell?.row === rowIndex && selectedCell?.col === colIndex ? 'selected' : ''}
+                    ${!isCellValid(rowIndex, colIndex) && !isInitialCell(rowIndex, colIndex) ? 'invalid' : ''}
+                    ${(rowIndex + 1) % 3 === 0 && rowIndex < 8 ? 'thick-border-bottom' : ''}
+                    ${(colIndex + 1) % 3 === 0 && colIndex < 8 ? 'thick-border-right' : ''}
+                    ${isInitialCell(rowIndex, colIndex) ? 'initial-cell' : ''}`}
+                  onClick={() => handleCellClick(rowIndex, colIndex)}
+                >
+                  {cell !== 0 ? cell : ''}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
-    
-    </div>
-    // </div>
-    // </div>
   );
 };
 

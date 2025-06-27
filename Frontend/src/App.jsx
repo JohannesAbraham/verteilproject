@@ -13,7 +13,7 @@ import OrgStructure from "./components/Org Structure/OrgStructure.jsx";
 import CareerFramework from "./components/Career Framework/CFramework";
 import NewsManagement from "./components/News Management/NewsManagement.jsx";
 import Sudokuboard from "./components/quickgames/Sudoku/Sudoku";
-import Popupquiz from "./components/quickgames/Popupquiz/Popupquiz";
+import Popquiz from "./components/quickgames/Popquiz/PopQuiz.jsx";
 import Gamelist from "./components/quickgames/Gameslist/games";
 import SuggestionManagement from "./components/Suggestion Management/SuggestionManagement";
 import MediaBox from "./components/MediaUpload";
@@ -22,7 +22,6 @@ import QuizManager from "./components/quickgames/AdminAccess/AdminQuizPanel";
 import TreePage from './components/Career Framework/Tree.jsx'
 import JobDescription from './components/Career Framework/JobDescription.jsx';
 // import Verite from "./components/Verite.jsx";
-import backgroundImage from '/glass-frosting-design.jpg';
 
 const AppContent = () => {
   const location = useLocation();
@@ -33,10 +32,7 @@ const AppContent = () => {
     <div className="app-container">
      {!hideHeaderFooter && <Header />}
      {!hideHeaderFooter && <Navbar />}
-    {/* //   <img src={backgroundImage} alt="background" className="background-image" />
-
     
-      // <div className="content-wrapper"> */}
         
           <Routes>
             <Route path="/" element={<Home/>}></Route>
@@ -49,15 +45,14 @@ const AppContent = () => {
             <Route path="/job/:name" element={<JobDescription />} />
             <Route path="/suggestion-management" element={<SuggestionManagement />}></Route>
             <Route path="/quickgames/sudoku" element={<Sudokuboard />}></Route>
-            <Route path="/quickgames/popupquiz" element={<Popupquiz />}></Route>  
+            <Route path="/quickgames/popupquiz" element={<Popquiz />}></Route>  
             <Route path="/quickgames" element={<Gamelist />}></Route>
             <Route path="/uploadmedia" element={<MediaBox />}></Route>
             <Route path="/editthought" element={<EditThought />}></Route>
             <Route path="/quizmanager" element={<QuizManager />} />
             <Route path="/news-management" element={<NewsManagement/>}></Route>
           </Routes>
-        {/* </div> */}
-      {/* //   <Footer /> */}
+      
       
        {!hideHeaderFooter && <Footer />}
     </div>

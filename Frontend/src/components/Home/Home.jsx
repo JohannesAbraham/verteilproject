@@ -265,13 +265,16 @@ const NewsBox = () => {
   return (
      <div className="news-box card">
       <h2><ArticleIcon className="icon-title" />Company News</h2>
-      <ul className="news-headings-list">
+      <div className="news-list-container">
         {newsList.map((news) => (
-          <li key={news.id} className="news-heading-item">
-            {news.title}
-          </li>
+          
+          <div className=" news-card card">
+              <img className="news-image" src="image.png" alt="image" />
+              <p className="news-title">{news.title}</p>
+          </div>
         ))}
-      </ul>
+        </div>
+      
     </div>
   );
 };
@@ -349,9 +352,8 @@ const Home = () => {
       <div className="dashboard-container">
         <div className="left-space"></div>
         <div className="main-column">
-          <div className="welcome-box">
-            <h1>Welcome Back</h1>
-            <h3>{formattedDate}</h3>
+          <div className="welcome-box card">
+            <Typography variant="h4">{formattedDate}</Typography>
             <p className="update-intro">Here's what's happening in our company today:</p>
             <ul className="company-updates">
               <li>3 New Joinees this month!</li>
@@ -360,14 +362,12 @@ const Home = () => {
             </ul>
           </div>
 
-          <div className="thought-word-container">
-            {/* word of the days */}
-          </div>
+          
 
           <WordsBox />
 
           <div className="quick-access-message-container">
-          <div className="new-joinees-box">
+          <div className="new-joinees-box card">
             <h2><PeopleIcon className="icon-title" />New Joiners</h2>
             <div className="celebration-list">
               {newJoinees.map((person, index) => (
@@ -430,7 +430,7 @@ const Home = () => {
                   </a>
                 </div>
                 <div className="quick-item">
-                  <a href="/quickgames" >
+                  <a href="/quickgames" target="_blank" rel="noopener noreferrer">
                     <SportsEsportsIcon className="icon" />
                     <p className="para">Games</p>
                   </a>

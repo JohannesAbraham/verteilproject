@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
 
+
+
 @keyframes slideInLeft {
   0% {
     transform: translateX(-150%);

@@ -24,7 +24,7 @@
 /* Update your existing styles to use these variables */
 .app-container {
   color: var(--text-color);
-  background-image: url('/glass-frosting-design.jpg');
+  background-image: url('/glass-frosting-design.png');
   background-size:cover ;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -66,17 +66,6 @@ a {
   min-height: 100vh;
 }
 
-.background-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  object-fit: cover;  
-  pointer-events: none;
-  opacity: 0.3;
-}
 
 .content-wrapper {
   position: relative; /* Ensures content appears above background */
