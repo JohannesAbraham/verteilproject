@@ -23,20 +23,14 @@ const PopupQuiz = () => {
 
   // Timer
   useEffect(() => {
-    if (!started || submitted) return;
+  if (!started || submitted) return;
 
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev === 1) {
-          clearInterval(timer);
-          handleSubmit(); // Auto-submit
-        }
-        return prev - 1;
-      });
-    }, 1000);
+  const timer = setInterval(() => {
+    setElapsedTime(prev => prev + 1);
+  }, 1000);
 
-    return () => clearInterval(timer);
-  }, [started, submitted]);
+  return () => clearInterval(timer);
+}, [started, submitted]);
 
   // Handle option select
   const handleOptionSelect = (option) => {
