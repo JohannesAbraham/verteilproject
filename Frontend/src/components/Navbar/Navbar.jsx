@@ -33,7 +33,7 @@ const Navbar = () => {
       <div className="sidenav-inner">
         <ul className="nav-items">
           <li className="nav-item">
-            <a href="/home">
+            <a href="/">
               <HomeIcon fontSize="large" />
               {isExpanded && <span>Home</span>}
             </a>
