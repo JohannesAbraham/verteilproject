@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const SuggestionModel = require('../models/QuizQuestion');
+const QuizQuestionModel = require('../models/QuizQuestion');
 
 router.get('/', async (req, res) => {
   try {
-    const suggestions = await SuggestionModel.find(); 
-    res.json(suggestions);
+    const quizQuestion = await QuizQuestionModel.find(); 
+    res.json(quizQuestion);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    await SuggestionModel(req.body).save();
+    await QuizQuestionModel(req.body).save();
     res.json({ message: "Added Suggestion Successfully!" });
     console.log({ message: "Added Suggestion Successfully!" });
   } catch (err) {
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedSuggestion = await SuggestionModel.findByIdAndDelete(req.params.id);
+    const deletedSuggestion = await QuizQuestionModel.findByIdAndDelete(req.params.id);
     
     if (!deletedSuggestion) {
       return res.status(404).json({ message: "Suggestion not found" });
@@ -42,6 +42,8 @@ router.delete('/:id', async (req, res) => {
   }
 });
 // Route 4: DELETE a question (Admin only)
+
+
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const { password } = req.query; // use query param, since DELETE doesn't usually handle body well
