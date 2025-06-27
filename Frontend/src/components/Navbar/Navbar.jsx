@@ -67,9 +67,9 @@ const Navbar = () => {
                   <AccountTreeIcon fontSize="large" />
                   {isExpanded && <span>Organization</span>}
                 </a>
-          </li>
-          <li className="nav-item">
-                <a href="/career-framework">
+              </li>
+              <li className="nav-item">
+                <a href="/tree">
                   <WorkIcon fontSize="large" />
                   {isExpanded && <span>Career Framework</span>}
                 </a>

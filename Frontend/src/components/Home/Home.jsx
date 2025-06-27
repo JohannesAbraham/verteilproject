@@ -291,8 +291,8 @@ const WordsBox = () => {
 
   return(
     <div className='flex flex-col justify-center items-center rounded-lg shadow-lg p-4 mb-4 card'>
-      <div className="flex flex-row flex-1 w-full justify-center items-center p-2 space-x-10">
-        <div className="border-lgreen border-2 p-3 rounded-lg w-full">
+      <div className="flex flex-col flex-1 w-full justify-center items-center p-2 space-x-10">
+        <div className="border-lgreen border-2 p-3 mb-4 ml-4 mr-4 rounded-lg w-full">
           <h2 className="font-ariel text-dgreen text-2xl font-bold pb-2"><LightbulbIcon className="text-lgreen" /> Thought of the Day</h2>
           <p className="thought-content">"{thoughtData.thought}"</p>
           <p className="thought-author">- {thoughtData.author}</p>
@@ -341,9 +341,8 @@ const Home = () => {
       <div className="dashboard-container">
         <div className="left-space"></div>
         <div className="main-column">
-          <div className="welcome-box">
-            <h1>Welcome Back</h1>
-            <h3>{formattedDate}</h3>
+          <div className="welcome-box card">
+            <Typography variant="h4">{formattedDate}</Typography>
             <p className="update-intro">Here's what's happening in our company today:</p>
             <ul className="company-updates">
               <li>3 New Joinees this month!</li>
