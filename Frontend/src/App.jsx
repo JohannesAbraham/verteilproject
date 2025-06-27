@@ -8,7 +8,6 @@ import Navbar from "./components/Navbar/Navbar";
 import Suggestion from "./components/Suggestion/Suggestion";
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import News from './components/News/News';
 import OrgStructure from "./components/Org Structure/OrgStructure.jsx";
 import CareerFramework from "./components/Career Framework/CFramework";
 import NewsManagement from "./components/News Management/NewsManagement.jsx";
@@ -39,7 +38,6 @@ const AppContent = () => {
             {/*<Route path="/" element={<Login />}></Route>*/}
             <Route path="/profile" element={<ProfilePage />}></Route>
             <Route path="/suggestion" element={<Suggestion />}></Route>
-            <Route path="/news" element={<News />}></Route>
             <Route path="/org-structure" element={<OrgStructure />}></Route>
             <Route path="/tree" element={<TreePage />} />
             <Route path="/job/:name" element={<JobDescription />} />

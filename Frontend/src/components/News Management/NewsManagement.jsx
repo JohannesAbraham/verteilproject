@@ -46,67 +46,57 @@ const NewsManagement = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const previewUrl = URL.createObjectURL(file);
-      setFormData(prev => ({
-        ...prev,
-        imageFile: file,
-        previewImage: previewUrl
-      }));
-    }
-  };
+ 
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  
+  if (!formData.title.trim() || !formData.content.trim()) {
+    setError('Title and content are required');
+    return;
+  }
+
+  try {
+    const formDataToSend = {
+     title:formData.title,
+     content:formData.content,
+     category:formData.category,
+    };
     
-    try {
-      let response;
-      const formDataToSend = new FormData();
-      
-      // Append all form data to FormData object
-      Object.keys(formData).forEach(key => {
-        if (key !== 'previewImage') {
-          formDataToSend.append(key, formData[key]);
-        }
-      });
-      
-      if (isEditing) {
-        // Update existing article
-        response = await axios.put(`http://localhost:5000/api/news/${currentArticle._id}`, formDataToSend, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        
-        setArticles(articles.map(article => 
-          article._id === currentArticle._id ? response.data.article : article
-        ));
-      } else {
-        // Create new article
-        response = await axios.post('http://localhost:5000/api/news', formDataToSend, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        
-        setArticles([response.data, ...articles]);
-      }
-      
-      resetForm();
-    } catch (err) {
-      console.error('Error saving article:', err);
-      setError(err.response?.data?.message || 'Error saving article');
+
+    console.log(formDataToSend)
+    let response;
+    if (isEditing) {
+      response = await axios.put(
+        `http://localhost:5000/api/news/${currentArticle._id}`,
+        formDataToSend
+      );
+    } else {
+      response = await axios.post('http://localhost:5000/api/news', formDataToSend);
     }
-  };
+
+    // Update state and reset form
+    if (isEditing) {
+      setArticles(articles.map(article => 
+        article._id === currentArticle._id ? response.data : article
+      ));
+    } else {
+      setArticles([response.data, ...articles]);
+    }
+    
+    resetForm();
+  } catch (err) {
+    console.error('Submission error:', err);
+    setError(err.response?.data?.message || 'Error saving article');
+  }
+};
+
 
   const resetForm = () => {
     setFormData({
       title: '',
       content: '',
       category: 'company',
-      imageFile: null,
       previewImage: null,
       type: 'primary'
     });
@@ -192,28 +182,6 @@ const NewsManagement = () => {
             </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="imageFile">Article Image</label>
-            <input
-              type="file"
-              id="imageFile"
-              name="imageFile"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
-            {formData.previewImage && (
-              <div className="image-preview">
-                <img 
-                  src={formData.previewImage} 
-                  alt="Preview" 
-                  className="preview-image"
-                />
-                <p className="file-info">
-                  {formData.imageFile ? formData.imageFile.name : 'Current image'}
-                </p>
-              </div>
-            )}
-          </div>
 
           <div className="form-actions">
             <button type="submit" className="submit-button">
@@ -228,7 +196,7 @@ const NewsManagement = () => {
         </form>
 
         <div className="articles-list">
-          <h2>Current Articles</h2>
+          <Typography variant='h4'>Current Articles:</Typography>
           {articles.length === 0 ? (
             <p className="no-articles">No articles available!</p>
           ) : (
@@ -236,13 +204,9 @@ const NewsManagement = () => {
               {articles.map(article => (
                 <li key={article._id} className="article-item">
                   <div className="article-preview">
-                    <img 
-                      src={article.imageUrl || 'placeholder.png'}
-                      alt="Article preview" 
-                      className="article-thumbnail"
-                    />
+                    
                     <div className="article-info">
-                      <h3>{article.title}</h3>
+                      <Typography variant='h5'>{article.title}</Typography>
                       <p className="article-meta">
                         {article.category === 'company' ? 'Company' : 'Airline'} News • {article.type} • {new Date(article.publishDate).toLocaleString()}
                       </p>

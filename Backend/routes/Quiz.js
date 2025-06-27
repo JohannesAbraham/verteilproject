@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const QuizQuestion = require('../models/QuizQuestion');
+const QuizQuestionModel = require('../models/QuizQuestion');
 
 // GET all quiz questions
 router.get('/', async (req, res) => {
   try {
-    const questions = await QuizQuestion.find();
-    res.json(questions);
+    const quizQuestion = await QuizQuestionModel.find(); 
+    res.json(quizQuestion);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -16,16 +16,34 @@ router.get('/', async (req, res) => {
 // POST a new quiz question
 router.post('/add', async (req, res) => {
   try {
-    const newQuestion = new QuizQuestion(req.body);
-    await newQuestion.save();
-    res.json({ message: "Question added successfully!" });
+    await QuizQuestionModel(req.body).save();
+    res.json({ message: "Added Suggestion Successfully!" });
+    console.log({ message: "Added Suggestion Successfully!" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// DELETE a question with admin password
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD; // Replace with real secure method in production
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedSuggestion = await QuizQuestionModel.findByIdAndDelete(req.params.id);
+    
+    if (!deletedSuggestion) {
+      return res.status(404).json({ message: "Suggestion not found" });
+    }
+    
+    res.json({ 
+      message: "Suggestion Deleted Successfully!",
+      suggestion: deletedSuggestion
+    });
+    console.log({ message: "Suggestion Deleted Successfully!" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.error(err);
+  }
+});
+// Route 4: DELETE a question (Admin only)
+
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;

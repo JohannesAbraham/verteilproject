@@ -91,6 +91,7 @@ function generateCalendarDays(year, month) {
   return days;
 }
 
+
 const CalendarBox = () => {
   const today = new Date();
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
@@ -200,6 +201,8 @@ const MediaBox = () => {
     return () => clearInterval(interval);
   }, [mediaContent]);
 
+  
+
   const currentMedia = mediaContent[currentMediaIndex];
 
   const HandleClick = () => {
@@ -254,6 +257,24 @@ const MediaBox = () => {
 
 const NewsBox = () => {
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
+const [articles,setArticles] = useState([])
+
+
+  useEffect(() => {
+      const fetchArticles = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/news');
+          setArticles(response.data);
+          setIsLoading(false);
+        } catch (err) {
+          setError(err.message);
+          setIsLoading(false);
+          console.error('Error fetching articles:', err);
+        }
+      };
+      
+      fetchArticles();
+    }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -263,19 +284,30 @@ const NewsBox = () => {
   }, []);
 
   return (
-     <div className="news-box card">
-      <h2><ArticleIcon className="icon-title" />Company News</h2>
-      <div className="news-list-container">
-        {newsList.map((news) => (
-          
-          <div className=" news-card card">
-              <img className="news-image" src="image.png" alt="image" />
-              <p className="news-title">{news.title}</p>
-          </div>
-        ))}
-        </div>
-      
-    </div>
+    <div className="news-box card">
+  <h2><ArticleIcon className="icon-title" />News</h2>
+  <div className="news-list-container">
+    {articles.map((news) => (
+      <div key={news.id || news._id} className="news-card card">
+        <Typography variant="h5" className="news-title">
+          {news.title}
+        </Typography>
+        {news.content && (
+          <Typography variant="body2" className="news-content">
+            {news.content.length > 100 
+              ? `${news.content.substring(0, 100)}...` 
+              : news.content}
+          </Typography>
+        )}
+        {news.publishDate && (
+          <Typography variant="caption" className="news-date">
+            {new Date(news.publishDate).toLocaleDateString()}
+          </Typography>
+        )}
+      </div>
+    ))}
+  </div>
+</div>
   );
 };
 

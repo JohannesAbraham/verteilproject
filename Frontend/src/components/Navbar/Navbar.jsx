@@ -39,12 +39,6 @@ const Navbar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a href="/news">
-              <NewspaperIcon fontSize="large" />
-              {isExpanded && <span>News Feed</span>}
-            </a>
-          </li>
-          <li className="nav-item">
             <a href="/news-management">
               <FeedIcon fontSize="large" />
               {isExpanded && <span>Add News</span>}
