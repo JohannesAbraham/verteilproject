@@ -10,7 +10,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 router.post('/', async (req, res) => {
   const { password, question, options, answer } = req.body;
-
+  console.log('hi');
   // Step 1: Validate admin password
   if (password !== ADMIN_PASSWORD) {
     return res.status(403).json({ error: 'Unauthorized: Invalid password' });

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const QuizQuestionModel = require('../models/QuizQuestion');
 
+require('dotenv').config();
+
 // GET all quiz questions
 router.get('/', async (req, res) => {
   try {
@@ -14,15 +16,17 @@ router.get('/', async (req, res) => {
 });
 
 // POST a new quiz question
+// POST a new quiz question
 router.post('/add', async (req, res) => {
   try {
-    await QuizQuestionModel(req.body).save();
-    res.json({ message: "Added Suggestion Successfully!" });
-    console.log({ message: "Added Suggestion Successfully!" });
+    const saved = await QuizQuestionModel(req.body).save();
+    res.json({ message: "Added successfully!", newQuestion: saved });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 router.delete('/:id', async (req, res) => {
   try {
@@ -55,7 +59,7 @@ router.delete('/:id', async (req, res) => {
 
   try {
     console.log(`Attempting to delete question with ID: ${id}`);
-    const deleted = await QuizQuestion.findByIdAndDelete(id);
+    const deleted = await QuizQuestionModel.findByIdAndDelete(id);
     if (!deleted) {
       return res.status(404).json({ error: 'Question not found' });
     }
@@ -69,23 +73,55 @@ router.delete('/:id', async (req, res) => {
 // PUT to update a question
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { password, ...updateData } = req.body;
+  const data = req.body;
 
-  if (password !== ADMIN_PASSWORD) {
+  console.log(data)
+
+
+  if (data.password !== ADMIN_PASSWORD) {
     return res.status(403).json({ error: 'Unauthorized: Invalid password',
      });
   }
-
+ const { password, ...updateData } = data;
   try {
-    const updatedQuestion = await QuizQuestion.findByIdAndUpdate(id, updateData, { new: true });
+    const updatedQuestion = await QuizQuestionModel.findByIdAndUpdate(id, updateData, { new: true });
     if (!updatedQuestion) {
       return res.status(404).json({ error: 'Question not found' });
     }
-    res.json(updatedQuestion);
+    res.json({
+  message: 'Updated successfully',
+  updatedQuestion,
+});
   } catch (err) {
     res.status(500).json({ error: 'Failed to update question' });
+    console.log(err);
   }
 }
 )
+
+// POST: Submit quiz answers and return score
+router.post('/submit', async (req, res) => {
+  const { answers } = req.body;
+
+  try {
+    const questions = await QuizQuestionModel.find();
+
+    let score = 0;
+    questions.forEach((question, index) => {
+      const correct = (question.answer || "").trim().toLowerCase();
+      const userAnswer = (answers[index] || "").trim().toLowerCase();
+
+      if (correct === userAnswer) {
+        score++;
+      }
+    });
+
+    res.json({ score });
+  } catch (err) {
+    console.error('Error submitting quiz:', err);
+    res.status(500).json({ error: 'Failed to evaluate quiz' });
+  }
+});
+
 
 module.exports = router;

@@ -45,9 +45,9 @@ const Navbar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a  href="http://localhost:5173/"  target="_blank" rel="noopener noreferrer">
+            <a  href="http://localhost:5173/quickgames"  target="_blank" rel="noopener noreferrer">
               <VideogameAssetIcon fontSize="large" />
-              {isExpanded && <span>Verite</span>}
+              {isExpanded && <span>Games</span>}
             </a>
           </li>
           <li className="nav-item">
