@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import './Popquiz.css';
 import { Typography } from '@mui/material';
+import axios from 'axios';
 
 const PopupQuiz = () => {
   const [started, setStarted] = useState(false);
@@ -14,30 +15,32 @@ const PopupQuiz = () => {
   // Fetch quiz questions from backend
   useEffect(() => {
     if (started && questions.length === 0) {
-      fetch('http://localhost:5000/api/quiz')
-        .then(res => res.json())
-        .then(data => setQuestions(data))
+      axios.get('http://localhost:5000/api/quiz')
+        .then(res => setQuestions(res.data))
         .catch(err => console.error('Error fetching quiz:', err));
     }
   }, [started]);
 
-  // Timer
+  // Timer countdown logic
   useEffect(() => {
-  if (!started || submitted) return;
+    if (!started || submitted) return;
 
-  const timer = setInterval(() => {
-    setElapsedTime(prev => prev + 1);
-  }, 1000);
+    if (timeLeft === 0) {
+      handleSubmit();
+      return;
+    }
 
-  return () => clearInterval(timer);
-}, [started, submitted]);
+    const timer = setInterval(() => {
+      setTimeLeft(prev => prev - 1);
+    }, 1000);
 
-  // Handle option select
+    return () => clearInterval(timer);
+  }, [started, submitted, timeLeft]);
+
   const handleOptionSelect = (option) => {
     setSelectedOptions({ ...selectedOptions, [currentQn]: option });
   };
 
-  // Submit answers to backend
   const handleSubmit = () => {
     setSubmitted(true);
 
@@ -49,9 +52,7 @@ const PopupQuiz = () => {
       body: JSON.stringify({ answers: orderedAnswers }),
     })
       .then(res => res.json())
-      .then(data => {
-        setScore(data.score);
-      })
+      .then(data => setScore(data.score))
       .catch(err => console.error('Error submitting answers:', err));
   };
 
@@ -79,42 +80,43 @@ const PopupQuiz = () => {
 
   return (
     <div className="popquizwrapper">
-
-    <div className="quiz-container">
-      {!started ? (
-        <button className="start-button" onClick={() => setStarted(true)}>Start Quiz</button>
-      ) : submitted ? (
-        <div className="result-section">
-          <Typography variant='h3' sx={{color:"white"}}>Your Score: {score} / {questions.length}</Typography>
-          <button className="start-button" onClick={restartQuiz}>Restart</button>
-        </div>
-      ) : questions.length > 0 ? (
-        <>
-          <div className="timer">Time: {timeLeft}s</div>
-          <div className="question-box">
-            <h3> {questions[currentQn].question}</h3>
-            <ul className='options-list'>
-              {questions[currentQn].options.map((opt, i) => (
-                <li
-                  key={i}
-                  onClick={() => handleOptionSelect(opt)}
-                  className={selectedOptions[currentQn] === opt ? "selected-option  " : ""}
-                >
-                  {opt}
-                </li>
-              ))}
-            </ul>
+      <div className="quiz-container">
+        {!started ? (
+          <button className="start-button" onClick={() => setStarted(true)}>Start Quiz</button>
+        ) : submitted ? (
+          <div className="result-section">
+            <Typography variant='h3' sx={{ color: "white" }}>
+              Your Score: {score} / {questions.length}
+            </Typography>
+            <button className="start-button" onClick={restartQuiz}>Restart</button>
           </div>
-          <div className="navigation-buttons">
-            <button onClick={goPrev} disabled={currentQn === 0} className="nav-button">Previous</button>
-            <button onClick={goNext} disabled={currentQn === questions.length - 1} className="nav-button">Next</button>
-            <button className="submit-button" onClick={handleSubmit}>Submit</button>
-          </div>
-        </>
-      ) : (
-        <div>Loading quiz...</div>
-      )}
-    </div>
+        ) : questions.length > 0 ? (
+          <>
+            <div className="timer">Time: {timeLeft}s</div>
+            <div className="question-box">
+              <h3>{questions[currentQn].question}</h3>
+              <ul className="options-list">
+                {questions[currentQn].options.map((opt, i) => (
+                  <li
+                    key={i}
+                    onClick={() => handleOptionSelect(opt)}
+                    className={selectedOptions[currentQn] === opt ? "selected-option" : ""}
+                  >
+                    {opt}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="navigation-buttons">
+              <button onClick={goPrev} disabled={currentQn === 0} className="nav-button">Previous</button>
+              <button onClick={goNext} disabled={currentQn === questions.length - 1} className="nav-button">Next</button>
+              <button className="submit-button" onClick={handleSubmit}>Submit</button>
+            </div>
+          </>
+        ) : (
+          <div>Loading quiz...</div>
+        )}
+      </div>
     </div>
   );
 };

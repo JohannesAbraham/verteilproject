@@ -22,28 +22,7 @@ import ProfilePage from '../ProfilePage'
 
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
 
-const newsList = [
-  { 
-    id: 1, 
-    title: "Quarterly results announced"
-  },
-  { 
-    id: 2, 
-    title: "New project launch next week"
-  },
-  { 
-    id: 3, 
-    title: "Office closed on June 5th"
-  },
-  { 
-    id: 4, 
-    title: "Annual Team Building Event"
-  },
-  { 
-    id: 5, 
-    title: "New Employee Benefits Policy"
-  },
-];
+
 
 const holidays = [
   { date: "2025-01-26", name: "Republic Day" },
@@ -462,9 +441,9 @@ const Home = () => {
                   </a>
                 </div>
                 <div className="quick-item">
-                  <a href="/quickgames" target="_blank" rel="noopener noreferrer">
+                  <a href="http://localhost:3000/" target="_blank" rel="noopener noreferrer">
                     <SportsEsportsIcon className="icon" />
-                    <p className="para">Games</p>
+                    <p className="para">Verite</p>
                   </a>
                 </div>
               </div>

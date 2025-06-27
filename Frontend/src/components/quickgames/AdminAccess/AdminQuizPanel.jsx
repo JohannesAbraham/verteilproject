@@ -13,14 +13,10 @@ const AdminQuizPanel = () => {
   const [message, setMessage] = useState('');
   const [editingId, setEditingId] = useState(null);
 
-
-  console.log(questions);
   useEffect(() => {
     if (isAuthenticated) {
       axios.get('http://localhost:5000/api/quiz')
-        .then( res => {
-          console.log("Fetched questions:", res.data);
-          setQuestions(res.data)})
+        .then(res => setQuestions(res.data))
         .catch(err => console.error(err));
     }
   }, [isAuthenticated]);
@@ -39,15 +35,13 @@ const AdminQuizPanel = () => {
   };
 
   const handleAddOrUpdateQuestion = () => {
-    if (editingId){
-      console.log("editing a question:");
-    }
     const endpoint = editingId
       ? `http://localhost:5000/api/quiz/${editingId}`
       : 'http://localhost:5000/api/quiz/add';
     const method = editingId ? 'PUT' : 'POST';
-    const data = { question, options, answer, password: adminPassword } 
-    console.log("data to be sent:", data);
+
+    const data = { question, options, answer, password: adminPassword };
+
     fetch(endpoint, {
       method,
       headers: { 'Content-Type': 'application/json' },
@@ -56,15 +50,24 @@ const AdminQuizPanel = () => {
       .then(res => res.json())
       .then(data => {
         setMessage(data.message || data.error);
-        if (data.message) {
+
+        if (data.updatedQuestion || data.newQuestion) {
+          const updated = data.updatedQuestion || data.newQuestion;
+
           if (editingId) {
             setQuestions(prev =>
-              prev.map(q => (q._id === editingId ? { ...q, question, options, answer } : q))
+              prev.map(q => (q._id === updated._id ? updated : q))
             );
           } else {
-            setQuestions(prev => [...prev, { _id: Date.now(), question, options, answer }]);
+            setQuestions(prev => [...prev, updated]);
           }
+
           resetForm();
+        } else {
+          // fallback: refresh all questions
+          axios.get('http://localhost:5000/api/quiz')
+            .then(res => setQuestions(res.data))
+            .catch(err => console.error('Failed to refresh questions', err));
         }
       })
       .catch(err => {
@@ -105,8 +108,7 @@ const AdminQuizPanel = () => {
       return;
     }
 
-    // Try a simple fetch to verify password by hitting GET + password-protected endpoint
-    fetch(`http://localhost:5000/api/quiz`) // could be replaced with a dedicated `/verify`
+    fetch(`http://localhost:5000/api/quiz`)
       .then(res => res.json())
       .then(() => {
         setAdminPassword(tempPassword);
@@ -124,23 +126,22 @@ const AdminQuizPanel = () => {
     resetForm();
   };
 
-  // ---------- RENDER ----------
+  // RENDER
   if (!isAuthenticated) {
-  return (
-    <div className="login-container">
-      <h2>Enter Admin Password</h2>
-      <input
-        type="password"
-        placeholder="Admin password"
-        value={tempPassword}
-        onChange={(e) => setTempPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>Login</button>
-      {message && <p className="message">{message}</p>}
-    </div>
-  );
-}
-
+    return (
+      <div className="login-container">
+        <h2>Enter Admin Password</h2>
+        <input
+          type="password"
+          placeholder="Admin password"
+          value={tempPassword}
+          onChange={(e) => setTempPassword(e.target.value)}
+        />
+        <button onClick={handleLogin}>Login</button>
+        {message && <p className="message">{message}</p>}
+      </div>
+    );
+  }
 
   return (
     <div className="quiz-manager">
