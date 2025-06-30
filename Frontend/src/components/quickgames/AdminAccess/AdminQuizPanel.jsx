@@ -7,6 +7,7 @@ const AdminQuizPanel = () => {
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState(['', '', '', '']);
   const [answer, setAnswer] = useState('');
+  const [quizTimer, setQuizTimer] = useState(60);
   const [adminPassword, setAdminPassword] = useState('');
   const [tempPassword, setTempPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -18,8 +19,23 @@ const AdminQuizPanel = () => {
       axios.get('http://localhost:5000/api/quiz')
         .then(res => setQuestions(res.data))
         .catch(err => console.error(err));
+
+      const savedTimer = localStorage.getItem('quizTimer');
+      if (savedTimer) {
+        setQuizTimer(parseInt(savedTimer, 10));
+      }
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!isAuthenticated && e.key === 'Enter') {
+        handleLogin();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isAuthenticated, tempPassword]);
 
   const handleOptionChange = (value, index) => {
     const newOptions = [...options];
@@ -53,7 +69,6 @@ const AdminQuizPanel = () => {
 
         if (data.updatedQuestion || data.newQuestion) {
           const updated = data.updatedQuestion || data.newQuestion;
-
           if (editingId) {
             setQuestions(prev =>
               prev.map(q => (q._id === updated._id ? updated : q))
@@ -61,13 +76,11 @@ const AdminQuizPanel = () => {
           } else {
             setQuestions(prev => [...prev, updated]);
           }
-
           resetForm();
         } else {
-          // fallback: refresh all questions
           axios.get('http://localhost:5000/api/quiz')
             .then(res => setQuestions(res.data))
-            .catch(err => console.error('Failed to refresh questions', err));
+            .catch(err => console.error(err));
         }
       })
       .catch(err => {
@@ -85,7 +98,6 @@ const AdminQuizPanel = () => {
 
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this question?')) return;
-
     fetch(`http://localhost:5000/api/quiz/${id}?password=${encodeURIComponent(adminPassword)}`, {
       method: 'DELETE',
     })
@@ -126,90 +138,105 @@ const AdminQuizPanel = () => {
     resetForm();
   };
 
-  // RENDER
-  if (!isAuthenticated) {
-    return (
-      <div className="login-container">
-        <h2>Enter Admin Password</h2>
-        <input
-          type="password"
-          placeholder="Admin password"
-          value={tempPassword}
-          onChange={(e) => setTempPassword(e.target.value)}
-        />
-        <button onClick={handleLogin}>Login</button>
-        {message && <p className="message">{message}</p>}
-      </div>
-    );
-  }
+  const handleTimerSave = () => {
+    localStorage.setItem('quizTimer', quizTimer);
+    setMessage('Timer setting saved!');
+  };
 
   return (
-    <div className="quiz-manager">
-      <div className="panel-header">
-        <h2>Quiz Admin Panel</h2>
-        <button onClick={handleLogout} className="logout-btn">Logout</button>
-      </div>
-
-      <div className="input-form">
-        <input
-          type="text"
-          placeholder="Enter question"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
-        {options.map((opt, i) => (
+    <div className="background-wrapper">
+      {!isAuthenticated ? (
+        <div className="login-container">
+          <h2>Enter Admin Password</h2>
           <input
-            key={i}
-            type="text"
-            placeholder={`Option ${i + 1}`}
-            value={opt}
-            onChange={(e) => handleOptionChange(e.target.value, i)}
+            type="password"
+            placeholder="Admin password"
+            value={tempPassword}
+            onChange={(e) => setTempPassword(e.target.value)}
           />
-        ))}
-        <input
-          type="text"
-          placeholder="Correct answer"
-          value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
-        />
-        <button onClick={handleAddOrUpdateQuestion}>
-          {editingId ? 'Update Question' : 'Add Question'}
-        </button>
-        {message && <p className="message">{message}</p>}
-      </div>
+          <button onClick={handleLogin}>Login</button>
+          {message && <p className="message">{message}</p>}
+        </div>
+      ) : (
+        <div className="quiz-manager">
+          <div className="panel-header">
+            <h2>Quiz Admin Panel</h2>
+            <button onClick={handleLogout} className="logout-btn">Logout</button>
+          </div>
 
-      <h3>All Questions</h3>
-      <table className="quiz-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Question</th>
-            <th>Options</th>
-            <th>Answer</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {questions.map((q, index) => (
-            <tr key={q._id}>
-              <td>{index + 1}</td>
-              <td>{q.question}</td>
-              <td>
-                <ul>
-                  {q.options.map((opt, i) => (
-                    <li key={i}>{opt}</li>
-                  ))}
-                </ul>
-              </td>
-              <td>{q.answer}</td>
-              <td>
-                <button onClick={() => handleEdit(q)}>Edit</button>
-                <button onClick={() => handleDelete(q._id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          <div className="timer-setting">
+            <label>Quiz Timer (seconds): </label>
+            <input
+              type="number"
+              value={quizTimer}
+              onChange={(e) => setQuizTimer(e.target.value)}
+              min={10}
+            />
+            <button onClick={handleTimerSave}>Save Timer</button>
+          </div>
+
+          <div className="input-form">
+            <input
+              type="text"
+              placeholder="Enter question"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+            />
+            {options.map((opt, i) => (
+              <input
+                key={i}
+                type="text"
+                placeholder={`Option ${i + 1}`}
+                value={opt}
+                onChange={(e) => handleOptionChange(e.target.value, i)}
+              />
+            ))}
+            <input
+              type="text"
+              placeholder="Correct answer"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+            />
+            <button onClick={handleAddOrUpdateQuestion}>
+              {editingId ? 'Update Question' : 'Add Question'}
+            </button>
+            {message && <p className="message">{message}</p>}
+          </div>
+
+          <h3>All Questions</h3>
+          <table className="quiz-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Question</th>
+                <th>Options</th>
+                <th>Answer</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {questions.map((q, index) => (
+                <tr key={q._id}>
+                  <td>{index + 1}</td>
+                  <td>{q.question}</td>
+                  <td>
+                    <ul>
+                      {q.options.map((opt, i) => (
+                        <li key={i}>{opt}</li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td>{q.answer}</td>
+                  <td>
+                    <button onClick={() => handleEdit(q)}>Edit</button>
+                    <button onClick={() => handleDelete(q._id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

@@ -7,15 +7,29 @@
   --fixed-bg: #81a73d;
 }
 
-.quiz-manager {
-  background-color: var(--background-color);
-  padding: 2rem;
-  color: var(--secondary-color);
-  margin-left: 7rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Background wrapper for both login and admin screens */
+.background-wrapper {
   min-height: 100vh;
+  background-color: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
 }
 
+/* Panel container style shared by login and admin */
+.quiz-manager, .login-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--box-shadow);
+  color: var(--secondary-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  max-width: 1000px;
+}
+
+/* Header */
 .panel-header {
   display: flex;
   justify-content: space-between;
@@ -42,6 +56,35 @@ h2 {
   font-size: 1.8rem;
 }
 
+/* Timer setting section */
+.timer-setting {
+  margin-bottom: 1.5rem;
+}
+
+.timer-setting input {
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.timer-setting button {
+  margin-left: 0.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.timer-setting button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Input form */
 .input-form {
   background: #fff;
   padding: 1.5rem;
@@ -52,7 +95,6 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  transition: all 0.3s ease;
 }
 
 .input-form input {
@@ -90,6 +132,7 @@ h2 {
   margin-top: 0.5rem;
 }
 
+/* Quiz table */
 .quiz-table {
   width: 100%;
   border-collapse: collapse;
@@ -138,12 +181,17 @@ h2 {
   color: white;
 }
 
+/* Login container overrides */
+.login-container h2 {
+  font-size: 1.8rem;
+  color: var(--secondary-color);
+}
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* full screen height */
+  min-height: 100vh; /* full viewport height */
   text-align: center;
   gap: 1rem;
   background-color: var(--background-color);
@@ -159,7 +207,8 @@ h2 {
   font-size: 1rem;
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  width: 280px;
+  width: 100%;
+  max-width: 300px;
   outline: none;
 }
 

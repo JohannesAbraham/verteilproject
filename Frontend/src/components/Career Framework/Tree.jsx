@@ -133,11 +133,12 @@ function TreePage() {
 
   return (
     <div className="h-screen bg-light pt-2" >
-     <div className="bg-lgreen text-center p-3  border-b border-dgreen shadow-sm rounded-md max-w-xl mx-auto">
-  <h1 className="text-2xl text-light font-ariel font-bold tracking-wide m-0 mb-0">
+     <div className="bg-[#81a73d] text-center p-3 border-b border-[#4a6532] shadow-sm rounded-md max-w-xl mx-auto -mt-1">
+  <h1 className="text-2xl text-white font-ariel font-bold tracking-wide m-0 mb-0">
     CAREER FRAMEWORK
   </h1>
 </div>
+
 
 
 

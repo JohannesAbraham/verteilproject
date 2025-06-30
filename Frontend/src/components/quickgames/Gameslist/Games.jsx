@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Games.css';
 import ExtensionIcon from '@mui/icons-material/Extension';
@@ -12,29 +12,31 @@ const Games = () => {
       name: 'Sudoku',
       path: '/quickgames/sudoku',
       logo: ExtensionIcon,
+      leaderboardKey: 'sudoku-leaderboard',
     },
     {
       name: 'Pop Quiz',
       path: '/quickgames/popquiz',
       logo: QuizIcon,
+      leaderboardKey: 'popquiz-leaderboard',
     },
   ];
 
-  const sudokuScores = [
-    { name: "Alice", time: "1:42" },
-    { name: "Bob", time: "1:55" },
-    { name: "Charlie", time: "2:03" },
-    { name: "Daisy", time: "2:17" },
-    { name: "Ethan", time: "2:25" },
-  ];
+  const [sudokuScores, setSudokuScores] = useState([]);
+  const [quizScores, setQuizScores] = useState([]);
 
-  const quizScores = [
-    { name: "Isha", time: "40s" },
-    { name: "Rahul", time: "43s" },
-    { name: "Neha", time: "47s" },
-    { name: "Arun", time: "50s" },
-    { name: "Sanya", time: "55s" },
-  ];
+  useEffect(() => {
+    const sudokuData = JSON.parse(localStorage.getItem('sudoku-leaderboard') || '[]')
+      .sort((a, b) => a.time.localeCompare(b.time))
+      .slice(0, 5);
+
+    const quizData = JSON.parse(localStorage.getItem('popquiz-leaderboard') || '[]')
+      .sort((a, b) => b.score !== a.score ? b.score - a.score : a.timeTaken - b.timeTaken)
+      .slice(0, 5);
+
+    setSudokuScores(sudokuData);
+    setQuizScores(quizData);
+  }, []);
 
   const getRankIcon = (index) => {
     return index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}`;
@@ -69,19 +71,25 @@ const Games = () => {
               </tr>
             </thead>
             <tbody>
-              {sudokuScores.map((player, index) => (
-                <tr key={index}>
-                  <td>{getRankIcon(index)}</td>
-                  <td>{player.name}</td>
-                  <td>{player.time}</td>
+              {sudokuScores.length > 0 ? (
+                sudokuScores.map((player, index) => (
+                  <tr key={index}>
+                    <td>{getRankIcon(index)}</td>
+                    <td>{player.name}</td>
+                    <td>{player.time}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3">No records yet</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
 
         <div className="scoreboard fade-in" style={{ animationDelay: '0.3s' }}>
-          <h3>Popup Quiz</h3>
+          <h3>Pop Quiz</h3>
           <table>
             <thead>
               <tr>
@@ -91,13 +99,19 @@ const Games = () => {
               </tr>
             </thead>
             <tbody>
-              {quizScores.map((player, index) => (
-                <tr key={index}>
-                  <td>{getRankIcon(index)}</td>
-                  <td>{player.name}</td>
-                  <td>{player.time}</td>
+              {quizScores.length > 0 ? (
+                quizScores.map((player, index) => (
+                  <tr key={index}>
+                    <td>{getRankIcon(index)}</td>
+                    <td>{player.name}</td>
+                    <td>{player.timeTaken ? `${player.timeTaken}s` : "-"}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3">No records yet</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
