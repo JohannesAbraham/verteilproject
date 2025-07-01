@@ -26,8 +26,8 @@ const AppContent = () => {
   const location = useLocation();
   const hideHeaderFooter =
   location.pathname.startsWith('/quickgames') || location.pathname.startsWith('/games');
-
-  const [user, setUser] = useState(null);
+  const [user,setUser] = useState('');
+  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     fetch('http://localhost:5000/api/me', {

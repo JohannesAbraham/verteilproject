@@ -22,8 +22,6 @@ import ProfilePage from '../ProfilePage'
 
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
 
-
-
 const holidays = [
   { date: "2025-01-26", name: "Republic Day" },
   { date: "2025-02-26", name: "Sivaratri" },
@@ -69,7 +67,6 @@ function generateCalendarDays(year, month) {
   }
   return days;
 }
-
 
 const CalendarBox = () => {
   const today = new Date();
@@ -164,6 +161,14 @@ const CalendarBox = () => {
 const MediaBox = () => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [mediaContent, setMediaContent] = useState([]);
+  const [isAdmin,setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    axios
+    .get("http://localhost:5000/api/auth/is-admin",{withCredentials:true})
+    .then(res => setIsAdmin(res.data.isAdmin))
+    .catch(() => setIsAdmin(false));
+  },[]);
 
   const navigate = useNavigate();
 
@@ -213,8 +218,12 @@ const MediaBox = () => {
           <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center p-2">
               <h2 className="p-3">{currentMedia.title}</h2>
-              <button onClick={HandleClick} className="bg-lgreen rounded-xl text-light font-ariel py-2 px-4">Add Media</button>
-              <button onClick={() => handleDelete(currentMedia._id)} className="bg-red-500 rounded-xl text-light font-ariel py-2 px-4">Delete</button>
+              {isAdmin&&(
+                <button onClick={HandleClick} className="bg-lgreen rounded-xl text-light font-ariel py-2 px-4">Add Media</button>
+              )}
+              {isAdmin&&(
+                <button onClick={() => handleDelete(currentMedia._id)} className="bg-red-500 rounded-xl text-light font-ariel py-2 px-4">Delete</button>
+              )}
             </div>
             <img src={`http://localhost:5000${currentMedia.image}`} alt={currentMedia.title} className="media-image h-[50vh] w-auto object-contain mx-auto rounded-lg"/>
             <p className="p-4">{currentMedia.description}</p>
@@ -236,7 +245,9 @@ const MediaBox = () => {
 
 const NewsBox = () => {
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
-const [articles,setArticles] = useState([])
+  const [articles,setArticles] = useState([]);
+  const [error,setError] = useState(null);
+  const [loading,setIsLoading] = useState(true);
 
 
   useEffect(() => {
@@ -248,51 +259,60 @@ const [articles,setArticles] = useState([])
         } catch (err) {
           setError(err.message);
           setIsLoading(false);
-          console.error('Error fetching articles:', err);
+          console.error('Error fetching articles:', error);
         }
       };
       
       fetchArticles();
-    }, []);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentNewsIndex((prev) => (prev + 1) % newsList.length);
+      setCurrentNewsIndex((prev) => (prev + 1) % articles.length);
     }, 10000); // Change highlighted news every 10 seconds
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="news-box card">
-  <h2><ArticleIcon className="icon-title" />News</h2>
-  <div className="news-list-container">
-    {articles.map((news) => (
-      <div key={news.id || news._id} className="news-card card">
-        <Typography variant="h5" className="news-title">
-          {news.title}
-        </Typography>
-        {news.content && (
-          <Typography variant="body2" className="news-content">
-            {news.content.length > 100 
-              ? `${news.content.substring(0, 100)}...` 
-              : news.content}
+    <h2><ArticleIcon className="icon-title" />News</h2>
+    <div className="news-list-container">
+      {articles.map((news) => (
+        <div key={news.id || news._id} className="news-card card">
+          <Typography variant="h5" className="news-title">
+            {news.title}
           </Typography>
-        )}
-        {news.publishDate && (
-          <Typography variant="caption" className="news-date">
-            {new Date(news.publishDate).toLocaleDateString()}
-          </Typography>
-        )}
-      </div>
-    ))}
+          {news.content && (
+            <Typography variant="body2" className="news-content">
+              {news.content.length > 100 
+                ? `${news.content.substring(0, 100)}...` 
+                : news.content}
+            </Typography>
+          )}
+          {news.publishDate && (
+            <Typography variant="caption" className="news-date">
+              {new Date(news.publishDate).toLocaleDateString()}
+            </Typography>
+          )}
+        </div>
+      ))}
+    </div>
   </div>
-</div>
   );
 };
 
 const WordsBox = () => {
 
   const [thoughtData, setThoughtData] = useState({ thought: "", author: "", word: "", meaning: "" });
+  const [isAdmin,setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    axios
+    .get("http://localhost:5000/api/auth/is-admin",{withCredentials:true})
+    .then(res => setIsAdmin(res.data.isAdmin))
+    .catch(() => setIsAdmin(false));
+  },[]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -325,12 +345,12 @@ const WordsBox = () => {
         </div>
       </div>
 
-      <button onClick={() => {
-        const pwd = prompt("Enter admin password:");
-        if (pwd) navigate(`/editthought?pwd=${pwd}`);
-      }} className="bg-lgreen text-white rounded px-4 py-1 mt-2">
-        Edit
-      </button>
+      {isAdmin&&(
+        <button onClick={() => {navigate(`/editthought`);
+        }} className="bg-lgreen text-white rounded px-4 py-1 mt-2">
+          Edit
+        </button>
+      )}
     </div>
   );
 }
