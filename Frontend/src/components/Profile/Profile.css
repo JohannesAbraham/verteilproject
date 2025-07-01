@@ -1,0 +1,74 @@
+/* src/components/Profile.css */
+:root {
+  --primary: #FFF8F0;
+  --secondary: #80A23F;        /* hover color */
+  --accent: #3F3F3F;
+  --darker-secondary: #689710; /* card heading color */
+  --button-bg: #80A23F;
+  --button-text: #ffffff;
+  --input-border: #ccc;
+  --input-focus: #689710;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: var(--primary);
+  min-height: 100vh;
+}
+
+.profile-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 340px;
+  color: var(--accent);
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+  border: 3px solid var(--secondary);
+}
+
+.profile-name {
+  font-size: 24px;
+  color: var(--darker-secondary);
+  margin-bottom: 12px;
+}
+
+.profile-card input {
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.profile-card input:focus {
+  outline: none;
+  border-color: var(--input-focus);
+}
+
+.edit-button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.edit-button:hover {
+  background-color: var(--darker-secondary);
+}

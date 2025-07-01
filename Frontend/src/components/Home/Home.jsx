@@ -17,9 +17,6 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Typography } from "@mui/material";
 
-import ProfilePage from '../ProfilePage'
-
-
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
 
 const holidays = [
@@ -55,9 +52,6 @@ const newJoinees = [
   { name: "Michael Chen", role: "Product Manager", department: "Product", joiningDate: "2025-06-10", image: `${profilePlaceholder}men/4.jpg` }
 ];
 
-const thoughtOfTheDay = "Success is not final, failure is not fatal: It is the courage to continue that counts.";
-const wordOfTheDay = { word: "Synergy", meaning: "The interaction of elements that when combined produce a total effect greater than the sum of the individual elements" };
-
 function generateCalendarDays(year, month) {
   const date = new Date(year, month, 1);
   const days = [];
@@ -74,6 +68,7 @@ const CalendarBox = () => {
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
 
   const days = generateCalendarDays(selectedYear, selectedMonth);
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const isWeekend = (date) => date.getDay() === 0 || date.getDay() === 6;
   const isHoliday = (date) => holidays.some(h => new Date(h.date).toDateString() === date.toDateString());
@@ -91,11 +86,9 @@ const CalendarBox = () => {
   });
 
   return (
-  <div className="calendar-box card">
-    <Typography variant="h6"><CalendarMonthIcon className="icon-title" /> Calendar</Typography>
-
-    <div className="calendar-grid">
-      
+    <div className="calendar-box card">
+      <div className="calendar-header">
+        <Typography variant="h6">Calendar</Typography>
         <div className="calendar-selectors">
           <select value={selectedMonth} onChange={handleMonthChange}>
             {Array.from({ length: 12 }, (_, i) => (
@@ -110,11 +103,14 @@ const CalendarBox = () => {
         </div>
       </div>
 
-      <div className="calendar-grid">
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
-          <div key={day} className="calendar-day header">{day}</div>
+      {/* Weekday headers */}
+      <div className="calendar-weekdays">
+        {weekdays.map(day => (
+          <div key={day} className="calendar-weekday">{day}</div>
         ))}
+      </div>
 
+      <div className="calendar-grid">
         {Array(days[0].getDay()).fill(null).map((_, i) => (
           <div key={"empty-start-" + i} className="calendar-day empty"></div>
         ))}
@@ -123,6 +119,10 @@ const CalendarBox = () => {
           const dayNum = date.getDate();
           const weekend = isWeekend(date);
           const holiday = isHoliday(date);
+          const holidayName = holiday 
+            ? holidays.find(h => new Date(h.date).toDateString() === date.toDateString()).name 
+            : "";
+            
           return (
             <div
               key={date.toISOString()}
@@ -130,10 +130,10 @@ const CalendarBox = () => {
                 ${weekend ? "weekend" : ""} 
                 ${holiday ? "holiday" : ""} 
                 ${isToday(date) ? "today" : ""}`}
-              title={holiday ? holidays.find(h => new Date(h.date).toDateString() === date.toDateString()).name : ""}
+              title={holidayName}
             >
               {dayNum}
-              {holiday && <span className="holiday-dot"></span>}
+              {holiday && <span className="holiday-dot" title={holidayName}></span>}
             </div>
           );
         })}
@@ -143,20 +143,21 @@ const CalendarBox = () => {
         ))}
       </div>
 
-      <div className="holiday-list">
-        <h3>Holidays</h3>
-        <ul>
-          {filteredHolidays.map((h) => (
-            <li key={h.date}>
-              <strong>{new Date(h.date).toLocaleDateString(undefined, { day: "numeric", month: "short" })}</strong>: {h.name}
-            </li>
-          ))}
-        </ul>
-      </div>
+      {filteredHolidays.length > 0 && (
+        <div className="holiday-list">
+          <h3>Holidays</h3>
+          <ul>
+            {filteredHolidays.map((h) => (
+              <li key={h.date}>
+                <strong>{new Date(h.date).toLocaleDateString(undefined, { day: "numeric", month: "short" })}</strong>: {h.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
-
 
 const MediaBox = () => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
@@ -174,18 +175,25 @@ const MediaBox = () => {
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/media/getmedia')
-    .then(response => setMediaContent(response.data))
-    .catch(error => console.error("Error fetching media content:", error));
-  },[]);
+      .then(response => {
+        setMediaContent(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error("Error fetching media content:", error);
+        setError("Failed to load media");
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentMediaIndex((prev) => (prev + 1) % mediaContent.length);
-    }, 5000); // Change every 5 seconds
-    return () => clearInterval(interval);
+    if (mediaContent.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentMediaIndex((prev) => (prev + 1) % mediaContent.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
   }, [mediaContent]);
-
-  
 
   const currentMedia = mediaContent[currentMediaIndex];
 
@@ -196,15 +204,12 @@ const MediaBox = () => {
 
   const handleDelete = async(id) => {
     const password = prompt("Enter admin password to delete:");
-    if(!password){
-      return
-    }
+    if(!password) return;
 
-    try{
-      await axios.post(`http://localhost:5000/api/media/delete`,{id,password});
+    try {
+      await axios.post(`http://localhost:5000/api/media/delete`, {id, password});
       setMediaContent(mediaContent.filter(media => media._id !== id));
-    }
-    catch(e){
+    } catch(e) {
       console.error("Error deleting media:", e);
       alert("Failed to delete media");
     }
@@ -302,7 +307,6 @@ const NewsBox = () => {
 };
 
 const WordsBox = () => {
-
   const [thoughtData, setThoughtData] = useState({ thought: "", author: "", word: "", meaning: "" });
   const [isAdmin,setIsAdmin] = useState(false);
 
@@ -357,11 +361,9 @@ const WordsBox = () => {
 
 const Home = () => {
   const [showHandbook, setShowHandbook] = useState(false);
-
   const today = new Date();
   const formattedDate = format(today, "EEEE, MMMM d, yyyy");
-
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -388,36 +390,35 @@ const Home = () => {
             <p className="update-intro">Here's what's happening in our company today:</p>
             <ul className="company-updates">
               <li>3 New Joinees this month!</li>
-              <li>3 New Joinees this month!</li>
               <li>Celebrating {birthdays.length} employee birthdays</li>
+              <li>{anniversaries.length} work anniversaries</li>
             </ul>
           </div>
-
-          
 
           <WordsBox />
 
           <div className="quick-access-message-container">
-          <div className="new-joinees-box card">
-            <h2><PeopleIcon className="icon-title" />New Joiners</h2>
-            <div className="celebration-list">
-              {newJoinees.map((person, index) => (
-                <div key={index} className="celebration-item">
-                  <img src={person.image} alt={person.name} className="profile-pic" />
-                  <div className="celebration-details">
-                    <h3>{person.name}</h3>
-                    <p>{person.role} • {person.department}</p>
-                    <p>Joined on {new Date(person.joiningDate).toLocaleDateString(undefined, {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric"
-                    })}</p>
+            <div className="new-joinees-box card">
+              <h2><PeopleIcon className="icon-title" />New Joiners</h2>
+              <div className="celebration-list">
+                {newJoinees.map((person, index) => (
+                  <div key={index} className="celebration-item">
+                    <img src={person.image} alt={person.name} className="profile-pic" />
+                    <div className="celebration-details">
+                      <h3>{person.name}</h3>
+                      <p>{person.role} • {person.department}</p>
+                      <p>Joined on {new Date(person.joiningDate).toLocaleDateString(undefined, {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
+                      })}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-          </div>
+          
           <MediaBox />
           <NewsBox />
         </div>
@@ -428,7 +429,8 @@ const Home = () => {
             <div className="quick-access-grid">
               <div className="quick-column">
                 <div className="quick-item" onClick={() => navigate('/profile')}>
-                  Profile
+                  <PeopleIcon className="icon" />
+                  <p className="para">Profile</p>
                 </div>
                 <div className="quick-item">
                   <a href="https://www.verteil.com/" target="_blank" rel="noopener noreferrer">
@@ -469,7 +471,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
 
           <div className="birthday-box card">
             <Typography variant="h6"><CakeIcon className="icon-title" /> Birthdays This Week</Typography>

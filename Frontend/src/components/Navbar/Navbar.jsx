@@ -7,7 +7,6 @@ import WorkIcon from '@mui/icons-material/Work';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import MessageIcon from '@mui/icons-material/Message';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import NewspaperIcon from '@mui/icons-material/Newspaper';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 
 const Navbar = () => {
@@ -29,8 +28,6 @@ const Navbar = () => {
 
   const handleMouseLeave = () => {
     setIsExpanded(false);
-    setShowMoreItems(false); // hide more items when leaving
-    setShowMoreButton(true); // show "More" again
   };
 
   return (
@@ -56,9 +53,15 @@ const Navbar = () => {
             </li>
           )}
           <li className="nav-item">
-            <a  href="http://localhost:5173/quickgames"  target="_blank" rel="noopener noreferrer">
+            <a href="http://localhost:5173/quickgames" target="_blank" rel="noopener noreferrer">
               <VideogameAssetIcon fontSize="large" />
               {isExpanded && <span>Games</span>}
+            </a>
+          </li>
+          <li className="nav-item">
+            <a href="/quizmanager">
+              <VideogameAssetIcon fontSize="large" />
+              {isExpanded && <span>Game Edit</span>}
             </a>
           </li>
           <li className="nav-item">
