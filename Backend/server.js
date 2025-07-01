@@ -9,6 +9,8 @@ const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
+const Admin = require('./models/Admin')
+
 const newsRoutes = require('./routes/NewsRoutes');
 const suggestionRoutes = require('./routes/SuggestionRoutes');
 const mediaBoxRoutes = require('./routes/MediaBoxRoutes');
@@ -75,7 +77,7 @@ app.get("/scrape", async (req, res) => {
 });
 
 
-//authentification
+//authourisation
 
 app.use(
   session(
@@ -94,8 +96,18 @@ passport.use(new GoogleStrategy({
   clientID:process.env.GOOGLE_CLIENT_ID,
   clientSecret:process.env.GOOGLE_CLIENT_SECRET,
   callbackURL:"http://localhost:5000/auth/google/callback",
-},(accessToken,refreshToken,profile,done) => {
-  return done(null,profile);
+},
+(accessToken,refreshToken,profile,done) => {
+  const email = profile.emails?.[0]?.value;
+
+  if(email.endsWith('@verteil.com') || email==='johannespabraham@gmail.com' || email==='johannesanjali@gmail.com'){
+    console.log("Logged in. Data =",{email},"details = ",{profile});
+    return done(null,profile);
+  }
+  else{
+    return done(null, false, {message:'Unauthorised access'})
+  }
+  
 }
 ));
 
@@ -121,15 +133,37 @@ app.get('/api/me', (req, res) => {
 app.get("/auth/google",passport.authenticate('google',{scope:["profile","email"]}));
 
 app.get("/auth/google/callback",
-  passport.authenticate("google",{failureRedirect:"/"}),
+  passport.authenticate("google",{failureRedirect:"/unauthorised"}),
   (req,res) => {
     res.redirect("http://localhost:5000");
   }
 );
 
+app.get("/unauthorised",(req,res) => {
+  res.status(403).send("Acess denied. Log in with company email.");
+})
+
 app.get("/profile",(req,res) => {
   res.send('Login successful')
 });
+
+app.get('/api/auth/is-admin', async(req,res) => {
+
+    if(!req.isAuthenticated()){
+        return res.status(401).json({isAdmin:false});
+    }
+
+    const email = req.user.emails?.[0]?.value;
+
+    try{
+      const isAdmin = await Admin.findOne({email});
+      return res.json({isAdmin:!!isAdmin});x
+    }
+    catch(error){
+      return res.status(500).json({error:"Internal error"});
+    }
+
+})
 
 app.get('/logout',(req,res) => {
   req.logOut();
