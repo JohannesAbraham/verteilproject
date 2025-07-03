@@ -35,7 +35,7 @@ const holidays = [
   { date: "2025-10-25", name: "Deepavali" },
   { date: "2025-12-25", name: "Christmas" },
 ];
-
+/*
 const birthdays = [
   { name: "John Doe", date: "May 30", department: "Engineering", image: `${profilePlaceholder}men/1.jpg` },
   { name: "Jane Smith", date: "June 2", department: "Marketing", image: `${profilePlaceholder}women/1.jpg` }
@@ -50,7 +50,7 @@ const newJoinees = [
   { name: "Alex Johnson", role: "Software Engineer", department: "Engineering", joiningDate: "2025-06-01", image: `${profilePlaceholder}men/3.jpg` },
   { name: "Sarah Williams", role: "UX Designer", department: "Design", joiningDate: "2025-06-03", image: `${profilePlaceholder}women/3.jpg` },
   { name: "Michael Chen", role: "Product Manager", department: "Product", joiningDate: "2025-06-10", image: `${profilePlaceholder}men/4.jpg` }
-];
+];*/
 
 function generateCalendarDays(year, month) {
   const date = new Date(year, month, 1);
@@ -356,32 +356,17 @@ const WordsBox = () => {
   );
 }
 
-const BirthdayBox = () => {
-  const [birthdays, setBirthdays] = useState([]);
+const BirthdayBox = ({ birthdays }) => {
   const [senderEmail, setSenderEmail] = useState("");
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/employee/birthdays")
-      .then((res) => {
-        setBirthdays(res.data);
-        console.log("Birthday details = ",res.data);
-      })
-      .catch((err) => {
-        console.error("Error fetching birthdays:", err);
-        setBirthdays([]);
-      });
-  }, []);
 
   useEffect(() => {
     axios
     .get('http://localhost:5000/api/me',{withCredentials:true})
     .then((res) => {
-      console.log(res.data);
       const email = res.data?.user?.emails?.[0]?.value;
       setSenderEmail(email);
     })
-  },[])
+  },[]);
 
   const handleWishClick = (receiverEmail) => {
     const subject = encodeURIComponent("Happy Birthday!");
@@ -390,9 +375,7 @@ const BirthdayBox = () => {
     window.open(gmailUrl, "_blank");
   };
 
-  console.log(birthdays);
-
-  return ( 
+  return (
     <div className="birthday-box card">
       <Typography variant="h6">
         <CakeIcon className="icon-title" /> Birthdays Today
@@ -426,18 +409,9 @@ const BirthdayBox = () => {
       </div>
     </div>
   );
-}
+};
 
-const NewJoiners = () => {
-  const [joiners, setJoiners] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/employee/new-joiners")
-      .then(res => setJoiners(res.data))
-      .catch(err => console.error("Error fetching new joiners:", err));
-  }, []);
-
+const NewJoiners = ({ joiners }) => {
   return (
     <div className="card rounded-xl p-5">
       <Typography variant="h6">New Joiners</Typography>
@@ -456,40 +430,73 @@ const NewJoiners = () => {
   );
 };
 
-const WorkAnniversaries = () => {
-  const [anniversaries, setAnniversaries] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/employee/anniversaries")
-      .then(res => setAnniversaries(res.data))
-      .catch(err => console.error("Error fetching anniversaries:", err));
-  }, []);
-
+const WorkAnniversaries = ({ anniversaries }) => {
   return (
     <div className="card rounded-xl p-5">
       <Typography variant="h6">Work Anniversaries</Typography>
       <div className="celebration-list">
-        {anniversaries.map((person, index) => (
-          <div key={index} className="celebration-item">
-            <img src={`http://localhost:5000${person.image}`} alt={person.name} className="profile-pic" />
-            <div className="celebration-details">
-              <h3>{person.name}</h3>
-              <p>{person.years} year{person.years > 1 ? "s" : ""} • {person.department}</p>
+        {anniversaries.length === 0 ? (
+          <p>No anniversaries today 🎉.</p>
+        ) : (
+          anniversaries.map((person, index) => (
+            <div key={index} className="celebration-item">
+              <img src={`http://localhost:5000${person.image}`} alt={person.name} className="profile-pic" />
+              <div className="celebration-details">
+                <h3>{person.name}</h3>
+                <p>{person.years} year{person.years > 1 ? "s" : ""} • {person.department}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
-}
+};
 
 
 const Home = () => {
   const [showHandbook, setShowHandbook] = useState(false);
+  const [birthdays, setBirthdays] = useState([]);
+  const [anniversaries, setAnniversaries] = useState([]);
+  const [joiners, setJoiners] = useState([]);
   const today = new Date();
   const formattedDate = format(today, "EEEE, MMMM d, yyyy");
   const navigate = useNavigate();
+
+  // Fetch birthdays
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/employee/birthdays")
+      .then((res) => setBirthdays(res.data))
+      .catch(() => setBirthdays([]));
+  }, []);
+
+  // Fetch anniversaries
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/employee/anniversaries")
+      .then((res) => setAnniversaries(res.data))
+      .catch(() => setAnniversaries([]));
+  }, []);
+
+  // Fetch new joiners
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/employee/new-joiners")
+      .then((res) => setJoiners(res.data))
+      .catch(() => setJoiners([]));
+  }, []);
+
+  // Filter joiners for this week
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay());
+
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+  const joinersThisWeek = joiners.filter(j => {
+    const joinDate = new Date(j.joinDate);
+    return joinDate >= startOfWeek && joinDate <= endOfWeek;
+  });
+
+
 
   return (
     <>
@@ -513,17 +520,19 @@ const Home = () => {
         <div className="main-column">
           <div className="welcome-box card">
             <Typography variant="h4">{formattedDate}</Typography>
-            <p className="update-intro">Here's what's happening in our company today:</p>
+            <p className="update-intro pl-1 pb-1 pt-3">Here's what's happening in our company today:</p>
             <ul className="company-updates">
-              <li>3 New Joinees this month!</li>
-              <li>Celebrating {birthdays.length} employee birthdays</li>
-              <li>{anniversaries.length} work anniversaries</li>
+              <li>{joiners.length} New {joiners.length === 1 ? "Joinee" : "Joinees"} this month !</li>
+              <li>Celebrating {birthdays.length} employee {birthdays.length === 1 ? "birthday" : "birthdays"} !</li>
+              <li>{anniversaries.length} Work {anniversaries.length === 1 ? "anniversary" : "anniversaries"} !</li>
             </ul>
           </div>
 
           <WordsBox />
-
-          //new joiner{/*
+          <NewJoiners joiners={joiners} />
+          <MediaBox />
+          <NewsBox />
+          {/*
           <div className="quick-access-message-container">
             <div className="new-joinees-box card">
               <h2><PeopleIcon className="icon-title" />New Joiners</h2>
@@ -545,10 +554,6 @@ const Home = () => {
               </div>
             </div>
           </div>*/}
-          <NewJoiners/>
-          
-          <MediaBox />
-          <NewsBox />
         </div>
 
         <div className="events-column">
@@ -600,8 +605,8 @@ const Home = () => {
             </div>
           </div>
           
-          //birthdays
-          <BirthdayBox/>
+          <BirthdayBox birthdays={birthdays} />
+
           {/*
           <div className="birthday-box card">
             <Typography variant="h6"><CakeIcon className="icon-title" /> Birthdays This Week</Typography>
@@ -618,8 +623,7 @@ const Home = () => {
             </div>
           </div>*/}
 
-          //anniversaries
-          <WorkAnniversaries/>
+          <WorkAnniversaries anniversaries={anniversaries} />
           {/*
           <div className="anniversary-box card">
             <Typography variant="h6"><CelebrationIcon className="icon-title" /> Work Anniversaries</Typography>
