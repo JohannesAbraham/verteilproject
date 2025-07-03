@@ -177,12 +177,9 @@ const MediaBox = () => {
     axios.get('http://localhost:5000/api/media/getmedia')
       .then(response => {
         setMediaContent(response.data);
-        setLoading(false);
       })
       .catch(error => {
         console.error("Error fetching media content:", error);
-        setError("Failed to load media");
-        setLoading(false);
       });
   }, []);
 
@@ -359,6 +356,135 @@ const WordsBox = () => {
   );
 }
 
+const BirthdayBox = () => {
+  const [birthdays, setBirthdays] = useState([]);
+  const [senderEmail, setSenderEmail] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/employee/birthdays")
+      .then((res) => {
+        setBirthdays(res.data);
+        console.log("Birthday details = ",res.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching birthdays:", err);
+        setBirthdays([]);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+    .get('http://localhost:5000/api/me',{withCredentials:true})
+    .then((res) => {
+      console.log(res.data);
+      const email = res.data?.user?.emails?.[0]?.value;
+      setSenderEmail(email);
+    })
+  },[])
+
+  const handleWishClick = (receiverEmail) => {
+    const subject = encodeURIComponent("Happy Birthday!");
+    const body = encodeURIComponent("Wishing you a very Happy Birthday! 🎉");
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${receiverEmail}&su=${subject}&body=${body}`;
+    window.open(gmailUrl, "_blank");
+  };
+
+  console.log(birthdays);
+
+  return ( 
+    <div className="birthday-box card">
+      <Typography variant="h6">
+        <CakeIcon className="icon-title" /> Birthdays Today
+      </Typography>
+      <div className="celebration-list">
+        {birthdays.length === 0 ? (
+          <p>No birthdays today 🎉</p>
+        ) : (
+          birthdays.map((person, index) => (
+            <div key={index} className="celebration-item flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <img
+                  src={`http://localhost:5000${person.image}`}
+                  alt={person.name}
+                  className="profile-pic w-14 h-14 rounded-full"
+                />
+                <div>
+                  <h3 className="font-semibold">{person.name}</h3>
+                  <p className="text-sm text-lgreen">{person.department}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => handleWishClick(person.email)}
+                className="bg-lgreen text-white rounded text-xs"
+              >
+                Wish 🎂
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+const NewJoiners = () => {
+  const [joiners, setJoiners] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/employee/new-joiners")
+      .then(res => setJoiners(res.data))
+      .catch(err => console.error("Error fetching new joiners:", err));
+  }, []);
+
+  return (
+    <div className="card rounded-xl p-5">
+      <Typography variant="h6">New Joiners</Typography>
+      <div className="celebration-list">
+        {joiners.map((person, index) => (
+          <div key={index} className="celebration-item">
+            <img src={`http://localhost:5000${person.image}`} alt={person.name} className="profile-pic" />
+            <div className="celebration-details">
+              <h3>{person.name}</h3>
+              <p>Joined on {new Date(person.joinDate).toLocaleDateString()} • {person.department}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const WorkAnniversaries = () => {
+  const [anniversaries, setAnniversaries] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/employee/anniversaries")
+      .then(res => setAnniversaries(res.data))
+      .catch(err => console.error("Error fetching anniversaries:", err));
+  }, []);
+
+  return (
+    <div className="card rounded-xl p-5">
+      <Typography variant="h6">Work Anniversaries</Typography>
+      <div className="celebration-list">
+        {anniversaries.map((person, index) => (
+          <div key={index} className="celebration-item">
+            <img src={`http://localhost:5000${person.image}`} alt={person.name} className="profile-pic" />
+            <div className="celebration-details">
+              <h3>{person.name}</h3>
+              <p>{person.years} year{person.years > 1 ? "s" : ""} • {person.department}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
 const Home = () => {
   const [showHandbook, setShowHandbook] = useState(false);
   const today = new Date();
@@ -397,6 +523,7 @@ const Home = () => {
 
           <WordsBox />
 
+          //new joiner{/*
           <div className="quick-access-message-container">
             <div className="new-joinees-box card">
               <h2><PeopleIcon className="icon-title" />New Joiners</h2>
@@ -417,7 +544,8 @@ const Home = () => {
                 ))}
               </div>
             </div>
-          </div>
+          </div>*/}
+          <NewJoiners/>
           
           <MediaBox />
           <NewsBox />
@@ -471,7 +599,10 @@ const Home = () => {
               </div>
             </div>
           </div>
-
+          
+          //birthdays
+          <BirthdayBox/>
+          {/*
           <div className="birthday-box card">
             <Typography variant="h6"><CakeIcon className="icon-title" /> Birthdays This Week</Typography>
             <div className="celebration-list">
@@ -485,8 +616,11 @@ const Home = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div>*/}
 
+          //anniversaries
+          <WorkAnniversaries/>
+          {/*
           <div className="anniversary-box card">
             <Typography variant="h6"><CelebrationIcon className="icon-title" /> Work Anniversaries</Typography>
             <div className="celebration-list">
@@ -500,7 +634,7 @@ const Home = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div>*/}
 
           <CalendarBox />
         </div>

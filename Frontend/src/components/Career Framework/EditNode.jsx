@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { Handle, Position } from "reactflow";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
-const EditNode = ({ id, data, selected, setNodes }) => {
+const EditNode = ({ id, data, selected, setNodes, isAdmin }) => {
   const [editing, setEditing] = useState(false);
   const [label, setLabel] = useState(data.label || "");
+  //console.log("Rendering EditNode. isAdmin:", isAdmin);
+
+  /*const [isAdmin,setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    axios
+    .get("http://localhost:5000/api/auth/is-admin",{withCredentials:true})
+    .then(res => setIsAdmin(res.data.isAdmin))
+    .catch(() => setIsAdmin(false));
+  },[]);*/
+
   const inputRef = useRef(null);
-  const clickTimer = useRef(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,24 +32,36 @@ const EditNode = ({ id, data, selected, setNodes }) => {
     console.log("Description button clicked");
   }
 
-  const handleSingleClick = (e) => {
-    e.stopPropagation();
-    if (clickTimer.current) return;
+  const clickTimeout = useRef(null);       // stores timer for single click
+  const lastClickTime = useRef(0);         // time of last click
 
-    clickTimer.current = setTimeout(() => {
-      navigate(`/job/${encodeURIComponent(label)}?editing=false`);
-      console.log("Single Clicked Node");
-      clickTimer.current = null;
-    },5000)
-  }
-
-  const handleDoubleClick = (e) => {
+  const handleClick = (e) => {
     e.stopPropagation();
-    clearTimeout(clickTimer.current);
-    clickTimer.current = null;
-    setEditing(true);
-    console.group("Double Clicked Node")
+    console.log("Clicked at:", Date.now(), "isAdmin:", isAdmin);
+
+
+    const now = Date.now();                         // current time
+    const timeSinceLastClick = now - lastClickTime.current; // time difference
+    lastClickTime.current = now;
+
+    if (timeSinceLastClick < 500) {
+      // Detected a double click!
+      if (isAdmin) {
+        console.log("Double Click - admin edit mode");
+        setEditing(true);
+      }
+      clearTimeout(clickTimeout.current); // cancel any pending single click
+    } else {
+      // Potential single click: wait to see if another comes
+      clickTimeout.current = setTimeout(() => {
+        if (!isAdmin) {
+          console.log("Single Click - user");
+          navigate(`/job/${encodeURIComponent(label)}?editing=false`);
+        }
+      }, 260); // Slightly more than double-click detection window
+    }
   };
+
 
   const saveLabel = () => {
     setNodes((nodes) =>
@@ -60,8 +83,7 @@ const EditNode = ({ id, data, selected, setNodes }) => {
   return (
     <div>
       <div
-        onClick={handleSingleClick}
-        onDoubleClick={handleDoubleClick}
+        onClick={handleClick}
         className={`rounded-lg border-2 p-2 bg-light shadow-md shadow-lgreen w-50 text-center font-ariel relative font-bold ${
           selected ? "border-yellow-500 border-4" : "border-lgreen"
         }`}

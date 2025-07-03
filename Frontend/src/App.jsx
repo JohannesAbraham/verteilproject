@@ -20,6 +20,7 @@ import EditThought from "./components/EditThought";
 import QuizManager from "./components/quickgames/AdminAccess/AdminQuizPanel";
 import TreePage from './components/Career Framework/Tree.jsx'
 import JobDescription from './components/Career Framework/JobDescription.jsx';
+import EmployeeForm from "./components/EmployeeForm.jsx";
 // import Verite from "./components/Verite.jsx";
 
 const AppContent = () => {
@@ -73,6 +74,7 @@ const AppContent = () => {
             <Route path="/editthought" element={<EditThought />}></Route>
             <Route path="/quizmanager" element={<QuizManager />} />
             <Route path="/news-management" element={<NewsManagement/>}></Route>
+            <Route path="/emp-form" element={<EmployeeForm/>}></Route>
           </Routes>
       
       

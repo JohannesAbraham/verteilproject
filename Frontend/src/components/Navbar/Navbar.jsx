@@ -8,6 +8,7 @@ import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import MessageIcon from '@mui/icons-material/Message';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 const Navbar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -58,12 +59,14 @@ const Navbar = () => {
               {isExpanded && <span>Games</span>}
             </a>
           </li>
-          <li className="nav-item">
-            <a href="/quizmanager">
-              <VideogameAssetIcon fontSize="large" />
-              {isExpanded && <span>Game Edit</span>}
-            </a>
-          </li>
+          {isAdmin&&(
+            <li className="nav-item">
+              <a href="/quizmanager">
+                <VideogameAssetIcon fontSize="large" />
+                {isExpanded && <span>Game Edit</span>}
+              </a>
+            </li>
+          )}
           <li className="nav-item">
             <a href="/suggestion">
               <MessageIcon fontSize="large" />
@@ -90,7 +93,14 @@ const Navbar = () => {
               </a>
             </li>
           )}          
-          
+          {isAdmin&&(
+            <li className="nav-item">
+              <a href="/emp-form">
+                <GroupAddIcon fontSize="large" />
+                {isExpanded && <span>Add User</span>}
+              </a>
+            </li>
+          )} 
         </ul>
       </div>
     </nav>

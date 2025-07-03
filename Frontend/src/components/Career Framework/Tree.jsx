@@ -22,6 +22,21 @@ function TreePage() {
   const [selectEdgeType, setSelectEdgeType] = useState("role");
   const [treeName, setTreeName] = useState("");
   const [treeList, setTreeList] = useState([]);
+  const [isAdmin,setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/auth/is-admin", { withCredentials: true })
+      .then((res) => {
+        console.log("Fetched admin:", res.data.isAdmin); 
+        setIsAdmin(res.data.isAdmin);
+      })
+      .catch((err) => {
+        console.log("Failed to fetch admin status:", err);
+        setIsAdmin(false);
+      });
+  }, []);
+
 
   const nodeTypes = useMemo(() => {
     return {
@@ -30,10 +45,11 @@ function TreePage() {
           {...props}
           isEditing={isEditing}
           setNodes={setNodes}
+          isAdmin={isAdmin}
         />
       ),
     };
-  }, [isEditing, setNodes]);
+  }, [isEditing, setNodes, isAdmin]);
 
   const edgeTypes = useMemo(() => ({
     straight: StraightEdge,
@@ -134,80 +150,61 @@ function TreePage() {
   return (
     <div className="h-screen bg-light pt-2" >
      <div className="bg-[#81a73d] text-center p-3 border-b border-[#4a6532] shadow-sm rounded-md max-w-xl mx-auto -mt-1">
-  <h1 className="text-2xl text-white font-ariel font-bold tracking-wide m-0 mb-0">
-    CAREER FRAMEWORK
-  </h1>
-</div>
-
-
-
-
-      <div className="flex justify-center items-center gap-4 mt-4">
-        {!isEditing ? (
-          <>
-            <select
-              value={treeName}
-              onChange={(e) => loadTree(e.target.value)}
-              className="p-1 border-2 bg-light border-dgreen shadow-lg text-dgreen text-md rounded-xl font-ariel font-bold"
-            >
-              <option value="" disabled>Select Framework</option>
-              {treeList.map((name) => (
-                <option key={name} value={name}>{name}</option>
-              ))}
-            </select>
-            <button
-              onClick={handleEditClick}
-              className="py-2 px-4 ml-20 bg-dgreen border-white shadow-lg text-light font-ariel font-bold rounded-xl hover:animate-bounce border-2"
-            >
-              EDIT
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              onClick={() => {
-                const name = prompt("Enter new tree name:");
-                if (name) {
-                  setTreeName(name);
-                  setNodes([]);
-                  setEdges([]);
-                }
-              }}
-              className="px-4 py-2 bg-dgreen border-white border-2 shadow-lg text-light rounded-xl mr-50 font-bold font-ariel text-sm  hover:animate-bounce"
-            >
-              NEW
-            </button>
-            <span className=" px-4 py-1 bg-light border-dgreen border-2 shadow-lg text-dgreen rounded-xl font-bold font-ariel">
-              {treeName || "Unnamed Tree"}
-            </span>
-            <button
-              onClick={handleAddNode}
-              className="px-4 py-2 bg-dgreen border-white border-2 shadow-lg text-light text-sm font-ariel font-bold rounded-xl hover:animate-bounce"
-            >
-              Add Node
-            </button>
-            <select
-              value={selectEdgeType}
-              onChange={(e) => setSelectEdgeType(e.target.value)}
-              className="p-2 bg-white border-dgreen border-2 text-dgreen text-sm rounded-xl font-bold font-ariel"
-            >
-              <option value="role">Role Connection</option>
-              <option value="transfer">Transfer Opportunity</option>
-            </select>
-            <button
-              onClick={handleSave}
-              className="px-4 py-2 bg-dgreen border-white border-2 shadow-lg text-light text-sm font-ariel font-bold rounded-xl hover:animate-bounce"
-            >
-              Save
-            </button>
-            <button
-              onClick={() => setIsEditing(false)}
-              className="px-4 py-2 ml-50 bg-red-600 text-white text-sm shadow-lg rounded-xl font-ariel font-bold"
-            >
-              EXIT
-            </button>
-          </>
-        )}
+      <h1 className="text-2xl text-white font-ariel font-bold tracking-wide m-0 mb-0">
+        CAREER FRAMEWORK
+      </h1>
+    </div>
+    <div className="flex justify-center items-center gap-4 mt-4">
+        <select
+          value={treeName}
+          onChange={(e) => loadTree(e.target.value)}
+          className="p-1 border-2 bg-light border-dgreen shadow-lg text-dgreen text-md rounded-xl font-ariel font-bold"
+        >
+          <option value="" disabled>Select Framework</option>
+          {treeList.map((name) => (
+            <option key={name} value={name}>{name}</option>
+          ))}
+        </select>
+      {isAdmin&&(
+        <>
+        <button
+          onClick={() => {
+            const name = prompt("Enter new tree name:");
+            if (name) {
+              setTreeName(name);
+              setNodes([]);
+              setEdges([]);
+            }
+          }}
+          className="px-4 py-2 bg-dgreen border-white border-2 shadow-lg text-light rounded-xl mr-50 font-bold font-ariel text-sm  hover:animate-bounce"
+        >
+          NEW
+        </button>
+        <span className=" px-4 py-1 bg-light border-dgreen border-2 shadow-lg text-dgreen rounded-xl font-bold font-ariel">
+          {treeName || "Unnamed Tree"}
+        </span>
+        <button
+          onClick={handleAddNode}
+          className="px-4 py-2 bg-dgreen border-white border-2 shadow-lg text-light text-sm font-ariel font-bold rounded-xl hover:animate-bounce"
+        >
+          Add Node
+        </button>
+        <select
+          value={selectEdgeType}
+          onChange={(e) => setSelectEdgeType(e.target.value)}
+          className="p-2 bg-white border-dgreen border-2 text-dgreen text-sm rounded-xl font-bold font-ariel"
+        >
+          <option value="role">Role Connection</option>
+          <option value="transfer">Transfer Opportunity</option>
+        </select>
+        <button
+          onClick={handleSave}
+          className="px-4 py-2 bg-dgreen border-white border-2 shadow-lg text-light text-sm font-ariel font-bold rounded-xl hover:animate-bounce"
+        >
+          Save
+        </button>
+        </>
+      )}
       </div>
 
       <ReactFlow
@@ -220,11 +217,14 @@ function TreePage() {
         fitView
         edgeTypes={edgeTypes}
         defaultEdgeOptions={{ type: 'step', style: { strokeWidth: 3, stroke: '#81a73d' } }}
-        nodesDraggable={isEditing}
-        nodesConnectable={isEditing}
+        nodesDraggable={isAdmin}
+        nodesConnectable={isAdmin}
         elementsSelectable={true}
         selectNodesOnDrag={false}
         isValidConnection={()=>true}
+        panOnDrag={true}
+        zoomOnScroll={true}
+        zoomOnPinch={true}
       >
         <MiniMap />
         <Controls />

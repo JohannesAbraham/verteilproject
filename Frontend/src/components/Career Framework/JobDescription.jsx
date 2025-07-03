@@ -40,7 +40,7 @@ function JobDescription({ job }) {
     }
 
     return(
-        <div className="flex flex-col items-start min-h-screen">
+        <div className="flex flex-col items-start min-h-screen pl-25">
             <div className="px-10 pt-5 pb-5">
                 <h1 className="text-5xl font-ariel font-semibold text-dgreen ">{name}</h1>
             </div>
