@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Employee = require('../models/Employee');
+const Admin = require('../models/Admin');
 const moment = require('moment');
 const multer = require("multer");
 const path = require("path");
@@ -81,7 +82,14 @@ router.post("/add", upload.single("image"), async (req, res) => {
     if (!req.file) return res.status(400).json({ error: "No image uploaded" });
 
     const image = `/uploads/employees/${req.file.filename}`; // relative path
-
+    if (req.body.isAdmin === 'yes') {
+      await Admin.findOneAndUpdate(
+        { email: req.body.email },
+        { email: req.body.email },
+        { upsert: true, new: true }
+      );
+    }
+    
     const newEmployee = new Employee({
       name,
       email,

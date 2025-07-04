@@ -9,6 +9,7 @@ const EmployeeForm = () => {
     joinDate: '',
     birthDate: '',
     displayBirthday: 'yes',
+    isAdmin: 'no',
   });
 
   const [image, setImage] = useState(null);
@@ -42,6 +43,8 @@ const EmployeeForm = () => {
     data.append("birthDate", form.birthDate);
     data.append("image", image);
     data.append("displayBirthday", form.displayBirthday);
+    data.append("isAdmin", form.isAdmin);
+
 
     try {
       if(editing){
@@ -76,12 +79,13 @@ const EmployeeForm = () => {
     };
     setForm({
       name:emp.name,
-      email:emp.name,
+      email:emp.email,
       department:emp.department,
       joinDate: formatDate(emp.joinDate),
       birthDate: formatDate(emp.birthDate),
       displayBirthday:emp.displayBirthday,
       image:emp.image
+
     })
     setEditing(emp._id);
   }
@@ -165,6 +169,19 @@ const EmployeeForm = () => {
               <option value="no">No</option>
             </select>
           </label>
+          <label className="w-full">
+            Is Admin:
+            <select
+              name="isAdmin"
+              className="w-full px-4 py-2 border rounded-md mt-1"
+              value={form.isAdmin}
+              onChange={handleChange}
+            >
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </label>
+
 
           <div className="w-full text-center">
             <label

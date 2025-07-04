@@ -103,7 +103,7 @@ passport.use(new GoogleStrategy({
 (accessToken,refreshToken,profile,done) => {
   const email = profile.emails?.[0]?.value;
 
-  if(email.endsWith('@verteil.com') || email==='johannespabraham@gmail.com' || email==='johannesanjali@gmail.com'){
+  if(email.endsWith('@verteil.com') || email==='johannespabraham@gmail.com' || email==='johannesanjali@gmail.com' || email==='hannahvarghese2805@gmail.com' || email==='karthikh2004@gmail.com'){
     console.log("Logged in. Data =",{email},"details = ",{profile});
     return done(null,profile);
   }

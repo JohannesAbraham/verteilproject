@@ -123,7 +123,7 @@ const Suggestion = () => {
         
         <button 
           type="submit" 
-          className="submit-button"
+          className="submit-button bg-lgreen"
           disabled={isLoading}
         >
           {isLoading ? 'Submitting...' : 'Submit Suggestion'}

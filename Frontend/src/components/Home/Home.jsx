@@ -315,7 +315,7 @@ const NewsBox = () => {
 
   return (
     <div className="news-box card">
-    <h2><ArticleIcon className="icon-title" />News</h2>
+    <h2 className="font-ariel text-dgreen text-2xl font-bold pb-2"><ArticleIcon className="" />News</h2>
     <div className="news-list-container">
       {articles.map((news) => (
         <div key={news.id || news._id} className="news-card card border-lgreen flex flex-col items-center justify-center">
@@ -454,7 +454,7 @@ const BirthdayBox = ({ birthdays }) => {
 const NewJoiners = ({ joiners }) => {
   return (
     <div className="card rounded-xl p-5">
-      <Typography variant="h6">New Joiners</Typography>
+      <Typography variant="h6 font-ariel text-dgreen text-3xl font-bold pb-2">New Joiners</Typography>
       <div className="celebration-list">
         {joiners.map((person, index) => (
           <div key={index} className="celebration-item">
@@ -506,14 +506,20 @@ const Home = () => {
   // Fetch birthdays
   useEffect(() => {
     axios.get("http://localhost:5000/api/employee/birthdays")
-      .then((res) => setBirthdays(res.data))
+      .then((res) => {
+        setBirthdays(res.data);
+        console.log(res.data);
+      })
       .catch(() => setBirthdays([]));
   }, []);
 
   // Fetch anniversaries
   useEffect(() => {
     axios.get("http://localhost:5000/api/employee/anniversaries")
-      .then((res) => setAnniversaries(res.data))
+      .then((res) => {
+        setAnniversaries(res.data);
+        //console.log(anniversaries);
+      })
       .catch(() => setAnniversaries([]));
   }, []);
 
@@ -559,13 +565,7 @@ const Home = () => {
         <div className="left-space"></div>
         <div className="main-column">
           <div className="welcome-box card">
-            <Typography variant="h4">{formattedDate}</Typography>
-            <p className="update-intro pl-1 pb-1 pt-3">Here's what's happening in our company today:</p>
-            <ul className="company-updates">
-              <li>{joiners.length} New {joiners.length === 1 ? "Joinee" : "Joinees"} this month !</li>
-              <li>Celebrating {birthdays.length} employee {birthdays.length === 1 ? "birthday" : "birthdays"} !</li>
-              <li>{anniversaries.length} Work {anniversaries.length === 1 ? "anniversary" : "anniversaries"} !</li>
-            </ul>
+            <Typography variant="h4 font-ariel text-4xl font-semibold text-dgreen">{formattedDate}</Typography>
           </div>
 
           <WordsBox />
@@ -601,10 +601,6 @@ const Home = () => {
             <Typography variant="h6">Quick Access</Typography>
             <div className="quick-access-grid">
               <div className="quick-column">
-                <div className="quick-item" onClick={() => navigate('/profile')}>
-                  <PeopleIcon className="icon" />
-                  <p className="para">Profile</p>
-                </div>
                 <div className="quick-item">
                   <a href="https://www.verteil.com/" target="_blank" rel="noopener noreferrer">
                     <CampaignIcon className="icon" />
