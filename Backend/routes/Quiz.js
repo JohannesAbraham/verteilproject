@@ -3,8 +3,6 @@ const router = express.Router();
 const fs = require('fs');
 const QuizQuestionModel = require('../models/QuizQuestion');
 
-require('dotenv').config();
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const LEADERBOARD_FILE = './leaderboard.json'; // file to store leaderboard data
 
 // GET all quiz questions
@@ -115,12 +113,6 @@ router.post('/add', async (req, res) => {
 // Admin: Update question
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { password, ...updateData } = req.body;
-
-  if (password !== ADMIN_PASSWORD) {
-    return res.status(403).json({ error: 'Unauthorized: Invalid password' });
-  }
-
   try {
     const updated = await QuizQuestionModel.findByIdAndUpdate(id, updateData, { new: true });
     if (!updated) return res.status(404).json({ error: 'Question not found' });
@@ -134,11 +126,6 @@ router.put('/:id', async (req, res) => {
 // Admin: Delete question
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  const { password } = req.query;
-
-  if (password !== ADMIN_PASSWORD) {
-    return res.status(403).json({ error: 'Unauthorized: Invalid password' });
-  }
 
   try {
     const deleted = await QuizQuestionModel.findByIdAndDelete(id);

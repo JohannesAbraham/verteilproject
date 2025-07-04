@@ -4,6 +4,7 @@ const Employee = require('../models/Employee');
 const moment = require('moment');
 const multer = require("multer");
 const path = require("path");
+const fs = require('fs');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -17,9 +18,66 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const employee = await Employee.findById(req.params.id);
+    if (!employee) return res.status(404).json({ error: "Employee not found" });
+
+    // Delete image from filesystem
+    if (employee.image) {
+      const imagePath = path.join(__dirname, "..", employee.image);
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Failed to delete image:", err.message);
+        }
+      });
+    }
+
+    await Employee.findByIdAndDelete(req.params.id);
+
+    res.json({ message: "Employee deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting employee:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Update Employee
+router.put("/:id", upload.single("image"), async (req, res) => {
+  try {
+    const { name, email, department, joinDate, birthDate, displayBirthday } = req.body;
+
+    const updatedData = {
+      name,
+      email,
+      department,
+      joinDate,
+      birthDate,
+      displayBirthday,
+    };
+
+    if (req.file) {
+      updatedData.image = `/uploads/employees/${req.file.filename}`;
+    }
+
+    const updatedEmployee = await Employee.findByIdAndUpdate(req.params.id, updatedData, {
+      new: true,
+    });
+
+    if (!updatedEmployee) {
+      return res.status(404).json({ error: "Employee not found" });
+    }
+
+    res.json({ message: "Employee updated", employee: updatedEmployee });
+  } catch (err) {
+    console.error("Error updating employee:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.post("/add", upload.single("image"), async (req, res) => {
   try {
-    const { name, email, department, joinDate, birthDate } = req.body;
+    const { name, email, department, joinDate, birthDate, displayBirthday } = req.body;
     if (!req.file) return res.status(400).json({ error: "No image uploaded" });
 
     const image = `/uploads/employees/${req.file.filename}`; // relative path
@@ -31,6 +89,7 @@ router.post("/add", upload.single("image"), async (req, res) => {
       joinDate,
       birthDate,
       image,
+      displayBirthday,
     });
 
     await newEmployee.save();
@@ -62,7 +121,8 @@ router.get('/birthdays', async (req, res) => {
     email: emp.email,
     department: emp.department,
     image: emp.image || null,
-    date: moment(emp.birthDate).format("MMM D") // optional
+    date: moment(emp.birthDate).format("MMM D"),
+    displayBirthday:emp.displayBirthday
   }));
 
   res.json(todaysBirthdays);
@@ -85,5 +145,15 @@ router.get('/anniversaries', async (req, res) => {
   }));
   res.json(anniversaries);
 });
+
+router.get('/all', async (req,res) => {
+  try{
+    const employees = await Employee.find().sort({name:1});
+    res.json(employees);
+  }
+  catch(error){
+    res.status(500).json({error:"Error fetching all employees."});
+  }
+})
 
 module.exports = router;

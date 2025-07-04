@@ -21,7 +21,7 @@ const Games = () => {
       leaderboardKey: 'popquiz-leaderboard',
     },
   ];
-
+  /*
   const [sudokuScores, setSudokuScores] = useState([]);
   const [quizScores, setQuizScores] = useState([]);
 
@@ -40,7 +40,7 @@ const Games = () => {
 
   const getRankIcon = (index) => {
     return index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}`;
-  };
+  };*/
 
   return (
     <div className="game-list-wrapper">
@@ -57,7 +57,7 @@ const Games = () => {
           </div>
         ))}
       </div>
-
+      {/*
       <h2 className="scoreboard-title">Top Performers</h2>
       <div className="scoreboard-wrapper">
         <div className="scoreboard fade-in">
@@ -116,6 +116,7 @@ const Games = () => {
           </table>
         </div>
       </div>
+      */}
     </div>
   );
 };

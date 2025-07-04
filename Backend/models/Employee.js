@@ -6,7 +6,8 @@ const employeeSchema = new mongoose.Schema({
   joinDate: Date,
   birthDate: Date,
   image: String, // URL or base64 string
-  email:String
+  email:String,
+  displayBirthday: {type: String,enum: ['yes', 'no'],default: 'yes',}
 });
 
 module.exports = mongoose.model('Employee', employeeSchema);

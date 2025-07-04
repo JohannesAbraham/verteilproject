@@ -19,6 +19,7 @@ const profileRoutes = require('./routes/ProfileRoutes')
 const treeRoutes = require('./routes/TreeRoutes')
 const quizRoutes = require('./routes/Quiz');
 const empRoutes = require('./routes/EmpRoutes')
+const holidayRoutes = require('./routes/Holidays')
 const app = express();
 
 app.use(cors({
@@ -41,6 +42,7 @@ app.use("/api/auth", profileRoutes);
 app.use("/api/tree",treeRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/employee',empRoutes);
+app.use('/api/holidays',holidayRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

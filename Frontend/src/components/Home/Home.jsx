@@ -16,7 +16,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Typography } from "@mui/material";
-
+/*
 const profilePlaceholder = "https://randomuser.me/api/portraits/";
 
 const holidays = [
@@ -35,7 +35,7 @@ const holidays = [
   { date: "2025-10-25", name: "Deepavali" },
   { date: "2025-12-25", name: "Christmas" },
 ];
-/*
+
 const birthdays = [
   { name: "John Doe", date: "May 30", department: "Engineering", image: `${profilePlaceholder}men/1.jpg` },
   { name: "Jane Smith", date: "June 2", department: "Marketing", image: `${profilePlaceholder}women/1.jpg` }
@@ -50,8 +50,8 @@ const newJoinees = [
   { name: "Alex Johnson", role: "Software Engineer", department: "Engineering", joiningDate: "2025-06-01", image: `${profilePlaceholder}men/3.jpg` },
   { name: "Sarah Williams", role: "UX Designer", department: "Design", joiningDate: "2025-06-03", image: `${profilePlaceholder}women/3.jpg` },
   { name: "Michael Chen", role: "Product Manager", department: "Product", joiningDate: "2025-06-10", image: `${profilePlaceholder}men/4.jpg` }
-];*/
-
+];
+*/
 function generateCalendarDays(year, month) {
   const date = new Date(year, month, 1);
   const days = [];
@@ -66,6 +66,9 @@ const CalendarBox = () => {
   const today = new Date();
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+  const [holidays, setHolidays] = useState([]);
+  const [isAdmin,setIsAdmin] = useState(false);
+  const navigate = useNavigate();
 
   const days = generateCalendarDays(selectedYear, selectedMonth);
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -85,6 +88,31 @@ const CalendarBox = () => {
     );
   });
 
+  useEffect(() => {
+    const fetchHolidays = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/holidays");
+        if (Array.isArray(res.data)) {
+          setHolidays(res.data);
+        } else {
+          console.error("Invalid holidays format:", res.data);
+          setHolidays([]);
+        }
+      } catch (err) {
+        console.error("Error fetching holidays:", err);
+      }
+    };
+
+    fetchHolidays();
+  }, []);
+
+  useEffect(() => {
+    axios
+    .get("http://localhost:5000/api/auth/is-admin",{withCredentials:true})
+    .then(res => setIsAdmin(res.data.isAdmin))
+    .catch(() => setIsAdmin(false));
+  },[]);
+
   return (
     <div className="calendar-box card">
       <div className="calendar-header">
@@ -92,7 +120,9 @@ const CalendarBox = () => {
         <div className="calendar-selectors">
           <select value={selectedMonth} onChange={handleMonthChange}>
             {Array.from({ length: 12 }, (_, i) => (
-              <option key={i} value={i}>{new Date(0, i).toLocaleString('default', { month: 'long' })}</option>
+              <option key={i} value={i}>
+                {new Date(0, i).toLocaleString('default', { month: 'long' })}
+              </option>
             ))}
           </select>
           <select value={selectedYear} onChange={handleYearChange}>
@@ -119,10 +149,10 @@ const CalendarBox = () => {
           const dayNum = date.getDate();
           const weekend = isWeekend(date);
           const holiday = isHoliday(date);
-          const holidayName = holiday 
-            ? holidays.find(h => new Date(h.date).toDateString() === date.toDateString()).name 
+          const holidayName = holiday
+            ? holidays.find(h => new Date(h.date).toDateString() === date.toDateString())?.name
             : "";
-            
+
           return (
             <div
               key={date.toISOString()}
@@ -145,7 +175,7 @@ const CalendarBox = () => {
 
       {filteredHolidays.length > 0 && (
         <div className="holiday-list">
-          <h3>Holidays</h3>
+          <h3 className="text-md text-bold">Holidays</h3>
           <ul>
             {filteredHolidays.map((h) => (
               <li key={h.date}>
@@ -155,9 +185,17 @@ const CalendarBox = () => {
           </ul>
         </div>
       )}
+      {isAdmin&&(
+      <div className="edit-holiday-btn flex items-center justify-center">
+        <button onClick={() => navigate("/editholidays")} className="btn btn-primary p-1 bg-lgreen text-light">
+          Edit Holidays
+        </button>
+      </div>
+      )}
     </div>
   );
 };
+
 
 const MediaBox = () => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
@@ -280,8 +318,8 @@ const NewsBox = () => {
     <h2><ArticleIcon className="icon-title" />News</h2>
     <div className="news-list-container">
       {articles.map((news) => (
-        <div key={news.id || news._id} className="news-card card">
-          <Typography variant="h5" className="news-title">
+        <div key={news.id || news._id} className="news-card card border-lgreen flex flex-col items-center justify-center">
+          <Typography variant="h5" className="news-title text-dgreen font-bold">
             {news.title}
           </Typography>
           {news.content && (
@@ -384,7 +422,9 @@ const BirthdayBox = ({ birthdays }) => {
         {birthdays.length === 0 ? (
           <p>No birthdays today 🎉</p>
         ) : (
-          birthdays.map((person, index) => (
+          birthdays
+          .filter((person) => person.displayBirthday !=='no')  
+          .map((person, index) => (
             <div key={index} className="celebration-item flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <img
