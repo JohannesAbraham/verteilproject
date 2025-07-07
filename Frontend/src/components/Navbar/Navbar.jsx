@@ -18,7 +18,9 @@ const Navbar = () => {
   useEffect(() => {
     axios
     .get("http://localhost:5000/api/auth/is-admin",{withCredentials:true})
-    .then(res => setIsAdmin(res.data.isAdmin))
+    .then(res => {setIsAdmin(res.data.isAdmin)
+      console.log(isAdmin)
+    })
     .catch(() => setIsAdmin(false));
   },[]);
 

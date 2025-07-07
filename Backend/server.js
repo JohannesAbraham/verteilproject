@@ -2,9 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
-const mongoose = require('mongoose');
-const cheerio = require('cheerio');
-const axios = require('axios')
 const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -20,6 +17,7 @@ const treeRoutes = require('./routes/TreeRoutes')
 const quizRoutes = require('./routes/Quiz');
 const empRoutes = require('./routes/EmpRoutes')
 const holidayRoutes = require('./routes/Holidays')
+const OrgStructureRoutes = require('./routes/OrgStructureRoutes')
 const app = express();
 
 app.use(cors({
@@ -43,42 +41,12 @@ app.use("/api/tree",treeRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/employee',empRoutes);
 app.use('/api/holidays',holidayRoutes);
+app.use('/api/orgtrees',OrgStructureRoutes)
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Server Error');
 });
-
-// TODO : remove this get request
-app.get("/scrape", async (req, res) => {
-  const url = "http://www.verteil.com/newsroom" 
-  try {
-    const response = await axios.get(url);
-    const html = response.data;
-    const $ = cheerio.load(html);
-    let data = [];
-    
-  
-    $("a").each((index, element) => {
-
-      data.push({
-        text: $(element).text(),
-        href: $(element).attr("href"),
-      });
-    });
-    news = data.slice(10,-1).find((data)=> { 
-      return data.href!=undefined;
-     })
-     
-     newsIndex = data.indexOf(news)
-     res.json(data.slice(newsIndex,newsIndex+6))
-    
-  } catch (error) {
-    res.status(500).json({ message: error });
-    console.log(error)
-  }
-});
-
 
 //authourisation
 
@@ -153,6 +121,7 @@ app.get("/profile",(req,res) => {
 app.get('/api/auth/is-admin', async(req,res) => {
 
     if(!req.isAuthenticated()){
+        console.log(req)
         return res.status(401).json({isAdmin:false});
     }
 
