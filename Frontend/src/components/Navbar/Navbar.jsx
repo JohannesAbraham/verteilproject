@@ -34,7 +34,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav
+    <div>
+        <nav
       className={`sidenav ${isExpanded ? 'expanded' : ''}`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={handleMouseLeave}
@@ -106,6 +107,8 @@ const Navbar = () => {
         </ul>
       </div>
     </nav>
+    </div>
+    
   );
 };
 
