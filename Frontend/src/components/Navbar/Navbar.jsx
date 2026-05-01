@@ -18,7 +18,9 @@ const Navbar = () => {
   useEffect(() => {
     axios
     .get("http://localhost:5000/api/auth/is-admin",{withCredentials:true})
-    .then(res => setIsAdmin(res.data.isAdmin))
+    .then(res => {setIsAdmin(res.data.isAdmin)
+      console.log(isAdmin)
+    })
     .catch(() => setIsAdmin(false));
   },[]);
 
@@ -32,7 +34,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav
+    <div>
+        <nav
       className={`sidenav ${isExpanded ? 'expanded' : ''}`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={handleMouseLeave}
@@ -104,6 +107,8 @@ const Navbar = () => {
         </ul>
       </div>
     </nav>
+    </div>
+    
   );
 };
 

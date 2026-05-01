@@ -89,10 +89,10 @@ body {
 
 .main-content {
   flex: 1;
-  padding: 20px;
   overflow: auto;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .main-content h2 {
@@ -291,14 +291,7 @@ h1 {
   overflow: visible !important;
 }
 
-.org-chart-wrapper {
-  min-width: fit-content;
-  min-height: fit-content;
-  padding: 20px;
-  display: inline-block;
-  place-self: center;
 
-}
 .org-chart {
   display: flex;
   flex-direction: column;
@@ -312,4 +305,69 @@ h1 {
   flex-wrap: wrap;
   gap: 20px;
   width: 100%;
+}
+
+/* Add these styles */
+.react-flow__edge-path {
+  stroke: #81a73d;
+  stroke-width: 3;
+}
+
+.react-flow__edge-arrowhead {
+  fill: #81a73d;
+}
+
+.react-flow__node {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-flow__controls {
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.react-flow__minimap {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+.react-flow__edge-path {
+  stroke: #81a73d;
+  stroke-width: 3;
+}
+
+.react-flow__edge-arrowhead {
+  fill: #81a73d;
+}
+
+.react-flow__node-default,
+.react-flow__node-editable {
+  padding: 10px;
+  border-radius: 5px;
+  width: 200px;
+  font-size: 12px;
+}
+
+/* Add to your CSS file */
+.react-flow__node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.node-image-container {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.node-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

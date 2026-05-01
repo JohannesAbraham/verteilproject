@@ -8,8 +8,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Suggestion from "./components/Suggestion/Suggestion";
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import OrgStructure from "./components/Org Structure/OrgStructure.jsx";
-import CareerFramework from "./components/Career Framework/CFramework";
+import OrgStructure from './components/OrgStructure/OrgStructure.jsx';
 import NewsManagement from "./components/News Management/NewsManagement.jsx";
 import Sudokuboard from "./components/quickgames/Sudoku/Sudoku";
 import Popquiz from "./components/quickgames/Popquiz/PopQuiz.jsx";
@@ -61,7 +60,6 @@ const AppContent = () => {
         
           <Routes>
             <Route path="/" element={<Home/>}></Route>
-            {/*<Route path="/" element={<Login />}></Route>*/}
             <Route path="/profile" element={<ProfilePage />}></Route>
             <Route path="/suggestion" element={<Suggestion />}></Route>
             <Route path="/org-structure" element={<OrgStructure />}></Route>

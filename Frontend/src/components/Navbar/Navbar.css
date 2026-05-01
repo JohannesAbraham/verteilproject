@@ -20,7 +20,13 @@
   overflow: hidden;
   z-index: 1000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* Add this line to make it stay during scrolling */
+  will-change: transform; /* Optimizes performance */
 }
+
+/* Keep all other existing CSS exactly the same */
+
+/* Keep all other existing CSS exactly the same */
 
 .sidenav.expanded {
   width: 250px;
@@ -123,3 +129,5 @@
   margin-top: 10px;
   justify-content: center;
 }
+
+
